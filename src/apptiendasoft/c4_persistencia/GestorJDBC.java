@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package apptiendasoft.c4_persistencia;
 
+import apptiendasoft.c6_transversal.exepcion.ExcepcionSQL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,27 +15,48 @@ import java.sql.Statement;
 
 /**
  *
- * @author
- * <AdvanceSoft - Osorio Perez Carlos Alfredo - advancesoft.trujillo@gmail.com>
+ *  <AdvanceSoft - Mendoza Torres, Valentin - advancesoft.trujillo@gmail.com>
  */
 public abstract class GestorJDBC {
     
     protected Connection conexion;
     
-    public abstract void abrirConexion() throws SQLException;
+    public abstract void abrirConexion() throws Exception;
     
-    public void cerrarConexion() throws SQLException{
-        conexion.close();
+    public void cerrarConexion() throws Exception{
+        try {
+            conexion.close();
+        } catch (Exception e) {
+            throw ExcepcionSQL.crearErrorCerrarConexion();
+        }        
     }
     
-    public void iniciarTransaccion() throws SQLException{
-        conexion.setAutoCommit(false);
+    public void iniciarTransaccion() throws Exception{
+        try {
+            conexion.setAutoCommit(false);
+        } catch (Exception e) {
+            throw ExcepcionSQL.crearErrorIniciarTransaccion();
+        }        
     }
     
-    public void terminarTransaccion() throws SQLException{
-        conexion.commit();
-        conexion.setAutoCommit(true);
-        conexion.close();
+    public void terminarTransaccion() throws Exception{
+        try {
+            conexion.commit();
+            conexion.setAutoCommit(true);
+            conexion.close();
+        } catch (Exception e) {
+            throw ExcepcionSQL.crearErrorTerminarTransaccion();
+        }        
+    }
+    
+    public void cancelarTransaccion() throws Exception{
+        try {
+            conexion.rollback();
+            conexion.setAutoCommit(true);
+            conexion.close();
+        } catch (Exception e) {
+            throw ExcepcionSQL.crearErrorCancelarTransaccion();
+        }
     }
     
     public PreparedStatement prepararSentencia(String sql) throws SQLException{
