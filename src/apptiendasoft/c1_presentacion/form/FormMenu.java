@@ -80,6 +80,11 @@ public class FormMenu extends javax.swing.JFrame {
         menuUnidadDeMedida = new javax.swing.JMenuItem();
         menuMarca = new javax.swing.JMenuItem();
         menuCargo = new javax.swing.JMenuItem();
+        menuLocalizacion = new javax.swing.JMenu();
+        menuPais = new javax.swing.JMenuItem();
+        menuDepartamento = new javax.swing.JMenuItem();
+        menuProvincia = new javax.swing.JMenuItem();
+        menuDistrito = new javax.swing.JMenuItem();
         menuProcesos = new javax.swing.JMenu();
         menuPedido = new javax.swing.JMenuItem();
         menuHerramientas = new javax.swing.JMenu();
@@ -310,6 +315,38 @@ public class FormMenu extends javax.swing.JFrame {
             }
         });
         menuGestionar.add(menuCargo);
+
+        menuLocalizacion.setBackground(new java.awt.Color(255, 255, 255));
+        menuLocalizacion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/apptiendasoft/c5_recursos/iconos/localizacionx32.png"))); // NOI18N
+        menuLocalizacion.setText("Gestionar Localización");
+        menuLocalizacion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        menuLocalizacion.setOpaque(true);
+
+        menuPais.setBackground(new java.awt.Color(255, 255, 255));
+        menuPais.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        menuPais.setText("Pais");
+        menuPais.setOpaque(true);
+        menuLocalizacion.add(menuPais);
+
+        menuDepartamento.setBackground(new java.awt.Color(255, 255, 255));
+        menuDepartamento.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        menuDepartamento.setText("Departamento");
+        menuDepartamento.setOpaque(true);
+        menuLocalizacion.add(menuDepartamento);
+
+        menuProvincia.setBackground(new java.awt.Color(255, 255, 255));
+        menuProvincia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        menuProvincia.setText("Provincia");
+        menuProvincia.setOpaque(true);
+        menuLocalizacion.add(menuProvincia);
+
+        menuDistrito.setBackground(new java.awt.Color(255, 255, 255));
+        menuDistrito.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        menuDistrito.setText("Distrito");
+        menuDistrito.setOpaque(true);
+        menuLocalizacion.add(menuDistrito);
+
+        menuGestionar.add(menuLocalizacion);
 
         menuPrincipal.add(menuGestionar);
 
@@ -861,15 +898,20 @@ public class FormMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuCargo;
     private javax.swing.JMenuItem menuCliente;
     private javax.swing.JMenuItem menuConfiguracion;
+    private javax.swing.JMenuItem menuDepartamento;
+    private javax.swing.JMenuItem menuDistrito;
     private javax.swing.JMenuItem menuEmpleado;
     private javax.swing.JMenu menuGestionar;
     private javax.swing.JMenu menuHerramientas;
+    private javax.swing.JMenu menuLocalizacion;
     private javax.swing.JMenu menuLookAndFeel;
     private javax.swing.JMenuItem menuMarca;
+    private javax.swing.JMenuItem menuPais;
     private javax.swing.JMenuItem menuPedido;
     private javax.swing.JMenuBar menuPrincipal;
     private javax.swing.JMenu menuProcesos;
     private javax.swing.JMenuItem menuProducto;
+    private javax.swing.JMenuItem menuProvincia;
     private javax.swing.JMenu menuReportes;
     private javax.swing.JMenu menuReportesCliente;
     private javax.swing.JMenuItem menuReportesClienteCompraronMas;
