@@ -7,6 +7,7 @@ package apptiendasoft.c6_transversal.exepcion;
 
 /**
  *
+ * @author
  *  <AdvanceSoft - Mendoza Torres, Valentin - advancesoft.trujillo@gmail.com>
  */
 public class ExcepcionSQL extends Exception{
