@@ -33,7 +33,7 @@ public class EmpresaDAOPostgre implements IEmpresaDAO{
         PreparedStatement sentencia = gestorJDBC.prepararSentencia(consulta);
         sentencia.setString(1, empresa.getRazonsocial());
         sentencia.setString(2, empresa.getRuc());
-        sentencia.setString(3, empresa.getActividad_servicio_rubro());
+        sentencia.setString(3, empresa.getActividadrubro());
         sentencia.setString(4, empresa.getDireccion());
         sentencia.setString(5, empresa.getTelefono());
         sentencia.setString(6, empresa.getCelular());
@@ -64,7 +64,7 @@ public class EmpresaDAOPostgre implements IEmpresaDAO{
             empresa.setCodigo(resultado.getInt(1));
             empresa.setRazonsocial(resultado.getString(2));
             empresa.setRuc(resultado.getString(3));
-            empresa.setActividad_servicio_rubro(resultado.getString(4));
+            empresa.setActividadrubro(resultado.getString(4));
             empresa.setDireccion(resultado.getString(5));
             empresa.setTelefono(resultado.getString(6));
             empresa.setCelular(resultado.getString(7));

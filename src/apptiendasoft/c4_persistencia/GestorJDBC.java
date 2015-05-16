@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- *
+ *  @author
  *  <AdvanceSoft - Mendoza Torres, Valentin - advancesoft.trujillo@gmail.com>
  */
 public abstract class GestorJDBC {

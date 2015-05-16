@@ -16,7 +16,10 @@ public class ExcepcionRegla extends Exception{
     private static final String MENSAJE_CANTIDADSUPERIORALSTOCK = "La cantidad es superior al stock.";
     private static final String MENSAJE_PEDIDOINCORRECTO = "El pedido es incorrecto, el monto debe ser mayor a cero.";
     private static final String MENSAJE_PRODUCTOYAEXISTE = "El producto ya fue agregado.";
-    private static final String MENSAJE_PRODUCTONOCREADO = "El producto no fue Creado.";
+    private static final String MENSAJE_PRODUCTONOCREADO = "El producto no fue creado.";
+    private static final String MENSAJE_ERROR_APELLIDO=  "El apellido ingresado no es valido.";
+    private static final String MENSAJE_ERROR_NOMBRE = "El nombre ingresado no es valido.";
+    private static final String Mensaje_ERROR_CORREO= "El correo ingresado no es valido";
     
     private ExcepcionRegla(String message) {
         super(message);
@@ -44,5 +47,16 @@ public class ExcepcionRegla extends Exception{
     
     public static ExcepcionRegla crearErrorMENSAJE_PRODUCTONOCREADO(){
         return new ExcepcionRegla(MENSAJE_PRODUCTONOCREADO);
+    }
+    
+    public static ExcepcionRegla crearErrorMENSAJE_APELLIDO(){
+        return new ExcepcionRegla(MENSAJE_ERROR_APELLIDO);
+    }
+    
+    public static ExcepcionRegla crearErrorMENSAJE_NOMBRE(){
+        return new ExcepcionRegla(MENSAJE_ERROR_NOMBRE);
+    }
+    public static ExcepcionRegla crearErrorMENSAJE_CORREO(){
+        return new ExcepcionRegla(Mensaje_ERROR_CORREO);
     }
 }

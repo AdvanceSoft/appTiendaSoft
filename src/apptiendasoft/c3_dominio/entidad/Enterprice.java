@@ -5,6 +5,9 @@
  */
 package apptiendasoft.c3_dominio.entidad;
 
+import apptiendasoft.c5_recursos.algoritmos.Validador;
+import apptiendasoft.c6_transversal.exepcion.ExcepcionRegla;
+
 
 /**
  *
@@ -12,7 +15,7 @@ package apptiendasoft.c3_dominio.entidad;
  */
 public abstract class Enterprice {
     private int codigo;
-    private String actividad_servicio_rubro; 
+    private String actividadrubro; 
     private String celular; 
     private String direccion; 
     private String email; 
@@ -30,15 +33,15 @@ public abstract class Enterprice {
         this.codigo = codigo;
     }
 
-    public String getActividad_servicio_rubro() {
-        return actividad_servicio_rubro;
+    public String getActividadrubro() {
+        return actividadrubro;
     }
 
-    public void setActividad_servicio_rubro(String actividad_servicio_rubro) {       
+    public void setActividadrubro(String actividad_servicio_rubro)throws ExcepcionRegla{       
         if(actividad_servicio_rubro != null)
-            this.actividad_servicio_rubro = actividad_servicio_rubro.trim().isEmpty() ? null : actividad_servicio_rubro.trim().toUpperCase();
+            this.actividadrubro = actividad_servicio_rubro.trim().isEmpty() ? "Sin rubro" : actividad_servicio_rubro.trim().toUpperCase();
         else
-            this.actividad_servicio_rubro = null;
+            this.actividadrubro = "Sin rubro";
     }
 
     public String getCelular() {
@@ -47,7 +50,7 @@ public abstract class Enterprice {
 
     public void setCelular(String celular) {
         if(celular != null)
-            this.celular = celular.trim().isEmpty() ? null : celular.trim().toUpperCase();
+            this.celular = celular.trim().isEmpty() ? "Sin datos" : celular.trim().toUpperCase();
         else
             this.celular = null;
     }
@@ -58,31 +61,50 @@ public abstract class Enterprice {
 
     public void setDireccion(String direccion) {
         if(direccion != null)
-            this.direccion = direccion.trim().isEmpty() ? null : direccion.trim().toUpperCase();
+            this.direccion = direccion.trim().isEmpty() ? "Sin dirección" : direccion.trim().toUpperCase();
         else
-            this.direccion = null;
+            this.direccion = "Sin dirección";
     }
 
     public String getEmail() {
         return email;
     }
-
-    public void setEmail(String email) {
-        if(email != null)
-            this.email = email.trim().isEmpty() ? null : email.trim().toUpperCase();
-        else
-            this.email = null;
+    /**
+     * Este metoso set se usara solo cuando el usuario va a inresar el dato. 
+     * @param email
+     * @throws Exception 
+     */
+    public void setEmail(String email)throws Exception{
+        if(email!=null){
+            try {
+                if(!email.trim().isEmpty()){
+                    Validador.validarCorreo(email);          
+                    this.email = email.trim().toUpperCase();
+                }else
+                    this.email= "Sin datos";          
+            } catch (Exception e) {
+                throw ExcepcionRegla.crearErrorMENSAJE_CORREO();
+            }
+         }else
+            this.email = "Sin datos";  
     }
-
+    /**
+     * Este metodo set se usara solo cuando se llame el email de la base de datos
+     * @param email 
+     */
+    public void setEmailBD(String email){
+        this.email=email;
+    }
+    
     public String getPaginaweb() {
         return paginaweb;
     }
 
     public void setPaginaweb(String paginaweb) {
         if(paginaweb != null)
-            this.paginaweb = paginaweb.trim().isEmpty() ? null : paginaweb.trim();
+            this.paginaweb = paginaweb.trim().isEmpty() ? "Sin pagina web" : paginaweb.trim();
         else
-            this.paginaweb = null;
+            this.paginaweb = "Sin pagina web";
     }
 
     public String getRazonsocial() {
@@ -91,9 +113,9 @@ public abstract class Enterprice {
 
     public void setRazonsocial(String razonsocial) {
         if(razonsocial != null)
-            this.razonsocial = razonsocial.trim().isEmpty() ? null : razonsocial.trim().toUpperCase();
+            this.razonsocial = razonsocial.trim().isEmpty() ? "Sin razon social" : razonsocial.trim().toUpperCase();
         else
-            this.razonsocial = null;
+            this.razonsocial = "Sin razon social";
     }
 
     public String getRuc() {
