@@ -683,10 +683,14 @@ public class FormMenu extends javax.swing.JFrame {
 
     private void menuClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuClienteActionPerformed
         // TODO add your handling code here:
+        FormGestionarCliente formGestionarCliente = new FormGestionarCliente(this, true);
+        formGestionarCliente.setVisible(true);
     }//GEN-LAST:event_menuClienteActionPerformed
 
     private void menuEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEmpleadoActionPerformed
         // TODO add your handling code here:
+        FormGestionarEmpleado formGestionarEmpleado = new FormGestionarEmpleado(this, true);
+        formGestionarEmpleado.setVisible(true);
     }//GEN-LAST:event_menuEmpleadoActionPerformed
 
     private void menuTipodeProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuTipodeProductoActionPerformed
@@ -826,6 +830,8 @@ public class FormMenu extends javax.swing.JFrame {
 
     private void botonADRegistrarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonADRegistrarClienteActionPerformed
         // TODO add your handling code here:
+        FormGestionarCliente formGestionarCliente = new FormGestionarCliente(this, true);
+        formGestionarCliente.setVisible(true);
     }//GEN-LAST:event_botonADRegistrarClienteActionPerformed
 
     private void botonADCalculadoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonADCalculadoraActionPerformed

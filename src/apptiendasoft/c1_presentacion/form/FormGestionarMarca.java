@@ -97,7 +97,7 @@ public class FormGestionarMarca extends javax.swing.JDialog {
             .addGroup(panelContenedorLayout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addGroup(panelContenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 466, Short.MAX_VALUE)
                     .addGroup(panelContenedorLayout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -115,18 +115,18 @@ public class FormGestionarMarca extends javax.swing.JDialog {
                     .addComponent(textoBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonBuscar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         getContentPane().add(panelContenedor, java.awt.BorderLayout.CENTER);
 
-        jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
 
         botonCrear.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         botonCrear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/apptiendasoft/c5_recursos/iconos/crearx32.png"))); // NOI18N
         botonCrear.setText("Crear");
+        botonCrear.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         botonCrear.setFocusable(false);
         botonCrear.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         botonCrear.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -195,7 +195,7 @@ public class FormGestionarMarca extends javax.swing.JDialog {
 
     private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
         if(!textoBuscar.getText().trim().isEmpty()){
-            consultarTipoDeProducto(); 
+            consultarTipoDeProducto();
             ponerFocoConSeleccionEnBuscar();
         }else{            
             Mensaje.Mostrar_MENSAJE_LLENARCAMPOBUSCAR(this);            
