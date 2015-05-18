@@ -7,22 +7,20 @@ package apptiendasoft.c3_dominio.entidad;
 
 /**
  *
- * @author
- * <AdvanceSoft - Garcia Infante Petter Jhunior - advancesoft.trujillo@gmail.com>
+ * @author sandra
  */
-public class Pais {
+public class Provincia {
     private int codigo;
     private String nombre;
-    private Departamento departamento;
-    
-    public Pais(){
-        
+    private Distrito distrito;
+
+    public Provincia() {
     }
 
-    public Pais(int codigo, String nombre, Departamento departamento) {
+    public Provincia(int codigo, String nombre, Distrito distrito) {
         this.codigo = codigo;
         this.nombre = nombre;
-        this.departamento = departamento;
+        this.distrito = distrito;
     }
 
     public int getCodigo() {
@@ -41,13 +39,12 @@ public class Pais {
         this.nombre = nombre;
     }
 
-    public Departamento getDepartamento() {
-        return departamento;
+    public Distrito getDistrito() {
+        return distrito;
     }
 
-    public void setDepartamento(Departamento departamento) {
-        this.departamento = departamento;
+    public void setDistrito(Distrito distrito) {
+        this.distrito = distrito;
     }
-    
     
 }

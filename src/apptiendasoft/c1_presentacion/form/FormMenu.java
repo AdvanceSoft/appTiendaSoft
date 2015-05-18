@@ -338,12 +338,21 @@ public class FormMenu extends javax.swing.JFrame {
         menuProvincia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         menuProvincia.setText("Provincia");
         menuProvincia.setOpaque(true);
+        menuProvincia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuProvinciaActionPerformed(evt);
+            }
+        });
         menuLocalizacion.add(menuProvincia);
 
         menuDistrito.setBackground(new java.awt.Color(255, 255, 255));
         menuDistrito.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         menuDistrito.setText("Distrito");
-        menuDistrito.setOpaque(true);
+        menuDistrito.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuDistritoActionPerformed(evt);
+            }
+        });
         menuLocalizacion.add(menuDistrito);
 
         menuGestionar.add(menuLocalizacion);
@@ -857,6 +866,16 @@ public class FormMenu extends javax.swing.JFrame {
     private void botonADSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonADSalirActionPerformed
         salir();
     }//GEN-LAST:event_botonADSalirActionPerformed
+
+    private void menuProvinciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuProvinciaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menuProvinciaActionPerformed
+
+    private void menuDistritoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuDistritoActionPerformed
+        // TODO add your handling code here:
+        FormGestionarDistrito formGestionarDistrito = new FormGestionarDistrito(this, true);
+        formGestionarDistrito.setVisible(true);
+    }//GEN-LAST:event_menuDistritoActionPerformed
 
     private void salir() {
         // TODO add your handling code here:
