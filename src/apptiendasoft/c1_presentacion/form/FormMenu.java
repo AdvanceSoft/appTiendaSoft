@@ -85,6 +85,7 @@ public class FormMenu extends javax.swing.JFrame {
         menuDepartamento = new javax.swing.JMenuItem();
         menuProvincia = new javax.swing.JMenuItem();
         menuDistrito = new javax.swing.JMenuItem();
+        menuProveedor = new javax.swing.JMenuItem();
         menuProcesos = new javax.swing.JMenu();
         menuPedido = new javax.swing.JMenuItem();
         menuHerramientas = new javax.swing.JMenu();
@@ -356,6 +357,17 @@ public class FormMenu extends javax.swing.JFrame {
         menuLocalizacion.add(menuDistrito);
 
         menuGestionar.add(menuLocalizacion);
+
+        menuProveedor.setBackground(new java.awt.Color(255, 255, 255));
+        menuProveedor.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        menuProveedor.setText("Gestionar Proveedor");
+        menuProveedor.setOpaque(true);
+        menuProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuProveedorActionPerformed(evt);
+            }
+        });
+        menuGestionar.add(menuProveedor);
 
         menuPrincipal.add(menuGestionar);
 
@@ -707,7 +719,7 @@ public class FormMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_menuTipodeProductoActionPerformed
 
     private void menuUnidadDeMedidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuUnidadDeMedidaActionPerformed
-        // TODO add your handling code here:
+         new FormGestionarUnidadDeMedida(this).setVisible(true);
     }//GEN-LAST:event_menuUnidadDeMedidaActionPerformed
 
     private void menuMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuMarcaActionPerformed
@@ -877,6 +889,10 @@ public class FormMenu extends javax.swing.JFrame {
         formGestionarDistrito.setVisible(true);
     }//GEN-LAST:event_menuDistritoActionPerformed
 
+    private void menuProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuProveedorActionPerformed
+        new FormGestionarProveedor(this).setVisible(true);
+    }//GEN-LAST:event_menuProveedorActionPerformed
+
     private void salir() {
         // TODO add your handling code here:
         System.exit(0);
@@ -938,6 +954,7 @@ public class FormMenu extends javax.swing.JFrame {
     private javax.swing.JMenuBar menuPrincipal;
     private javax.swing.JMenu menuProcesos;
     private javax.swing.JMenuItem menuProducto;
+    private javax.swing.JMenuItem menuProveedor;
     private javax.swing.JMenuItem menuProvincia;
     private javax.swing.JMenu menuReportes;
     private javax.swing.JMenu menuReportesCliente;

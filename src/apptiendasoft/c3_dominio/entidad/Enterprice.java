@@ -76,15 +76,11 @@ public abstract class Enterprice {
      */
     public void setEmail(String email)throws Exception{
         if(email!=null){
-            try {
-                if(!email.trim().isEmpty()){
-                    Validador.validarCorreo(email);          
-                    this.email = email.trim().toUpperCase();
-                }else
-                    this.email= "Sin datos";          
-            } catch (Exception e) {
-                throw ExcepcionRegla.crearErrorMENSAJE_CORREO();
-            }
+            if(!email.trim().isEmpty()){
+                Validador.validarCorreo(email);          
+                this.email = email.trim().toUpperCase();
+            }else
+                this.email= "Sin datos";                     
          }else
             this.email = "Sin datos";  
     }
@@ -122,8 +118,23 @@ public abstract class Enterprice {
         return ruc;
     }
 
-    public void setRuc(String ruc) {
-        this.ruc = ruc;
+    public void setRuc(String ruc)throws Exception{
+          if(ruc!=null){         
+                if(!ruc.trim().isEmpty()){
+                    Validador.validarRuc(ruc);          
+                    this.ruc = ruc.trim();
+                }else
+                    this.ruc= "Sin ruc";                  
+         }else
+            this.ruc = "Sin ruc";     
+    }
+    
+    /**
+     * Para modificar desde la base de datos
+     * @param ruc 
+     */
+    public void setRucBD(String ruc){
+        this.ruc=ruc;
     }
 
     public String getTelefono() {
@@ -131,7 +142,7 @@ public abstract class Enterprice {
     }
 
     public void setTelefono(String telefono) {
-        this.telefono = telefono;
+        this.telefono = telefono.trim();
     }
 
     public boolean isActivo() {

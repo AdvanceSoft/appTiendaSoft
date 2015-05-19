@@ -19,7 +19,9 @@ public class ExcepcionRegla extends Exception{
     private static final String MENSAJE_PRODUCTONOCREADO = "El producto no fue creado.";
     private static final String MENSAJE_ERROR_APELLIDO=  "El apellido ingresado no es valido.";
     private static final String MENSAJE_ERROR_NOMBRE = "El nombre ingresado no es valido.";
-    private static final String Mensaje_ERROR_CORREO= "El correo ingresado no es valido";
+    private static final String Mensaje_ERROR_CORREO= "El correo ingresado no es valido.";
+    private static final String MENSAJE_ERROR_RUC= "El ruc ingresado no es valido.";
+    private static final String MENSAJE_ERROR_UNIDAD_MEDIDA = "La abreviatura para esta unidad de medida no es valida.";
     
     private ExcepcionRegla(String message) {
         super(message);
@@ -58,5 +60,11 @@ public class ExcepcionRegla extends Exception{
     }
     public static ExcepcionRegla crearErrorMENSAJE_CORREO(){
         return new ExcepcionRegla(Mensaje_ERROR_CORREO);
+    }
+    public static ExcepcionRegla crearErrorMENSAJE_RUC(){
+        return new ExcepcionRegla(MENSAJE_ERROR_RUC);
+    }
+    public static ExcepcionRegla crearErrorMENSAJE_UNIDADMEDIDAD(){
+        return new ExcepcionRegla(MENSAJE_ERROR_UNIDAD_MEDIDA);
     }
 }

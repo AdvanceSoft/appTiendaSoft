@@ -5,7 +5,6 @@
  */
 package apptiendasoft.c3_dominio.entidad;
 
-import apptiendasoft.c6_transversal.exepcion.ExcepcionRegla;
 
 /**
  *
@@ -15,14 +14,5 @@ import apptiendasoft.c6_transversal.exepcion.ExcepcionRegla;
 public class Proveedor extends Enterprice{
     
     
-    
-    /**
-     * Este metodo sirve para dar validación a los registros que realiza el usuario a un proveedor, 
-     * Validad datos correctos, si no cumple se realizará una excepcion regla. 
-     * @throws ExcepcionRegla 
-     */
-    public void validarProveedor()throws ExcepcionRegla{
-        /*aquí irá el algoritmo para validar solo datos correctos y no este tipos de datos (sadfnsfwla0¡0`´`çñ´ñ/+asd+àd)
-        en resumen el sistema no debe dejar registrar cualquier dato innecesario*/
-    }
+   
 }
