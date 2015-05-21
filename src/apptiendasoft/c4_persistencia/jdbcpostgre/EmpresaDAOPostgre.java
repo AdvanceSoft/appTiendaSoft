@@ -44,7 +44,7 @@ public class EmpresaDAOPostgre implements IEmpresaDAO{
         sentencia.setString(11, empresa.getRutalogo());
         sentencia.setString(12, empresa.getTamanologo());
         sentencia.setInt(13, empresa.getCodigo());
-        sentencia.executeUpdate();
+        sentencia.executeUpdate();        
     }
 
     @Override

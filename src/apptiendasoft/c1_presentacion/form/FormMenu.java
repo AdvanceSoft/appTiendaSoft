@@ -26,6 +26,10 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public final class FormMenu extends javax.swing.JFrame {
 
+    /*Para saber el ancho y el alto de cualquier pantalla*/
+    int ancho = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
+    int alto = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
+    
     /**
      * Creates new form FormMenu
      */
@@ -38,13 +42,12 @@ public final class FormMenu extends javax.swing.JFrame {
     }
     
     public void cargarFondo(){
-        etiquetaFondo.setIcon(null);
         Empresa empresa;
         GestionarEmpresaServicio gestionarEmpresaServicio = new GestionarEmpresaServicio();
         try{
             empresa = gestionarEmpresaServicio.buscar();
             ImageIcon imageIcon = new ImageIcon(empresa.getRutalogo());
-            ImageIcon imageIcon1 = new ImageIcon(imageIcon.getImage().getScaledInstance(1366,900,100));
+            ImageIcon imageIcon1 = new ImageIcon(imageIcon.getImage().getScaledInstance(ancho,alto-150,100));
             etiquetaFondo.setIcon(imageIcon1);
         }catch(Exception ex){
             
@@ -857,6 +860,8 @@ public final class FormMenu extends javax.swing.JFrame {
 
     private void botonADGestionarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonADGestionarProductoActionPerformed
         // TODO add your handling code here:
+        FormGestionarProducto formGestionarProducto = new FormGestionarProducto(this, true);
+        formGestionarProducto.setVisible(true);
     }//GEN-LAST:event_botonADGestionarProductoActionPerformed
 
     private void botonADRegistrarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonADRegistrarVentaActionPerformed
