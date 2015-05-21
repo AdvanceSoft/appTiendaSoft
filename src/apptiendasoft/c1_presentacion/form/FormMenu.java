@@ -93,7 +93,7 @@ public class FormMenu extends javax.swing.JFrame {
         menuTeclado = new javax.swing.JMenuItem();
         menuCalculadora = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        menuBackup = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         menuReportes = new javax.swing.JMenu();
         menuReportesCliente = new javax.swing.JMenu();
@@ -349,6 +349,7 @@ public class FormMenu extends javax.swing.JFrame {
         menuDistrito.setBackground(new java.awt.Color(255, 255, 255));
         menuDistrito.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         menuDistrito.setText("Distrito");
+        menuDistrito.setOpaque(true);
         menuDistrito.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuDistritoActionPerformed(evt);
@@ -431,16 +432,16 @@ public class FormMenu extends javax.swing.JFrame {
         jMenu1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jMenu1.setOpaque(true);
 
-        jMenuItem1.setBackground(new java.awt.Color(255, 255, 255));
-        jMenuItem1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jMenuItem1.setText("Backup");
-        jMenuItem1.setOpaque(true);
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        menuBackup.setBackground(new java.awt.Color(255, 255, 255));
+        menuBackup.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        menuBackup.setText("Backup");
+        menuBackup.setOpaque(true);
+        menuBackup.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                menuBackupActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        jMenu1.add(menuBackup);
 
         jMenuItem2.setBackground(new java.awt.Color(255, 255, 255));
         jMenuItem2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -750,9 +751,11 @@ public class FormMenu extends javax.swing.JFrame {
         ejecutarCalculadora();
     }//GEN-LAST:event_menuCalculadoraActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void menuBackupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuBackupActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+        FormRegistrarBackup formRegistrarBackup = new FormRegistrarBackup(this, true);
+        formRegistrarBackup.setVisible(true);
+    }//GEN-LAST:event_menuBackupActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
@@ -931,12 +934,12 @@ public class FormMenu extends javax.swing.JFrame {
     private javax.swing.JLabel etiquetaFondo;
     private javax.swing.ButtonGroup grupoLookAndFeel;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JMenuItem menuAcercaDe;
     private javax.swing.JMenu menuAplicacion;
     private javax.swing.JMenuItem menuBackUp;
+    private javax.swing.JMenuItem menuBackup;
     private javax.swing.JMenuItem menuCalculadora;
     private javax.swing.JMenuItem menuCargo;
     private javax.swing.JMenuItem menuCliente;

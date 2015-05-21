@@ -87,6 +87,7 @@ public class FormRegistrarMarca extends javax.swing.JDialog {
         textoCodigo.setEnabled(false);
 
         textoNombre.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
+        textoNombre.setToolTipText("");
 
         textoAreaDescripcion.setColumns(20);
         textoAreaDescripcion.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N

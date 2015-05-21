@@ -121,6 +121,7 @@ public class FormGestionarMarca extends javax.swing.JDialog {
 
         getContentPane().add(panelContenedor, java.awt.BorderLayout.CENTER);
 
+        jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
 
         botonCrear.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
