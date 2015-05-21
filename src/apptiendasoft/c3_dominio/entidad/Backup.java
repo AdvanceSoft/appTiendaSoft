@@ -5,6 +5,11 @@
  */
 package apptiendasoft.c3_dominio.entidad;
 
+import apptiendasoft.c6_transversal.exepcion.ExcepcionRegla;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 /**
  *
  * @author
@@ -16,9 +21,9 @@ public class Backup {
     private String puerto;
     private String usuario;
     private String clave;
-    private String bd;
+    private String basedatos;
     private String formato;
-    private String rutaguradar;
+    private String rutaguardar;
     private String archivopostgres;
 
     public Backup() {
@@ -30,9 +35,9 @@ public class Backup {
         this.puerto = puerto;
         this.usuario = usuario;
         this.clave = clave;
-        this.bd = bd;
+        this.basedatos = bd;
         this.formato = formato;
-        this.rutaguradar = rutaguradar;
+        this.rutaguardar = rutaguradar;
         this.archivopostgres = archivopostgres;
     }
 
@@ -76,12 +81,12 @@ public class Backup {
         this.clave = clave;
     }
 
-    public String getBd() {
-        return bd;
+    public String getBasedatos() {
+        return basedatos;
     }
 
-    public void setBd(String bd) {
-        this.bd = bd;
+    public void setBasedatos(String basedatos) {
+        this.basedatos = basedatos;
     }
 
     public String getFormato() {
@@ -92,21 +97,40 @@ public class Backup {
         this.formato = formato;
     }
 
-    public String getRutaguradar() {
-        return rutaguradar;
+    public String getRutaguardar() {
+        return rutaguardar;
     }
 
-    public void setRutaguradar(String rutaguradar) {
-        this.rutaguradar = rutaguradar;
+    public void setRutaguardar(String rutaguradar) {
+        this.rutaguardar = rutaguradar;
     }
 
     public String getArchivopostgres() {
         return archivopostgres;
     }
-
+    
     public void setArchivopostgres(String archivopostgres) {
         this.archivopostgres = archivopostgres;
     }
-    //
     
+    public void realizarBackup() throws ExcepcionRegla, IOException{
+        LocalDate fecha = LocalDate.now();
+        LocalDateTime time = LocalDateTime.now();
+        int cadenaHora = time.getHour();
+        int cadenaMinuto = time.getMinute();
+        int cadenaSegundo = time.getSecond();
+        String cadenaFecha = fecha.toString();        
+        ProcessBuilder pb;
+        Process p;
+        String rutaCompleta = rutaguardar+basedatos+"_"+cadenaFecha+"_"+cadenaHora+"-"+cadenaMinuto+"-"+cadenaSegundo+".backup";
+        System.out.println(rutaCompleta);
+        pb = new ProcessBuilder(archivopostgres, "--verbose", "--format", formato, "-f", rutaCompleta);
+        pb.environment().put("PGHOST", host);
+        pb.environment().put("PGPORT", puerto);
+        pb.environment().put("PGUSER", usuario);
+        pb.environment().put("PGPASSWORD", clave);
+        pb.environment().put("PGDATABASE", basedatos);
+        pb.redirectErrorStream(true);
+        p = pb.start();         
+    }
 }

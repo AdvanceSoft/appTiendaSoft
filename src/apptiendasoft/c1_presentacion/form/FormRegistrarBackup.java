@@ -5,6 +5,11 @@
  */
 package apptiendasoft.c1_presentacion.form;
 
+import apptiendasoft.c2_aplicacion.servicio.GestionarBackupServicio;
+import apptiendasoft.c3_dominio.entidad.Backup;
+import java.io.File;
+import javax.swing.JFileChooser;
+
 /**
  *
  * @author
@@ -12,6 +17,7 @@ package apptiendasoft.c1_presentacion.form;
  */
 public class FormRegistrarBackup extends javax.swing.JDialog {
 
+    Backup backup;
     /**
      * Creates new form FormRegistrarBackup
      * @param parent
@@ -20,8 +26,28 @@ public class FormRegistrarBackup extends javax.swing.JDialog {
     public FormRegistrarBackup(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        cargarDatos();
     }
 
+    private void cargarDatos(){        
+        GestionarBackupServicio gestionarBackupServicio = new GestionarBackupServicio();        
+        try{
+            backup = gestionarBackupServicio.buscar();
+            textoHost.setText(backup.getHost());
+            textoUsuario.setText(backup.getUsuario());
+            textoBaseDeDatos.setText(backup.getBasedatos());
+            textoRutaGuardar.setText(backup.getRutaguardar());
+            textoArchivoPostgres.setText(backup.getArchivopostgres());
+            textoPuerto.setText(backup.getPuerto());
+            textoClave.setText(backup.getClave());
+            textoFormato.setText(backup.getFormato());
+        }catch(Exception ex){
+            //ESCRIBIR ERROR !
+        }
+        
+        
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -39,20 +65,22 @@ public class FormRegistrarBackup extends javax.swing.JDialog {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
-        jTextField7 = new javax.swing.JTextField();
-        jTextField8 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        textoHost = new javax.swing.JTextField();
+        textoUsuario = new javax.swing.JTextField();
+        textoBaseDeDatos = new javax.swing.JTextField();
+        textoRutaGuardar = new javax.swing.JTextField();
+        textoArchivoPostgres = new javax.swing.JTextField();
+        textoPuerto = new javax.swing.JTextField();
+        textoClave = new javax.swing.JTextField();
+        textoFormato = new javax.swing.JTextField();
+        botonSeleccionarCarpeta = new javax.swing.JButton();
+        botonSeleccionarArchivo = new javax.swing.JButton();
         botonGuardar = new javax.swing.JButton();
         botonSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Registrar Backup");
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Host:");
@@ -78,41 +106,61 @@ public class FormRegistrarBackup extends javax.swing.JDialog {
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel8.setText("Formato:");
 
-        jTextField1.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
+        textoHost.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
 
-        jTextField2.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
+        textoUsuario.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
 
-        jTextField3.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
+        textoBaseDeDatos.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
 
-        jTextField4.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
+        textoRutaGuardar.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
 
-        jTextField5.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
+        textoArchivoPostgres.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
 
-        jTextField6.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
+        textoPuerto.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
 
-        jTextField7.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
+        textoClave.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
 
-        jTextField8.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
+        textoFormato.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
 
-        jButton1.setBackground(new java.awt.Color(255, 255, 255));
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/apptiendasoft/c5_recursos/iconos/carpetax20.png"))); // NOI18N
-        jButton1.setText("Seleccionar Carpeta");
-        jButton1.setOpaque(false);
+        botonSeleccionarCarpeta.setBackground(new java.awt.Color(255, 255, 255));
+        botonSeleccionarCarpeta.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        botonSeleccionarCarpeta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/apptiendasoft/c5_recursos/iconos/carpetax20.png"))); // NOI18N
+        botonSeleccionarCarpeta.setText("Seleccionar Carpeta");
+        botonSeleccionarCarpeta.setOpaque(false);
+        botonSeleccionarCarpeta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonSeleccionarCarpetaActionPerformed(evt);
+            }
+        });
 
-        jButton2.setBackground(new java.awt.Color(255, 255, 255));
-        jButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/apptiendasoft/c5_recursos/iconos/carpetax20.png"))); // NOI18N
-        jButton2.setText("Seleccionar Carpeta");
-        jButton2.setOpaque(false);
+        botonSeleccionarArchivo.setBackground(new java.awt.Color(255, 255, 255));
+        botonSeleccionarArchivo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        botonSeleccionarArchivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/apptiendasoft/c5_recursos/iconos/carpetax20.png"))); // NOI18N
+        botonSeleccionarArchivo.setText("Seleccionar Archivo");
+        botonSeleccionarArchivo.setOpaque(false);
+        botonSeleccionarArchivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonSeleccionarArchivoActionPerformed(evt);
+            }
+        });
 
         botonGuardar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         botonGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/apptiendasoft/c5_recursos/iconos/guardarx32.png"))); // NOI18N
         botonGuardar.setText("Guardar");
+        botonGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonGuardarActionPerformed(evt);
+            }
+        });
 
         botonSalir.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         botonSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/apptiendasoft/c5_recursos/iconos/salirx32.png"))); // NOI18N
         botonSalir.setText("Salir");
+        botonSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonSalirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -128,11 +176,11 @@ public class FormRegistrarBackup extends javax.swing.JDialog {
                     .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField1)
-                    .addComponent(jTextField2)
-                    .addComponent(jTextField3)
-                    .addComponent(jTextField4)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE))
+                    .addComponent(textoHost)
+                    .addComponent(textoUsuario)
+                    .addComponent(textoBaseDeDatos)
+                    .addComponent(textoRutaGuardar)
+                    .addComponent(textoArchivoPostgres, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
@@ -142,11 +190,11 @@ public class FormRegistrarBackup extends javax.swing.JDialog {
                             .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField6)
-                            .addComponent(jTextField7)
-                            .addComponent(jTextField8, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)))
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE))
+                            .addComponent(textoPuerto)
+                            .addComponent(textoClave)
+                            .addComponent(textoFormato, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)))
+                    .addComponent(botonSeleccionarCarpeta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(botonSeleccionarArchivo, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(158, Short.MAX_VALUE)
@@ -165,37 +213,37 @@ public class FormRegistrarBackup extends javax.swing.JDialog {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel1)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(textoHost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel2)
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(textoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel3)
-                                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(textoBaseDeDatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel6)
-                                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(textoPuerto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel7)
-                                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(textoClave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel8)
-                                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(textoFormato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addComponent(textoRutaGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(botonSeleccionarCarpeta, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
+                    .addComponent(textoArchivoPostgres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonSeleccionarArchivo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -204,13 +252,62 @@ public class FormRegistrarBackup extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void botonSeleccionarCarpetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSeleccionarCarpetaActionPerformed
+        // TODO add your handling code here:
+        JFileChooser fileChooser = new JFileChooser("C:/Users");
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int respuesta = fileChooser.showSaveDialog(this);
+        if(respuesta == JFileChooser.APPROVE_OPTION){
+            File file = fileChooser.getSelectedFile();
+            textoRutaGuardar.setText(file.getPath());
+        } 
+    }//GEN-LAST:event_botonSeleccionarCarpetaActionPerformed
+
+    private void botonSeleccionarArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSeleccionarArchivoActionPerformed
+        // TODO add your handling code here:
+        JFileChooser fileChooser = new JFileChooser("C:/Users");
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        int respuesta = fileChooser.showSaveDialog(this);
+        if(respuesta == JFileChooser.APPROVE_OPTION){
+            File file = fileChooser.getSelectedFile();
+            textoArchivoPostgres.setText(file.getPath());
+        } 
+    }//GEN-LAST:event_botonSeleccionarArchivoActionPerformed
+
+    private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_botonSalirActionPerformed
+
+    private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
+        // TODO add your handling code here:
+        backup.setCodigo(backup.getCodigo());
+        backup.setHost(textoHost.getText());
+        backup.setUsuario(textoUsuario.getText());
+        backup.setBasedatos(textoBaseDeDatos.getText());
+        backup.setRutaguardar(textoRutaGuardar.getText());
+        backup.setArchivopostgres(textoArchivoPostgres.getText());
+        backup.setPuerto(textoPuerto.getText());
+        backup.setClave(textoClave.getText());
+        backup.setFormato(textoFormato.getText());
+        GestionarBackupServicio gestionarBackupServicio = new GestionarBackupServicio();
+        try{
+            gestionarBackupServicio.modificar(backup);
+            this.dispose();
+            //Mensaje de la Exception 
+        }catch(Exception ex){
+            //Mensaje de la Exception
+        }
+    }//GEN-LAST:event_botonGuardarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonGuardar;
     private javax.swing.JButton botonSalir;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton botonSeleccionarArchivo;
+    private javax.swing.JButton botonSeleccionarCarpeta;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -219,13 +316,13 @@ public class FormRegistrarBackup extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
+    private javax.swing.JTextField textoArchivoPostgres;
+    private javax.swing.JTextField textoBaseDeDatos;
+    private javax.swing.JTextField textoClave;
+    private javax.swing.JTextField textoFormato;
+    private javax.swing.JTextField textoHost;
+    private javax.swing.JTextField textoPuerto;
+    private javax.swing.JTextField textoRutaGuardar;
+    private javax.swing.JTextField textoUsuario;
     // End of variables declaration//GEN-END:variables
 }

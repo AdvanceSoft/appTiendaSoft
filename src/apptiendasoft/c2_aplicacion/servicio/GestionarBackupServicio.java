@@ -5,10 +5,10 @@
  */
 package apptiendasoft.c2_aplicacion.servicio;
 
-import apptiendasoft.c3_dominio.contrato.IEmpresaDAO;
-import apptiendasoft.c3_dominio.entidad.Empresa;
+import apptiendasoft.c3_dominio.contrato.IBackupDAO;
+import apptiendasoft.c3_dominio.entidad.Backup;
 import apptiendasoft.c4_persistencia.GestorJDBC;
-import apptiendasoft.c4_persistencia.jdbcpostgre.EmpresaDAOPostgre;
+import apptiendasoft.c4_persistencia.jdbcpostgre.BackupDAOPostgre;
 import apptiendasoft.c4_persistencia.jdbcpostgre.GestorJDBCPostgre;
 
 /**
@@ -16,27 +16,27 @@ import apptiendasoft.c4_persistencia.jdbcpostgre.GestorJDBCPostgre;
  * @author
  * <AdvanceSoft - Osorio Perez Carlos Alfredo - advancesoft.trujillo@gmail.com>
  */
-public class GestionarEmpresaServicio{
+public class GestionarBackupServicio{
 
     GestorJDBC gestorJDBC;
-    IEmpresaDAO EmpresaDAO;
+    IBackupDAO BackupDAO;
 
-    public GestionarEmpresaServicio() {
+    public GestionarBackupServicio() {
         this.gestorJDBC = new GestorJDBCPostgre();
-        this.EmpresaDAO = new EmpresaDAOPostgre(gestorJDBC);
+        this.BackupDAO = new BackupDAOPostgre(gestorJDBC);
     }
     
-    public void modificar(Empresa empresa) throws Exception {
+    public void modificar(Backup backup) throws Exception {
         gestorJDBC.abrirConexion();
-        EmpresaDAO.modificar(empresa);
+        BackupDAO.modificar(backup);
         gestorJDBC.cerrarConexion();
     }
     
-    public Empresa buscar() throws Exception {
-        Empresa empresa;
+    public Backup buscar() throws Exception {
+        Backup backup;
         gestorJDBC.abrirConexion();
-         empresa = EmpresaDAO.buscar();
+         backup = BackupDAO.buscar();
          gestorJDBC.cerrarConexion();
-         return empresa;
+         return backup;
     }    
 }

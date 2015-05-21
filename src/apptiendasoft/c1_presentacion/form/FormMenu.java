@@ -6,10 +6,15 @@
 package apptiendasoft.c1_presentacion.form;
 
 import apptiendasoft.c1_presentacion.util.Mensaje;
+import apptiendasoft.c2_aplicacion.servicio.GestionarBackupServicio;
+import apptiendasoft.c2_aplicacion.servicio.GestionarEmpresaServicio;
+import apptiendasoft.c3_dominio.entidad.Backup;
+import apptiendasoft.c3_dominio.entidad.Empresa;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.IOException;
 import java.net.URL;
+import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -19,7 +24,7 @@ import javax.swing.UnsupportedLookAndFeelException;
  * @author
  * <AdvanceSoft - Osorio Perez Carlos Alfredo - advancesoft.trujillo@gmail.com>
  */
-public class FormMenu extends javax.swing.JFrame {
+public final class FormMenu extends javax.swing.JFrame {
 
     /**
      * Creates new form FormMenu
@@ -29,6 +34,21 @@ public class FormMenu extends javax.swing.JFrame {
         mostrarIcono();     
         initComponents();        
         setExtendedState(MAXIMIZED_BOTH);
+        cargarFondo();
+    }
+    
+    public void cargarFondo(){
+        etiquetaFondo.setIcon(null);
+        Empresa empresa;
+        GestionarEmpresaServicio gestionarEmpresaServicio = new GestionarEmpresaServicio();
+        try{
+            empresa = gestionarEmpresaServicio.buscar();
+            ImageIcon imageIcon = new ImageIcon(empresa.getRutalogo());
+            ImageIcon imageIcon1 = new ImageIcon(imageIcon.getImage().getScaledInstance(1366,900,100));
+            etiquetaFondo.setIcon(imageIcon1);
+        }catch(Exception ex){
+            
+        }
     }
     
     private void mostrarIcono() {        
@@ -94,7 +114,7 @@ public class FormMenu extends javax.swing.JFrame {
         menuCalculadora = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         menuBackup = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        menuEmpresa = new javax.swing.JMenuItem();
         menuReportes = new javax.swing.JMenu();
         menuReportesCliente = new javax.swing.JMenu();
         menuReportesClienteListaTodos = new javax.swing.JMenuItem();
@@ -225,7 +245,6 @@ public class FormMenu extends javax.swing.JFrame {
         getContentPane().add(toolBarAccesosDirectos, java.awt.BorderLayout.PAGE_START);
 
         etiquetaFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/apptiendasoft/c5_recursos/iconos/tienda.jpg"))); // NOI18N
-        etiquetaFondo.setText("jLabel1");
         getContentPane().add(etiquetaFondo, java.awt.BorderLayout.CENTER);
 
         menuPrincipal.setOpaque(false);
@@ -339,22 +358,12 @@ public class FormMenu extends javax.swing.JFrame {
         menuProvincia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         menuProvincia.setText("Provincia");
         menuProvincia.setOpaque(true);
-        menuProvincia.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuProvinciaActionPerformed(evt);
-            }
-        });
         menuLocalizacion.add(menuProvincia);
 
         menuDistrito.setBackground(new java.awt.Color(255, 255, 255));
         menuDistrito.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         menuDistrito.setText("Distrito");
         menuDistrito.setOpaque(true);
-        menuDistrito.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuDistritoActionPerformed(evt);
-            }
-        });
         menuLocalizacion.add(menuDistrito);
 
         menuGestionar.add(menuLocalizacion);
@@ -434,6 +443,7 @@ public class FormMenu extends javax.swing.JFrame {
 
         menuBackup.setBackground(new java.awt.Color(255, 255, 255));
         menuBackup.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        menuBackup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/apptiendasoft/c5_recursos/iconos/backupx32.png"))); // NOI18N
         menuBackup.setText("Backup");
         menuBackup.setOpaque(true);
         menuBackup.addActionListener(new java.awt.event.ActionListener() {
@@ -443,16 +453,17 @@ public class FormMenu extends javax.swing.JFrame {
         });
         jMenu1.add(menuBackup);
 
-        jMenuItem2.setBackground(new java.awt.Color(255, 255, 255));
-        jMenuItem2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jMenuItem2.setText("Empresa");
-        jMenuItem2.setOpaque(true);
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        menuEmpresa.setBackground(new java.awt.Color(255, 255, 255));
+        menuEmpresa.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        menuEmpresa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/apptiendasoft/c5_recursos/iconos/empresax32.png"))); // NOI18N
+        menuEmpresa.setText("Empresa");
+        menuEmpresa.setOpaque(true);
+        menuEmpresa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                menuEmpresaActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem2);
+        jMenu1.add(menuEmpresa);
 
         menuHerramientas.add(jMenu1);
 
@@ -757,11 +768,11 @@ public class FormMenu extends javax.swing.JFrame {
         formRegistrarBackup.setVisible(true);
     }//GEN-LAST:event_menuBackupActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void menuEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEmpresaActionPerformed
         // TODO add your handling code here:
         FormRegistrarEmpresa formRegistrarEmpresa = new FormRegistrarEmpresa(this, true);
         formRegistrarEmpresa.setVisible(true);
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_menuEmpresaActionPerformed
 
     private void menuReportesClienteCompraronMasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuReportesClienteCompraronMasActionPerformed
         // TODO add your handling code here:
@@ -879,25 +890,21 @@ public class FormMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_botonADInternetActionPerformed
 
     private void botonADSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonADSalirActionPerformed
-        salir();
+        try{
+            GestionarBackupServicio gestionarBackupServicio = new GestionarBackupServicio();            
+            Backup backup = gestionarBackupServicio.buscar();
+            backup.realizarBackup();
+            salir();
+        }catch(Exception ex){
+            //Mensaje Excepcion           
+        }
     }//GEN-LAST:event_botonADSalirActionPerformed
 
-    private void menuProvinciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuProvinciaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_menuProvinciaActionPerformed
-
-    private void menuDistritoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuDistritoActionPerformed
-        // TODO add your handling code here:
-        FormGestionarDistrito formGestionarDistrito = new FormGestionarDistrito(this, true);
-        formGestionarDistrito.setVisible(true);
-    }//GEN-LAST:event_menuDistritoActionPerformed
-
     private void menuProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuProveedorActionPerformed
-        new FormGestionarProveedor(this).setVisible(true);
+        // TODO add your handling code here:
     }//GEN-LAST:event_menuProveedorActionPerformed
 
-    private void salir() {
-        // TODO add your handling code here:
+    private void salir(){
         System.exit(0);
     }
 
@@ -934,7 +941,6 @@ public class FormMenu extends javax.swing.JFrame {
     private javax.swing.JLabel etiquetaFondo;
     private javax.swing.ButtonGroup grupoLookAndFeel;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JMenuItem menuAcercaDe;
     private javax.swing.JMenu menuAplicacion;
@@ -947,6 +953,7 @@ public class FormMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuDepartamento;
     private javax.swing.JMenuItem menuDistrito;
     private javax.swing.JMenuItem menuEmpleado;
+    private javax.swing.JMenuItem menuEmpresa;
     private javax.swing.JMenu menuGestionar;
     private javax.swing.JMenu menuHerramientas;
     private javax.swing.JMenu menuLocalizacion;

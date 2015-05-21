@@ -26,37 +26,32 @@ public class EmpresaDAOPostgre implements IEmpresaDAO{
     
     @Override
     public void modificar(Empresa empresa) throws Exception {
-        String consulta = "update razonsocialempresa=?,rucempresa=?,servicioempresa=?,direccionempresa=?,"
-                + "telefonoempresa=?,celularempresa=?,paginawebempresa=?,activoempresa=?,logoempresa=?,"
-                + "hostempresa=?,puertoempresa=?,usuarioempresa=?,claveempresa=?,basedatosempresa=?,"
-                + "formatoempresa=?,rutaguardadoempresa=?,archivopostgresempresa=? where codigoempresa="+empresa.getCodigo();
+        String consulta = "update empresa set razonsocialempresa=?,rucempresa=?,servicioempresa=?,direccionempresa=?,"
+                + "correoempresa=?,telefonoempresa=?,celularempresa=?,paginawebempresa=?,activoempresa=?,nombrelogoempresa=?, "
+                + "rutalogo=?,tamanologo=? "
+                + "where codigoempresa=?";
         PreparedStatement sentencia = gestorJDBC.prepararSentencia(consulta);
         sentencia.setString(1, empresa.getRazonsocial());
         sentencia.setString(2, empresa.getRuc());
-        sentencia.setString(3, empresa.getActividadrubro());
+        sentencia.setString(3, empresa.getServicio());
         sentencia.setString(4, empresa.getDireccion());
-        sentencia.setString(5, empresa.getTelefono());
-        sentencia.setString(6, empresa.getCelular());
-        sentencia.setString(7, empresa.getPaginaweb());
-        sentencia.setBoolean(8, empresa.isActivo());
-        sentencia.setString(9, empresa.getLogo());
-        sentencia.setString(10, empresa.getHost());
-        sentencia.setString(11, empresa.getPuerto());
-        sentencia.setString(12, empresa.getUsuario());
-        sentencia.setString(13, empresa.getClave());
-        sentencia.setString(14, empresa.getBd());
-        sentencia.setString(15, empresa.getFormato());
-        sentencia.setString(16, empresa.getRutaguradar());
-        sentencia.setString(17, empresa.getArchivopostgres());
-        sentencia.setInt(18, empresa.getCodigo());
+        sentencia.setString(5, empresa.getCorreo());
+        sentencia.setString(6, empresa.getTelefono());
+        sentencia.setString(7, empresa.getCelular());
+        sentencia.setString(8, empresa.getPaginaweb());
+        sentencia.setBoolean(9, empresa.isActivo());
+        sentencia.setString(10, empresa.getNombrelogo());
+        sentencia.setString(11, empresa.getRutalogo());
+        sentencia.setString(12, empresa.getTamanologo());
+        sentencia.setInt(13, empresa.getCodigo());
+        sentencia.executeUpdate();
     }
 
     @Override
     public Empresa buscar() throws Exception {        
         String consulta = "select codigoempresa,razonsocialempresa,rucempresa,servicioempresa,direccionempresa,"
-                + "telefonoempresa,celularempresa,paginawebempresa,activoempresa,logoempresa,"
-                + "hostempresa,puertoempresa,usuarioempresa,claveempresa,basedatosempresa,"
-                + "formatoempresa,rutaguardadoempresa,archivopostgresempresa from empresa";        
+                + "correoempresa,telefonoempresa,celularempresa,paginawebempresa,activoempresa,nombrelogoempresa,rutalogo,tamanologo "
+                + "from empresa";        
         ResultSet resultado = gestorJDBC.ejecutarConsulta(consulta);
         Empresa empresa = null;
         if(resultado.next()){
@@ -64,21 +59,16 @@ public class EmpresaDAOPostgre implements IEmpresaDAO{
             empresa.setCodigo(resultado.getInt(1));
             empresa.setRazonsocial(resultado.getString(2));
             empresa.setRuc(resultado.getString(3));
-            empresa.setActividadrubro(resultado.getString(4));
+            empresa.setServicio(resultado.getString(4));
             empresa.setDireccion(resultado.getString(5));
-            empresa.setTelefono(resultado.getString(6));
-            empresa.setCelular(resultado.getString(7));
-            empresa.setPaginaweb(resultado.getString(8));
-            empresa.setActivo(resultado.getBoolean(9));
-            empresa.setLogo(resultado.getString(10));
-            empresa.setHost(resultado.getString(11));
-            empresa.setPuerto(resultado.getString(12));
-            empresa.setUsuario(resultado.getString(13));
-            empresa.setClave(resultado.getString(14));
-            empresa.setBd(resultado.getString(15));
-            empresa.setFormato(resultado.getString(16));
-            empresa.setRutaguradar(resultado.getString(17));
-            empresa.setArchivopostgres(resultado.getString(18));
+            empresa.setCorreo(resultado.getString(6));
+            empresa.setTelefono(resultado.getString(7));
+            empresa.setCelular(resultado.getString(8));
+            empresa.setPaginaweb(resultado.getString(9));
+            empresa.setActivo(resultado.getBoolean(10));
+            empresa.setNombrelogo(resultado.getString(11));
+            empresa.setRutalogo(resultado.getString(12));
+            empresa.setTamanologo(resultado.getString(13));
         }
         return empresa;
     }
