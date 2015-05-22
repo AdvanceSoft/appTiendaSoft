@@ -5,23 +5,49 @@
  */
 package apptiendasoft.c1_presentacion.form;
 
+import apptiendasoft.c1_presentacion.util.Mensaje;
+import apptiendasoft.c2_aplicacion.servicio.GestionarCargoServicio;
+import apptiendasoft.c3_dominio.entidad.Cargo;
+import javax.swing.JDialog;
+
 /**
  *
- * @author <Valencia Cerna Nelida Janeth advancesoft.trujillo@gmail.com>
+ * @author 
+ * <Valencia Cerna Nelida Janeth advancesoft.trujillo@gmail.com>
  */
 public class FormRegistrarCargo extends javax.swing.JDialog {
 
+    private final int ACCION_CREAR = 1;
+    private final int ACCION_MODIFICAR = 2;
+    private int tipo_accion = 0;
+    Cargo cargo;
     /**
      * Creates new form FormRegistrarCargo
+     * @param owner
      */
-    public FormRegistrarCargo(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    
+    public FormRegistrarCargo(JDialog owner) {
+        super(owner, true);
         initComponents();
+        setResizable(false);
+        tipo_accion = ACCION_CREAR;
+        this.cargo = new Cargo();
     }
 
-    FormRegistrarCargo(FormGestionaCargo aThis) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public FormRegistrarCargo(JDialog owner, Cargo cargo) {
+        super(owner, true);
+        initComponents();
+        setResizable(false);
+        tipo_accion = ACCION_MODIFICAR;
+        obtenerObjetoDeGestionar(cargo);
     }
+    
+    private void obtenerObjetoDeGestionar(Cargo cargo1) {
+        this.cargo = cargo1;
+        textoNombre.setText(cargo1.getNombre());
+        textoAreaDescripcion.setText(cargo1.getDescripcion());
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -36,7 +62,7 @@ public class FormRegistrarCargo extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         textoNombre = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        textoAreaDescripcion = new javax.swing.JTextArea();
         botonGuardar = new javax.swing.JButton();
         botonSalir = new javax.swing.JButton();
 
@@ -51,19 +77,29 @@ public class FormRegistrarCargo extends javax.swing.JDialog {
 
         textoNombre.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
-        jTextArea1.setLineWrap(true);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        textoAreaDescripcion.setColumns(20);
+        textoAreaDescripcion.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
+        textoAreaDescripcion.setLineWrap(true);
+        textoAreaDescripcion.setRows(5);
+        jScrollPane1.setViewportView(textoAreaDescripcion);
 
         botonGuardar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         botonGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/apptiendasoft/c5_recursos/iconos/guardarx32.png"))); // NOI18N
         botonGuardar.setText("Guardar");
+        botonGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonGuardarActionPerformed(evt);
+            }
+        });
 
         botonSalir.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         botonSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/apptiendasoft/c5_recursos/iconos/salirx32.png"))); // NOI18N
         botonSalir.setText("Salir");
+        botonSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonSalirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -106,49 +142,50 @@ public class FormRegistrarCargo extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
+    private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
+        // TODO add your handling code here:
+        if(verificarCamposLlenos()){
+            cargo.setNombre(textoNombre.getText().trim().toUpperCase());
+            cargo.setDescripcion(textoAreaDescripcion.getText().trim().toUpperCase());
+            GestionarCargoServicio gestionarCargoServicio = new GestionarCargoServicio();
+            int estado;
+            if (tipo_accion == ACCION_CREAR) {
+                try{
+                   estado=gestionarCargoServicio.crear(cargo);
+                    if (estado>0) {
+                        Mensaje.Mostrar_MENSAJE_GUARDADOEXITOSO(this);
+                        this.dispose();
+                    }
+                }catch(Exception ex){
+                    
+                }
+            }else{
+                try{
+                    estado = gestionarCargoServicio.modificar(cargo);
+                    if(estado > 0){
+                        Mensaje.Mostrar_MENSAJE_MODIFICADOEXITOSO(this);
+                        this.dispose();
+                    }
+                }catch(Exception ex){
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormRegistrarCargo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormRegistrarCargo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormRegistrarCargo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FormRegistrarCargo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }else {
+            Mensaje.Mostrar_MENSAJE_LLENARCAMPOSOBLIGATORIOS(this);
+            mostrarCampoVacio();
         }
-        //</editor-fold>
+    }//GEN-LAST:event_botonGuardarActionPerformed
 
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                FormRegistrarCargo dialog = new FormRegistrarCargo(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+    private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed
+        // TODO add your handling code here:
+        if (verificarCamposLlenos()) {
+            if (Mensaje.Mostrar_MENSAJE_SALIRSINGUARDAR(this)) 
+                this.dispose();
+        }else
+            this.dispose();
+    }//GEN-LAST:event_botonSalirActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonGuardar;
@@ -156,7 +193,21 @@ public class FormRegistrarCargo extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea textoAreaDescripcion;
     private javax.swing.JTextField textoNombre;
     // End of variables declaration//GEN-END:variables
+
+    private boolean verificarCamposLlenos() {
+        boolean estanLlenos;
+        if (!(textoNombre.getText().trim().isEmpty())) 
+            estanLlenos = true;
+        else
+            estanLlenos = false;        
+        return estanLlenos;
+    }
+
+    private void mostrarCampoVacio() {
+        if(textoNombre.getText().trim().isEmpty())
+            textoNombre.requestFocus();
+    }
 }

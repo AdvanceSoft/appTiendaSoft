@@ -5,18 +5,35 @@
  */
 package apptiendasoft.c1_presentacion.form;
 
+import apptiendasoft.c1_presentacion.util.Mensaje;
+import apptiendasoft.c2_aplicacion.servicio.GestionarCargoServicio;
+import apptiendasoft.c3_dominio.entidad.Cargo;
+import java.util.ArrayList;
+import javax.swing.table.TableColumn;
+import mastersoft.modelo.ModeloTabla;
+import mastersoft.tabladatos.Columna;
+import mastersoft.tabladatos.Fila;
+import mastersoft.tabladatos.Tabla;
+
 /**
  *
- * @author <Valencia Cerna Nelida Janeth advancesoft.trujillo@gmail.com>
+ * @author 
+ * <Valencia Cerna Nelida Janeth advancesoft.trujillo@gmail.com>
  */
 public class FormGestionaCargo extends javax.swing.JDialog {
-
+    ArrayList<Cargo> listaCargo;
+    Tabla tabla;
+    ModeloTabla modeloTablaCargo;
     /**
      * Creates new form FormGestionaCargo
+     * @param parent
+     * @param modal
      */
     public FormGestionaCargo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setResizable(false);
+        crearTabla();
     }
 
     /**
@@ -66,6 +83,11 @@ public class FormGestionaCargo extends javax.swing.JDialog {
         botonModificar.setFocusable(false);
         botonModificar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         botonModificar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        botonModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonModificarActionPerformed(evt);
+            }
+        });
         jToolBar1.add(botonModificar);
 
         botonEliminar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -88,6 +110,11 @@ public class FormGestionaCargo extends javax.swing.JDialog {
         botonSalir.setFocusable(false);
         botonSalir.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         botonSalir.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        botonSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonSalirActionPerformed(evt);
+            }
+        });
         jToolBar1.add(botonSalir);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -98,6 +125,11 @@ public class FormGestionaCargo extends javax.swing.JDialog {
         botonBuscar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         botonBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/apptiendasoft/c5_recursos/iconos/buscarx20.png"))); // NOI18N
         botonBuscar.setText("Buscar");
+        botonBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonBuscarActionPerformed(evt);
+            }
+        });
 
         tablaCargo.setAutoCreateRowSorter(true);
         tablaCargo.setModel(new javax.swing.table.DefaultTableModel(
@@ -155,6 +187,7 @@ public class FormGestionaCargo extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearActionPerformed
@@ -164,7 +197,63 @@ public class FormGestionaCargo extends javax.swing.JDialog {
 
     private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
         // TODO add your handling code here:
+        int cargoid = obtenerCodigoDeLaTabla();
+        if (cargoid == 0)
+            return;
+        if (!Mensaje.Mostrar_MENSAJE_PREGUNTADEELIMINACION(this))
+            return;
+        GestionarCargoServicio gestionarCargoServicio= new GestionarCargoServicio();
+        try {
+            int registros_afectados = gestionarCargoServicio.eliminar(obtenerCodigoDeLaTabla());
+            if (registros_afectados == 1) {
+                Mensaje.Mostrar_MENSAJE_ELIMINACIONEXITOSA(this);
+                crearTabla();
+                ponerFocoConSeleccionEnBuscar();
+            }else{
+                Mensaje.Mostrar_MENSAJE_ELIMINACIONERRONEA(this);
+            }
+            ponerFocoConSeleccionEnBuscar();
+        } catch (Exception e) {
+        }
     }//GEN-LAST:event_botonEliminarActionPerformed
+
+    private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
+        // TODO add your handling code here:
+        if(!textoBuscar.getText().trim().isEmpty()){
+            consultarTipoDeProducto();
+            ponerFocoConSeleccionEnBuscar();
+        }else{
+            Mensaje.Mostrar_MENSAJE_LLENARCAMPOBUSCAR(this);
+            ponerFocoConSeleccionEnBuscar();
+        }
+    }//GEN-LAST:event_botonBuscarActionPerformed
+
+    private void botonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarActionPerformed
+        // TODO add your handling code here:
+        int cargoid = obtenerCodigoDeLaTabla();
+        if(cargoid == 0)
+            return;
+        GestionarCargoServicio gestionarMarcaServicio = new GestionarCargoServicio();    
+        try {
+            Cargo cargo = gestionarMarcaServicio.buscar(cargoid);
+            if(cargo != null){
+                FormRegistrarCargo formRegistrarCargo = new FormRegistrarCargo(this, cargo);
+                formRegistrarCargo.setVisible(true);
+            }
+            else{
+                Mensaje.Mostrar_MENSAJE_FILANOEXISTE(this);
+            }
+            crearTabla();
+            ponerFocoConSeleccionEnBuscar();
+        } catch(Exception e){
+            //Mensaje.mostrarErrorDeConsulta(this);
+        } 
+    }//GEN-LAST:event_botonModificarActionPerformed
+
+    private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_botonSalirActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -180,4 +269,69 @@ public class FormGestionaCargo extends javax.swing.JDialog {
     private javax.swing.JTable tablaCargo;
     private javax.swing.JTextField textoBuscar;
     // End of variables declaration//GEN-END:variables
+
+    private void crearTabla() {
+        // TODO add your handling code here:
+        tabla = new Tabla();
+        tabla.agregarColumna(new Columna("Codigo", "java.lang.Integer"));
+        tabla.agregarColumna(new Columna("Nombre", "java.lang.String"));
+        tabla.agregarColumna(new Columna("Descripcion", "java.lang.String"));
+        modeloTablaCargo  = new ModeloTabla(tabla);
+        tablaCargo.setModel(modeloTablaCargo);
+        //CODIGO CARGO
+        TableColumn columna0,columna1,columna2;
+        columna0 = tablaCargo.getColumnModel().getColumn(0);
+        columna0.setPreferredWidth(100);
+        columna0.setMaxWidth(100);
+        columna0.setMinWidth(100);
+        //NOMBRE CARGO
+        columna1 = tablaCargo.getColumnModel().getColumn(1);
+        columna1.setPreferredWidth(150);
+        columna1.setMaxWidth(150);
+        columna1.setMinWidth(150);
+        //DESCRIPCION CARGO
+        columna2 = tablaCargo.getColumnModel().getColumn(2);
+        columna2.setPreferredWidth(300);
+        columna2.setMaxWidth(300);
+        columna2.setMinWidth(300);
+        
+        tablaCargo.removeColumn(columna0);
+    }
+    private int obtenerCodigoDeLaTabla() {
+        int numFila = tablaCargo.getSelectedRow();
+        if(numFila == -1){
+            Mensaje.Mostrar_MENSAJE_FILANOSELECCIONADO(this);
+            return 0;
+        }
+        modeloTablaCargo = (ModeloTabla) tablaCargo.getModel();
+        return (Integer)modeloTablaCargo.getValueAt(numFila, 0);
+    }
+
+    private void consultarTipoDeProducto() {
+        crearTabla();
+        String nombre = textoBuscar.getText().trim().toUpperCase();
+        try {
+            GestionarCargoServicio gestionarCargoServicio = new GestionarCargoServicio();
+            listaCargo = gestionarCargoServicio.buscarporNombre(nombre);
+            if(listaCargo!=null && listaCargo.size()>0){
+                for (Cargo cargo : listaCargo) {
+                    Fila fila = new Fila();
+                    fila.agregarValorCelda(cargo.getCodigo());
+                    fila.agregarValorCelda(cargo.getNombre());
+                    fila.agregarValorCelda(cargo.getDescripcion());
+                    tabla.agregarFila(fila);
+                 }
+                tablaCargo.setModel(modeloTablaCargo);
+            }else{
+                Mensaje.Mostrar_MENSAJE_NOSEENCONTRONINGUNRESULTADO(this);
+                ponerFocoConSeleccionEnBuscar();
+            }                
+        } catch (Exception e) {
+        }
+    }
+
+    private void ponerFocoConSeleccionEnBuscar() {
+        textoBuscar.selectAll();
+        textoBuscar.requestFocus();
+    }
 }
