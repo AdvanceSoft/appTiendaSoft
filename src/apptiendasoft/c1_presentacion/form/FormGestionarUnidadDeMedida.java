@@ -5,7 +5,16 @@
  */
 package apptiendasoft.c1_presentacion.form;
 
+import apptiendasoft.c1_presentacion.util.Mensaje;
+import apptiendasoft.c2_aplicacion.servicio.GestionarUnidadDeMedida;
+import apptiendasoft.c3_dominio.entidad.UnidadDeMedida;
 import java.awt.Color;
+import java.util.ArrayList;
+import javax.swing.table.TableColumn;
+import mastersoft.modelo.ModeloTabla;
+import mastersoft.tabladatos.Columna;
+import mastersoft.tabladatos.Fila;
+import mastersoft.tabladatos.Tabla;
 
 /**
  *
@@ -21,8 +30,100 @@ public class FormGestionarUnidadDeMedida extends javax.swing.JDialog {
         super(parent, true);
         initComponents();
         this.getContentPane().setBackground(Color.WHITE);
+        crearTablaUnidadDeMedida();
+    }
+    /**
+     * Metodo para crear nuestro modelo de la tabla unidad de medida
+     */
+    private void crearTablaUnidadDeMedida(){  
+        Tabla tablaUnidadDeMedida = new Tabla();
+        tablaUnidadDeMedida.agregarColumna(new Columna("UNIDADMEDIDAID","java.lang.Integer"));
+        tablaUnidadDeMedida.agregarColumna(new Columna("NOMBRE","java.lang.String"));
+        tablaUnidadDeMedida.agregarColumna(new Columna("DESCRIPCION","java.lang.String"));
+        ModeloTabla modeloTablaUnidadDeMedida = new ModeloTabla(tablaUnidadDeMedida); 
+        tablaUnidadDeMedidas.setModel(modeloTablaUnidadDeMedida);
+        
+        TableColumn columna0,columna1,columna2;
+        columna0= tablaUnidadDeMedidas.getColumnModel().getColumn(0);
+        tablaUnidadDeMedidas.removeColumn(columna0);
+        columna1 = tablaUnidadDeMedidas.getColumnModel().getColumn(0);
+        columna1.setPreferredWidth(80);
+        columna1.setMaxWidth(150);
+        columna1.setMinWidth(50);
+        columna2 = tablaUnidadDeMedidas.getColumnModel().getColumn(1);
+        columna2.setPreferredWidth(360);
+        columna2.setMaxWidth(400);
+        columna2.setMinWidth(100);    
     }
 
+    /**
+     * Metodo para consultar las unidades de medida por descripcion 
+     */
+    private void consultarUnidadesDeMedida(){
+      String descripcion = textoBusquedaMedida.getText();
+      ModeloTabla modeloTablaUnidadDeMedida = (ModeloTabla)tablaUnidadDeMedidas.getModel();
+        try {
+            GestionarUnidadDeMedida gestionarUnidadDeMedida = new GestionarUnidadDeMedida();
+            ArrayList<UnidadDeMedida> listaUnidadDeMedida = (ArrayList)gestionarUnidadDeMedida.buscarUnidadDeMedida(descripcion); 
+            modeloTablaUnidadDeMedida.eliminarTotalFilas();
+            if(listaUnidadDeMedida.size()>0){
+                for(UnidadDeMedida unidadDeMedida : listaUnidadDeMedida){
+                    Fila fila = new Fila();
+                    fila.agregarValorCelda(unidadDeMedida.getCodigoUnidadDeMedida());
+                    fila.agregarValorCelda(unidadDeMedida.getNombreUnidadDeMedida());
+                    fila.agregarValorCelda(unidadDeMedida.getDescripcionUnidadDeMedida());
+                    modeloTablaUnidadDeMedida.agregarFila(fila);
+                }
+                    modeloTablaUnidadDeMedida.refrescarDatos();
+            }else{
+                Mensaje.Mostrar_MENSAJE_NOSEENCONTRONINGUNRESULTADO(this);
+                ponerFocoConSeleccionEnBuscar();
+            }        
+        } catch (Exception e) {
+          Mensaje.mostrarErrorExcepcion(this, e.getMessage());
+        }
+    }
+  
+    private void ponerFocoConSeleccionEnBuscar() {
+        textoBusquedaMedida.selectAll();
+        textoBusquedaMedida.requestFocus();
+    }
+    
+    private UnidadDeMedida obtenerUnidadDeMedidaTabla(){      
+        UnidadDeMedida unidadDeMedida = null;
+        int fila = tablaUnidadDeMedidas.getSelectedRow();
+        GestionarUnidadDeMedida gestionarUnidadDeMedida = new GestionarUnidadDeMedida();
+        if(fila >= 0 ){
+            ModeloTabla modeloTablaUnidadDeMedida = (ModeloTabla)tablaUnidadDeMedidas.getModel();
+            int unidadDeMedidaID = (Integer)modeloTablaUnidadDeMedida.getValueAt(fila, 0);           
+            try{
+                unidadDeMedida= gestionarUnidadDeMedida.buscarUnidadDeMedidaID(unidadDeMedidaID);               
+            }
+            catch(Exception e){
+                 Mensaje.mostrarErrorExcepcion(this,e.getMessage());
+            }       
+        }
+        else
+            Mensaje.Mostrar_MENSAJE_FILANOSELECCIONADO(this);
+        return unidadDeMedida;
+    }
+    
+    private void eliminarUnidadDeMedida(){
+        GestionarUnidadDeMedida gestionarUnidadDeMedida = new GestionarUnidadDeMedida();
+        UnidadDeMedida unidadDeMedida = obtenerUnidadDeMedidaTabla(); 
+        if(unidadDeMedida!=null){
+            if(!Mensaje.Mostrar_MENSAJE_PREGUNTADEELIMINACION(this))
+                return;         
+            try {
+                gestionarUnidadDeMedida.eliminarUnidadDeMedida(unidadDeMedida);
+                consultarUnidadesDeMedida();
+            } catch (Exception e) {
+                Mensaje.mostrarErrorExcepcion(this,e.getMessage());
+                ponerFocoConSeleccionEnBuscar();
+            }
+        }
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -120,11 +221,22 @@ public class FormGestionarUnidadDeMedida extends javax.swing.JDialog {
         jLabel1.setText("Descripción:");
 
         textoBusquedaMedida.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        textoBusquedaMedida.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        textoBusquedaMedida.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                textoBusquedaMedidaKeyTyped(evt);
+            }
+        });
 
         botonBuscar.setBackground(new java.awt.Color(255, 255, 255));
         botonBuscar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         botonBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/apptiendasoft/c5_recursos/iconos/buscarx20.png"))); // NOI18N
         botonBuscar.setText("Buscar");
+        botonBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonBuscarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -156,7 +268,7 @@ public class FormGestionarUnidadDeMedida extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -171,7 +283,7 @@ public class FormGestionarUnidadDeMedida extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -188,13 +300,21 @@ public class FormGestionarUnidadDeMedida extends javax.swing.JDialog {
     }//GEN-LAST:event_botonModificarActionPerformed
 
     private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
-
+        eliminarUnidadDeMedida();
     }//GEN-LAST:event_botonEliminarActionPerformed
 
     private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed
         // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_botonSalirActionPerformed
+
+    private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
+        consultarUnidadesDeMedida();
+    }//GEN-LAST:event_botonBuscarActionPerformed
+
+    private void textoBusquedaMedidaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textoBusquedaMedidaKeyTyped
+        consultarUnidadesDeMedida();
+    }//GEN-LAST:event_textoBusquedaMedidaKeyTyped
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonBuscar;

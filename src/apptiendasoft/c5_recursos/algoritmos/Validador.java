@@ -5,7 +5,7 @@
  */
 package apptiendasoft.c5_recursos.algoritmos;
 
-import apptiendasoft.c6_transversal.exepcion.ExcepcionRegla;
+import apptiendasoft.c6_transversal.exepcion.ExcepcionReglaLogica;
 
 /**
  *
@@ -25,7 +25,7 @@ public class Validador {
              contador++;
         }
         if(contador > APELLIDO_MAX)
-            throw ExcepcionRegla.crearErrorMENSAJE_APELLIDO();
+            throw ExcepcionReglaLogica.crearErrorMENSAJE_APELLIDO();
     }
     public static void validarNombre(String nombre)throws Exception{
         String apellidoArray[] = nombre.split(" ");
@@ -34,11 +34,11 @@ public class Validador {
              contador++;
         }
         if(contador > NOMBRE_MAX)
-            throw ExcepcionRegla.crearErrorMENSAJE_NOMBRE();
+            throw ExcepcionReglaLogica.crearErrorMENSAJE_NOMBRE();
     }
     public static void validarCorreo(String correo)throws Exception{
         if(!correo.contains("@") || !correo.contains("."))
-            throw ExcepcionRegla.crearErrorMENSAJE_CORREO(); 
+            throw ExcepcionReglaLogica.crearErrorMENSAJE_CORREO(); 
     }
     public static void validarRuc(String ruc)throws Exception{
         int contador=0;
@@ -46,7 +46,7 @@ public class Validador {
            contador++;
        } 
           if(contador > NUM_RUC || !ruc.matches("[0-9]*"))
-            throw ExcepcionRegla.crearErrorMENSAJE_RUC();
+            throw ExcepcionReglaLogica.crearErrorMENSAJE_RUC();
     }
     public static void validarNombreUnidadDeMedida(String nombre)throws Exception{
         int contador=0; 
@@ -54,6 +54,6 @@ public class Validador {
             contador++;
         }
         if(contador>NUM_MAX_NOMRE)
-            throw ExcepcionRegla.crearErrorMENSAJE_UNIDADMEDIDAD();
+            throw ExcepcionReglaLogica.crearErrorMENSAJE_UNIDADMEDIDAD();
     }
 }

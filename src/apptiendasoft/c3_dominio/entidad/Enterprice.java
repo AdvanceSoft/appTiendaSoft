@@ -6,7 +6,7 @@
 package apptiendasoft.c3_dominio.entidad;
 
 import apptiendasoft.c5_recursos.algoritmos.Validador;
-import apptiendasoft.c6_transversal.exepcion.ExcepcionRegla;
+import apptiendasoft.c6_transversal.exepcion.ExcepcionReglaNegocio;
 
 
 /**
@@ -39,7 +39,7 @@ public abstract class Enterprice {
 //        return servicio;
 //    }
 //
-//    public void setServicio(String actividad_servicio_rubro)throws ExcepcionRegla{       
+//    public void setServicio(String actividad_servicio_rubro)throws ExcepcionReglaNegocio{       
 //        if(actividad_servicio_rubro != null)
 //            this.servicio = actividad_servicio_rubro.trim().isEmpty() ? "Sin rubro" : actividad_servicio_rubro.trim().toUpperCase();
 //        else

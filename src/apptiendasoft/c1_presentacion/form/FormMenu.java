@@ -908,7 +908,7 @@ public final class FormMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_botonADSalirActionPerformed
 
     private void menuProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuProveedorActionPerformed
-        // TODO add your handling code here:
+       new FormGestionarProveedor(this).setVisible(true);
     }//GEN-LAST:event_menuProveedorActionPerformed
 
     private void salir(){
