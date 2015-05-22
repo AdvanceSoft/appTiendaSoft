@@ -233,9 +233,9 @@ public class FormGestionaCargo extends javax.swing.JDialog {
         int cargoid = obtenerCodigoDeLaTabla();
         if(cargoid == 0)
             return;
-        GestionarCargoServicio gestionarMarcaServicio = new GestionarCargoServicio();    
+        GestionarCargoServicio gestionarCargoServicio = new GestionarCargoServicio();
         try {
-            Cargo cargo = gestionarMarcaServicio.buscar(cargoid);
+            Cargo cargo = gestionarCargoServicio.buscar(cargoid);
             if(cargo != null){
                 FormRegistrarCargo formRegistrarCargo = new FormRegistrarCargo(this, cargo);
                 formRegistrarCargo.setVisible(true);
