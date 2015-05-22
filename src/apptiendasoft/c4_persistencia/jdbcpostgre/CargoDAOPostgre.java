@@ -52,7 +52,7 @@ public class CargoDAOPostgre implements ICargoDAO{
     @Override
     public Cargo buscar(int codigo) throws Exception {
         Cargo cargo = null;
-        String consulta = "select codigocargo, nombrecargo, descripcioncargo from cargo where codigo cargo="+codigo;
+        String consulta = "select codigocargo, nombrecargo, descripcioncargo from cargo where codigocargo="+codigo;
         ResultSet resultado = gestorJDBC.ejecutarConsulta(consulta);
         if(resultado.next()){
             cargo = new Cargo();
