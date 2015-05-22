@@ -14,9 +14,11 @@ import java.util.ArrayList;
 
 /**
  *
- * @author <Valencia Cerna Nelida Janeth advancesoft.trujillo@gmail.com>
+ * @author 
+ * <Valencia Cerna Nelida Janeth advancesoft.trujillo@gmail.com>
  */
 public class GestionarCargoServicio {
+    
     GestorJDBC gestorJDBC;
     ICargoDAO cargoDAO;
     
@@ -46,14 +48,14 @@ public class GestionarCargoServicio {
         return estado;
     }
     
-    public  Cargo buscar(int codigo) throws Exception{
+    public Cargo buscar(int codigo) throws Exception{
         gestorJDBC.abrirConexion();
         Cargo cargo = cargoDAO.buscar(codigo);
         gestorJDBC.cerrarConexion();
         return cargo;
     }
     
-    public  ArrayList<Cargo> buscarporNombre(String nombre) throws Exception{
+    public ArrayList<Cargo> buscarporNombre(String nombre) throws Exception{
         gestorJDBC.abrirConexion();
         ArrayList<Cargo> listaCargo = cargoDAO.buscarPorNombre(nombre);
         gestorJDBC.cerrarConexion();
