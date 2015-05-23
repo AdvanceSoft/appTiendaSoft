@@ -29,7 +29,6 @@ public class FormGestionarUnidadDeMedida extends javax.swing.JDialog {
     public FormGestionarUnidadDeMedida(java.awt.Frame parent) {
         super(parent, true);
         initComponents();
-        this.getContentPane().setBackground(Color.WHITE);
         crearTablaUnidadDeMedida();
     }
     /**
@@ -149,7 +148,6 @@ public class FormGestionarUnidadDeMedida extends javax.swing.JDialog {
         setTitle("Gestionar Unidad De Medida");
         setResizable(false);
 
-        jToolBar1.setBackground(new java.awt.Color(255, 255, 255));
         jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
         jToolBar1.setOpaque(false);
@@ -214,7 +212,6 @@ public class FormGestionarUnidadDeMedida extends javax.swing.JDialog {
         });
         jToolBar1.add(botonSalir);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -292,7 +289,7 @@ public class FormGestionarUnidadDeMedida extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearActionPerformed
-
+      new FormRegistrarUnidadDeMedida(this).setVisible(true);
     }//GEN-LAST:event_botonCrearActionPerformed
 
     private void botonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarActionPerformed

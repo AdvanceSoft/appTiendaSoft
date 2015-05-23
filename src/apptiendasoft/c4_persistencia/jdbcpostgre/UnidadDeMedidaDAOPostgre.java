@@ -53,7 +53,7 @@ public class UnidadDeMedidaDAOPostgre implements IUnidadDeMedidaDAO{
     private UnidadDeMedida crearObjetoUnidadDeMedida(ResultSet resultado) throws SQLException {
         UnidadDeMedida unidadDeMedida = new UnidadDeMedida();
         unidadDeMedida.setCodigoUnidadDeMedida(resultado.getInt("codigounidaddemedida"));
-        unidadDeMedida.setNombreUnidadDeMedidaBD(resultado.getString("nombreunidaddemedida"));
+        unidadDeMedida.setNombreUnidadDeMedida(resultado.getString("nombreunidaddemedida"));
         unidadDeMedida.setDescripcionUnidadDeMedida(resultado.getString("descripcionunidaddemedida"));
         return unidadDeMedida;
     }
@@ -78,7 +78,24 @@ public class UnidadDeMedidaDAOPostgre implements IUnidadDeMedidaDAO{
 
     @Override
     public void ingresar(UnidadDeMedida unidadDeMedida) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       int registrosafectados;
+       PreparedStatement sentencia; 
+       String sentenciaSQL="insert into unidaddemedida(nombreunidaddemedida, descripcionunidaddemedida) values(?,?)";
+        try {
+            sentencia=gestorJDBC.prepararSentencia(sentenciaSQL);
+            asignarParametros(sentencia, unidadDeMedida);
+            registrosafectados= sentencia.executeUpdate(); 
+            sentencia.close();
+            if(registrosafectados == 0){
+                throw ExcepcionSQL.crearErrorInsertar();
+            }
+        } catch (SQLException | ExcepcionSQL e) {
+            throw ExcepcionSQL.crearErrorInsertar();
+        }
+    }
+    private void asignarParametros(PreparedStatement sentencia, UnidadDeMedida unidadDeMedida) throws SQLException {
+        sentencia.setString(1, unidadDeMedida.getNombreUnidadDeMedida());
+        sentencia.setString(2, unidadDeMedida.getDescripcionUnidadDeMedida());
     }
 
     @Override

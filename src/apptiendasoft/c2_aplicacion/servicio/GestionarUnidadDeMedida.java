@@ -31,7 +31,7 @@ public class GestionarUnidadDeMedida {
         gestorJDBC.abrirConexion(); 
             try {            
                 listaUndiadDeMedida = unidadDeMedidaDAO.buscar(descripcion);
-            } catch (Exception e) {
+            }catch (Exception e) {
                 gestorJDBC.cerrarConexion();  
                 throw e;
             }                      
@@ -43,7 +43,7 @@ public class GestionarUnidadDeMedida {
         gestorJDBC.abrirConexion();        
             try {
                 unidadDeMedida = unidadDeMedidaDAO.buscar(unidadDeMedidaID);
-            } catch (Exception e) {
+            }catch (Exception e) {
                 gestorJDBC.cerrarConexion();  
                 throw e;
             }
@@ -52,12 +52,25 @@ public class GestionarUnidadDeMedida {
     }
     public void eliminarUnidadDeMedida(UnidadDeMedida unidadDeMedida)throws Exception{
         gestorJDBC.abrirConexion();
-        try {
-            unidadDeMedidaDAO.eliminar(unidadDeMedida);
-        } catch (Exception e) {
-            gestorJDBC.cerrarConexion();
-            throw e; 
-        }
+            try {
+                unidadDeMedidaDAO.eliminar(unidadDeMedida);
+            }catch (Exception e) {
+                gestorJDBC.cerrarConexion();
+                throw e; 
+            }
+        gestorJDBC.cerrarConexion();
+    }
+    public void guardarUnidadDeMedida(UnidadDeMedida unidadDeMedida) throws Exception{     
+        gestorJDBC.abrirConexion();
+            try {
+                if(unidadDeMedida.getCodigoUnidadDeMedida() == 0) // si es una unidad de medida nueva
+                    unidadDeMedidaDAO.ingresar(unidadDeMedida);
+                else // si es una unidad de medida exixtente 
+                    unidadDeMedidaDAO.modificar(unidadDeMedida);                       
+            }catch (Exception e) {
+                gestorJDBC.cerrarConexion();
+                throw e;
+            }
         gestorJDBC.cerrarConexion();
     }
     

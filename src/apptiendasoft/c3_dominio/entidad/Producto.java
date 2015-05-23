@@ -5,7 +5,7 @@
  */
 package apptiendasoft.c3_dominio.entidad;
 
-import apptiendasoft.c6_transversal.exepcion.ExcepcionReglaNegocio;
+import apptiendasoft.c6_transversal.exepcion.ExcepcionRegla;
 
 /**
  *
@@ -91,8 +91,8 @@ public class Producto {
         this.marca = marca;
     }
     
-    public void verificarPrecio() throws ExcepcionReglaNegocio{
+    public void verificarPrecio() throws ExcepcionRegla{
         if(precio <= 0.0)
-            throw ExcepcionReglaNegocio.crearErrorMENSAJE_PEDIDOINCORRECTO();
+            throw ExcepcionRegla.crearErrorMENSAJE_PEDIDOINCORRECTO();
     }
 }

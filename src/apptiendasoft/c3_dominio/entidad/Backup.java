@@ -5,7 +5,7 @@
  */
 package apptiendasoft.c3_dominio.entidad;
 
-import apptiendasoft.c6_transversal.exepcion.ExcepcionReglaNegocio;
+import apptiendasoft.c6_transversal.exepcion.ExcepcionRegla;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -113,7 +113,7 @@ public class Backup {
         this.archivopostgres = archivopostgres;
     }
     
-    public void realizarBackup() throws ExcepcionReglaNegocio, IOException{
+    public void realizarBackup() throws ExcepcionRegla, IOException{
         LocalDate fecha = LocalDate.now();
         LocalDateTime time = LocalDateTime.now();
         int cadenaHora = time.getHour();
