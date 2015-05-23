@@ -25,10 +25,9 @@ public class PaisDAOPostgre implements IPaisDAO{
     }
     @Override
     public int crear(Pais pais) throws Exception {
-        String consulta="insert into pais(nombrepais,coddepartamento) values(?,?)";
+        String consulta="insert into pais(nombrepais) values(?)";
         PreparedStatement sentencia=gestorJDBC.prepararSentencia(consulta);
         sentencia.setString(1, pais.getNombre());
-        sentencia.setInt(2, pais.getDepartamento().getCodigo());
         return sentencia.executeUpdate();
     }
 
@@ -37,8 +36,7 @@ public class PaisDAOPostgre implements IPaisDAO{
         String consulta="update pais set nombrepais=?,coddepartamento=? where codpais=?";
         PreparedStatement sentencia=gestorJDBC.prepararSentencia(consulta);
         sentencia.setString(1, pais.getNombre());
-        sentencia.setInt(2, pais.getDepartamento().getCodigo());
-        sentencia.setInt(3, pais.getCodigo());
+        sentencia.setInt(2, pais.getCodigo());
         return sentencia.executeUpdate();
     }
 
@@ -64,7 +62,7 @@ public class PaisDAOPostgre implements IPaisDAO{
                 pais = new Pais();
                 pais.setCodigo(resultado.getInt("codpais"));
                 pais.setNombre(resultado.getString("nombrepais"));
-                pais.setDepartamento(departamento);
+//                pais.setDepartamento(departamento);
             }
         return pais;
     }
@@ -88,7 +86,7 @@ public class PaisDAOPostgre implements IPaisDAO{
                 pais = new Pais();
                 pais.setCodigo(resultado.getInt("codpais"));
                 pais.setNombre(resultado.getString("nombrepais"));
-                pais.setDepartamento(departamento);
+//                pais.setDepartamento(departamento);
                 listapais.add(pais);
             }
         return listapais;

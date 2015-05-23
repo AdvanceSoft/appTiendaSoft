@@ -33,7 +33,7 @@ public class DistritoDAOPostgre implements IDistritoDAO{
 
     @Override
     public int modificar(Distrito distrito) throws Exception {
-        String consulta="update distrito set nombredistrito=? where coddistrito=?";
+        String consulta="update distrito set nombredistrito=? where distritoid=?";
         PreparedStatement sentencia=gestorJDBC.prepararSentencia(consulta);
         sentencia.setString(1, distrito.getNombre());
         sentencia.setInt(2, distrito.getCodigo());
@@ -42,14 +42,14 @@ public class DistritoDAOPostgre implements IDistritoDAO{
 
     @Override
     public int eliminar(int codigo) throws Exception {
-        String consulta="delete from distrito where coddistrito="+codigo;
+        String consulta="delete from distrito where distritoid="+codigo;
         PreparedStatement sentencia=gestorJDBC.prepararSentencia(consulta);
         return sentencia.executeUpdate();
     }
     @Override
     public Distrito buscar(int codigo) throws Exception {
         Distrito distrito= null;
-        String consulta="select nombredistrito from distrito where coddistrito="+codigo;
+        String consulta="select distritoid,nombredistrito from distrito where distritoid="+codigo;
         ResultSet resultado=gestorJDBC.ejecutarConsulta(consulta);
             if(resultado.next()){
                 distrito = new Distrito();
@@ -65,7 +65,7 @@ public class DistritoDAOPostgre implements IDistritoDAO{
         }
         Distrito distrito;
         ArrayList<Distrito> listadistrito= new ArrayList<>();
-        String consulta="select coddistrito,nombredistrito from distrito where nombredistrito like '%"+nombre+"%' order by coddistrito";
+        String consulta="select distritoid,nombredistrito from distrito where nombredistrito like '%"+nombre+"%' and provinciaid is null order by distritoid";
         ResultSet resultado= gestorJDBC.ejecutarConsulta(consulta);
             while(resultado.next()){
                 distrito = new Distrito();

@@ -8,6 +8,7 @@ package apptiendasoft.c4_persistencia.jdbcpostgre;
 import apptiendasoft.c3_dominio.contrato.IDepartamentoDAO;
 import apptiendasoft.c3_dominio.entidad.Departamento;
 import apptiendasoft.c3_dominio.entidad.Provincia;
+import apptiendasoft.c4_persistencia.GestorJDBC;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -17,9 +18,9 @@ import java.util.ArrayList;
  * @author sandra
  */
 public class DepartamentoDAOPostgre implements IDepartamentoDAO{
-    GestorJDBCPostgre gestorJDBC;
+    GestorJDBC gestorJDBC;
 
-    public DepartamentoDAOPostgre(GestorJDBCPostgre gestorJDBC) {
+    public DepartamentoDAOPostgre(GestorJDBC gestorJDBC) {
         this.gestorJDBC = gestorJDBC;
     }
 
@@ -28,7 +29,7 @@ public class DepartamentoDAOPostgre implements IDepartamentoDAO{
         String consulta="insert into departamento(nombredepartamento,codprovincia) values(?,?)";
         PreparedStatement sentencia=gestorJDBC.prepararSentencia(consulta);
         sentencia.setString(1, departamento.getNombre());
-        sentencia.setInt(2, departamento.getProvincia().getCodigo());
+//        sentencia.setInt(2, departamento.getProvincia().getCodigo());
         return sentencia.executeUpdate();
     }
 
@@ -37,7 +38,7 @@ public class DepartamentoDAOPostgre implements IDepartamentoDAO{
         String consulta="update departamento set nombredepartamento=?,codprovincia=? where coddepartamento=?";
         PreparedStatement sentencia=gestorJDBC.prepararSentencia(consulta);
         sentencia.setString(1, departamento.getNombre());
-        sentencia.setInt(2, departamento.getProvincia().getCodigo());
+//        sentencia.setInt(2, departamento.getProvincia().getCodigo());
         sentencia.setInt(3, departamento.getCodigo());
         return sentencia.executeUpdate();
     }
@@ -64,7 +65,7 @@ public class DepartamentoDAOPostgre implements IDepartamentoDAO{
                 departamento = new Departamento();
                 departamento.setCodigo(resultado.getInt("coddepartamento"));
                 departamento.setNombre(resultado.getString("nombredepartamento"));
-                departamento.setProvincia(provincia);
+//                departamento.setProvincia(provincia);
             }
         return departamento;
     }
@@ -88,7 +89,7 @@ public class DepartamentoDAOPostgre implements IDepartamentoDAO{
                 departamento = new Departamento();
                 departamento.setCodigo(resultado.getInt("coddepartamento"));
                 departamento.setNombre(resultado.getString("nombredepartamento"));
-                departamento.setProvincia(provincia);
+//                departamento.setProvincia(provincia);
                 listadepartamento.add(departamento);
             }
         return listadepartamento;

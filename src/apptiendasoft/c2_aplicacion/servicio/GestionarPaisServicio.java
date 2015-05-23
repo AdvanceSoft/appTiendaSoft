@@ -8,6 +8,8 @@ package apptiendasoft.c2_aplicacion.servicio;
 import apptiendasoft.c3_dominio.contrato.IPaisDAO;
 import apptiendasoft.c3_dominio.entidad.Pais;
 import apptiendasoft.c4_persistencia.GestorJDBC;
+import apptiendasoft.c4_persistencia.jdbcpostgre.GestorJDBCPostgre;
+import apptiendasoft.c4_persistencia.jdbcpostgre.PaisDAOPostgre;
 import java.util.ArrayList;
 
 /**
@@ -19,8 +21,8 @@ public class GestionarPaisServicio {
     IPaisDAO paisDAO;
 
     public GestionarPaisServicio() {
-        this.gestorJDBC = gestorJDBC;
-        this.paisDAO = paisDAO;
+        this.gestorJDBC = new GestorJDBCPostgre();
+        this.paisDAO = new PaisDAOPostgre(gestorJDBC);
     }
     public int crear(Pais pais)throws Exception{
         gestorJDBC.abrirConexion();
