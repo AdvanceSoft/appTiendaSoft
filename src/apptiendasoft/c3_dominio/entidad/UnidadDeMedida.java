@@ -5,7 +5,7 @@
  */
 package apptiendasoft.c3_dominio.entidad;
 
-
+import apptiendasoft.c3_dominio.algoritmo.Validador;
 
 /**
  *
@@ -33,16 +33,33 @@ public class UnidadDeMedida {
         return nombreUnidadDeMedida;
     }
 
-    public void setNombreUnidadDeMedida(String nombreUnidadDeMedida){
+    public void setNombreUnidadDeMedida(String nombreUnidadDeMedida)throws Exception{
+         if(nombreUnidadDeMedida!=null){         
+                if(!nombreUnidadDeMedida.trim().isEmpty()){
+                    Validador.validarNombreUnidadDeMedida(nombreUnidadDeMedida);          
+                    this.nombreUnidadDeMedida = nombreUnidadDeMedida.trim().toUpperCase();
+                }else
+                    this.nombreUnidadDeMedida= "Sin nombre";                  
+         }else
+            this.nombreUnidadDeMedida = "Sin nombre";  
+    }
+    /**
+     * Metodo para modificar el objeto de la base de datos
+     * @param nombreUnidadDeMedida 
+     */
+    public void setNombreUnidadDeMedidaBD(String nombreUnidadDeMedida){
         this.nombreUnidadDeMedida=nombreUnidadDeMedida;
     }
-   
+
     public String getDescripcionUnidadDeMedida() {
         return descripcionUnidadDeMedida;
     }
 
     public void setDescripcionUnidadDeMedida(String descripcionUnidadDeMedida) {
-      this.descripcionUnidadDeMedida= descripcionUnidadDeMedida;
+       if(descripcionUnidadDeMedida!=null)
+           this.descripcionUnidadDeMedida = descripcionUnidadDeMedida.trim().isEmpty() ? "Sin descripción" : descripcionUnidadDeMedida.trim().toUpperCase();
+       else
+           this.descripcionUnidadDeMedida= "Sin descripción";
     }
     
     

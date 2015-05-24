@@ -8,8 +8,8 @@ package apptiendasoft.c1_presentacion.form;
 import apptiendasoft.c1_presentacion.util.Mensaje;
 import apptiendasoft.c2_aplicacion.servicio.GestionarUnidadDeMedida;
 import apptiendasoft.c3_dominio.entidad.UnidadDeMedida;
-import java.awt.Color;
 import java.util.ArrayList;
+import javax.swing.JDialog;
 import javax.swing.table.TableColumn;
 import mastersoft.modelo.ModeloTabla;
 import mastersoft.tabladatos.Columna;
@@ -26,9 +26,11 @@ public class FormGestionarUnidadDeMedida extends javax.swing.JDialog {
     /**
      * Creates new form FormGestionarUnidadDeMedida
      */
+    
+    
     public FormGestionarUnidadDeMedida(java.awt.Frame parent) {
         super(parent, true);
-        initComponents();
+        initComponents();      
         crearTablaUnidadDeMedida();
     }
     /**
@@ -37,7 +39,7 @@ public class FormGestionarUnidadDeMedida extends javax.swing.JDialog {
     private void crearTablaUnidadDeMedida(){  
         Tabla tablaUnidadDeMedida = new Tabla();
         tablaUnidadDeMedida.agregarColumna(new Columna("UNIDADMEDIDAID","java.lang.Integer"));
-        tablaUnidadDeMedida.agregarColumna(new Columna("NOMBRE","java.lang.String"));
+        tablaUnidadDeMedida.agregarColumna(new Columna("ABREVIATURA","java.lang.String"));
         tablaUnidadDeMedida.agregarColumna(new Columna("DESCRIPCION","java.lang.String"));
         ModeloTabla modeloTablaUnidadDeMedida = new ModeloTabla(tablaUnidadDeMedida); 
         tablaUnidadDeMedidas.setModel(modeloTablaUnidadDeMedida);
@@ -46,7 +48,7 @@ public class FormGestionarUnidadDeMedida extends javax.swing.JDialog {
         columna0= tablaUnidadDeMedidas.getColumnModel().getColumn(0);
         tablaUnidadDeMedidas.removeColumn(columna0);
         columna1 = tablaUnidadDeMedidas.getColumnModel().getColumn(0);
-        columna1.setPreferredWidth(80);
+        columna1.setPreferredWidth(100);
         columna1.setMaxWidth(150);
         columna1.setMinWidth(50);
         columna2 = tablaUnidadDeMedidas.getColumnModel().getColumn(1);
@@ -58,7 +60,7 @@ public class FormGestionarUnidadDeMedida extends javax.swing.JDialog {
     /**
      * Metodo para consultar las unidades de medida por descripcion 
      */
-    private void consultarUnidadesDeMedida(){
+    private  void consultarUnidadesDeMedida(){
       String descripcion = textoBusquedaMedida.getText();
       ModeloTabla modeloTablaUnidadDeMedida = (ModeloTabla)tablaUnidadDeMedidas.getModel();
         try {
@@ -87,7 +89,7 @@ public class FormGestionarUnidadDeMedida extends javax.swing.JDialog {
         textoBusquedaMedida.selectAll();
         textoBusquedaMedida.requestFocus();
     }
-    
+  
     private UnidadDeMedida obtenerUnidadDeMedidaTabla(){      
         UnidadDeMedida unidadDeMedida = null;
         int fila = tablaUnidadDeMedidas.getSelectedRow();
@@ -120,9 +122,18 @@ public class FormGestionarUnidadDeMedida extends javax.swing.JDialog {
                 Mensaje.mostrarErrorExcepcion(this,e.getMessage());
                 ponerFocoConSeleccionEnBuscar();
             }
-        }
-        
+        }        
     }
+    private void actualizarUnidadDeMedida(){
+        GestionarUnidadDeMedida gestionarUnidadDeMedida = new GestionarUnidadDeMedida();
+         UnidadDeMedida unidadDeMedida = obtenerUnidadDeMedidaTabla(); 
+         if(unidadDeMedida!=null){
+             FormRegistrarUnidadDeMedida registrarUnidadDeMedida = new FormRegistrarUnidadDeMedida(this, unidadDeMedida);
+             registrarUnidadDeMedida.setVisible(true);
+             consultarUnidadesDeMedida();
+         }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -132,6 +143,9 @@ public class FormGestionarUnidadDeMedida extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        modificar = new javax.swing.JMenuItem();
+        eliminar = new javax.swing.JMenuItem();
         jToolBar1 = new javax.swing.JToolBar();
         botonCrear = new javax.swing.JButton();
         botonModificar = new javax.swing.JButton();
@@ -144,13 +158,29 @@ public class FormGestionarUnidadDeMedida extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaUnidadDeMedidas = new javax.swing.JTable();
 
+        modificar.setText("Modificar");
+        modificar.setToolTipText("");
+        modificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modificarActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(modificar);
+
+        eliminar.setText("Eliminar");
+        eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eliminarActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(eliminar);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gestionar Unidad De Medida");
         setResizable(false);
 
         jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
-        jToolBar1.setOpaque(false);
 
         botonCrear.setBackground(new java.awt.Color(255, 255, 255));
         botonCrear.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -203,7 +233,10 @@ public class FormGestionarUnidadDeMedida extends javax.swing.JDialog {
         botonSalir.setText("Salir");
         botonSalir.setFocusable(false);
         botonSalir.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        botonSalir.setMaximumSize(new java.awt.Dimension(47, 57));
+        botonSalir.setMinimumSize(new java.awt.Dimension(47, 57));
         botonSalir.setOpaque(false);
+        botonSalir.setPreferredSize(new java.awt.Dimension(47, 57));
         botonSalir.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         botonSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -259,13 +292,14 @@ public class FormGestionarUnidadDeMedida extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        tablaUnidadDeMedidas.setComponentPopupMenu(jPopupMenu1);
         jScrollPane1.setViewportView(tablaUnidadDeMedidas);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -276,11 +310,11 @@ public class FormGestionarUnidadDeMedida extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -290,10 +324,11 @@ public class FormGestionarUnidadDeMedida extends javax.swing.JDialog {
 
     private void botonCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearActionPerformed
       new FormRegistrarUnidadDeMedida(this).setVisible(true);
+      consultarUnidadesDeMedida();
     }//GEN-LAST:event_botonCrearActionPerformed
 
     private void botonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarActionPerformed
-
+      actualizarUnidadDeMedida();
     }//GEN-LAST:event_botonModificarActionPerformed
 
     private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
@@ -313,16 +348,27 @@ public class FormGestionarUnidadDeMedida extends javax.swing.JDialog {
         consultarUnidadesDeMedida();
     }//GEN-LAST:event_textoBusquedaMedidaKeyTyped
 
+    private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
+        actualizarUnidadDeMedida();
+    }//GEN-LAST:event_modificarActionPerformed
+
+    private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
+        eliminarUnidadDeMedida();
+    }//GEN-LAST:event_eliminarActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonBuscar;
     private javax.swing.JButton botonCrear;
     private javax.swing.JButton botonEliminar;
     private javax.swing.JButton botonModificar;
     private javax.swing.JButton botonSalir;
+    private javax.swing.JMenuItem eliminar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JMenuItem modificar;
     private javax.swing.JTable tablaUnidadDeMedidas;
     private javax.swing.JTextField textoBusquedaMedida;
     // End of variables declaration//GEN-END:variables

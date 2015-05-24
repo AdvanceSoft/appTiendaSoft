@@ -53,7 +53,7 @@ public class UnidadDeMedidaDAOPostgre implements IUnidadDeMedidaDAO{
     private UnidadDeMedida crearObjetoUnidadDeMedida(ResultSet resultado) throws SQLException {
         UnidadDeMedida unidadDeMedida = new UnidadDeMedida();
         unidadDeMedida.setCodigoUnidadDeMedida(resultado.getInt("codigounidaddemedida"));
-        unidadDeMedida.setNombreUnidadDeMedida(resultado.getString("nombreunidaddemedida"));
+        unidadDeMedida.setNombreUnidadDeMedidaBD(resultado.getString("nombreunidaddemedida"));
         unidadDeMedida.setDescripcionUnidadDeMedida(resultado.getString("descripcionunidaddemedida"));
         return unidadDeMedida;
     }
@@ -100,7 +100,21 @@ public class UnidadDeMedidaDAOPostgre implements IUnidadDeMedidaDAO{
 
     @Override
     public void modificar(UnidadDeMedida unidadDeMedida) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int registrosafectados; 
+        PreparedStatement sentencia;
+        String sentenciaSQL ="update unidaddemedida set nombreunidaddemedida= ?, descripcionunidaddemedida=? where codigounidaddemedida= ?";
+        try {
+            sentencia=gestorJDBC.prepararSentencia(sentenciaSQL);
+            asignarParametros(sentencia, unidadDeMedida);
+            sentencia.setInt(3, unidadDeMedida.getCodigoUnidadDeMedida());
+            registrosafectados= sentencia.executeUpdate(); 
+            sentencia.close();
+            if(registrosafectados == 0){
+                throw ExcepcionSQL.crearErrorModificar();
+            }            
+        } catch (SQLException | ExcepcionSQL e) {
+           throw ExcepcionSQL.crearErrorModificar();
+        }
     }
 
     @Override

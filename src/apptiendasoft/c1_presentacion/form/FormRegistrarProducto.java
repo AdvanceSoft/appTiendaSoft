@@ -97,7 +97,7 @@ public class FormRegistrarProducto extends javax.swing.JDialog {
     private void LlenarComboMarca(){
         try{
             GestionarMarcaServicio gestionarMarcaServicio = new GestionarMarcaServicio();
-            listaMarca = new ArrayList<>();
+            listaMarca = new ArrayList();
             listaMarca = gestionarMarcaServicio.buscarPorNombre(null);
             comboMarca.removeAllItems();
             for (Marca marcas : listaMarca) {
