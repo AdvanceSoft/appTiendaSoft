@@ -44,6 +44,9 @@ public class Provincia {
         verificarExistencia(distrito);
         listadistrito.add(distrito);
     }
+    public void agregardistrito(Distrito distrito){
+        listadistrito.add(distrito);
+    }
     public int cantidadDistritos(){
         return listadistrito.size();
     }

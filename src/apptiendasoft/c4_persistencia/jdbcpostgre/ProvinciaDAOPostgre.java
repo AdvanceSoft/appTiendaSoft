@@ -119,16 +119,16 @@ public class ProvinciaDAOPostgre implements IProvinciaDAO{
         ResultSet resultado=gestorJDBC.ejecutarConsulta(consulta);
             if(resultado.next()){
                 provincia = new Provincia();
-                provincia.setCodigo(resultado.getInt("idprovincia"));
+                provincia.setCodigo(resultado.getInt("provinciaid"));
                 provincia.setNombre(resultado.getString("nombreprovincia"));
             }
-            ResultSet resultado1=gestorJDBC.ejecutarConsulta(consulta);
-            while(resultado1.next()){
+            while(resultado.next()){
                 distrito = new Distrito();
-                distrito.setCodigo(resultado.getInt("iddistrito"));
+                distrito.setCodigo(resultado.getInt("distritoid"));
                 distrito.setNombre(resultado.getString("nombredistrito"));
-               provincia.agregarDistrito(distrito);
+                provincia.agregardistrito(distrito);
             }
+               // provincia.set(distrito)
         return provincia;
     }
 
