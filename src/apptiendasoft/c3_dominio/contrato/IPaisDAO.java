@@ -13,8 +13,8 @@ import java.util.ArrayList;
  * @author sandra
  */
 public interface IPaisDAO {
-    public int crear(Pais pais)throws Exception;
-    public int modificar(Pais pais) throws Exception;
+    public void crear(Pais pais)throws Exception;
+    public void modificar(Pais pais) throws Exception;
     public int eliminar(int codigo)throws Exception;
     public Pais buscar(int codigo)throws Exception;
     public ArrayList<Pais> buscarPorNombre(String nombre)throws Exception;

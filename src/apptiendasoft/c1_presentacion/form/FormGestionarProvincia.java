@@ -54,8 +54,8 @@ public class FormGestionarProvincia extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gestionar Provincia");
-        setAlwaysOnTop(true);
 
+        jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
 
         botonCrear.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -189,6 +189,7 @@ public class FormGestionarProvincia extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearActionPerformed

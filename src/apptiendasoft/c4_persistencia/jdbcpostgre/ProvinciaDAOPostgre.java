@@ -104,7 +104,7 @@ public class ProvinciaDAOPostgre implements IProvinciaDAO{
 
     @Override
     public int eliminar(int codigo) throws Exception {
-        String consulta="delete from provincia where codprovincia="+codigo;
+        String consulta="delete from provincia where provinciaid="+codigo;
         PreparedStatement sentencia=gestorJDBC.prepararSentencia(consulta);
         return sentencia.executeUpdate();
     }
@@ -113,18 +113,21 @@ public class ProvinciaDAOPostgre implements IProvinciaDAO{
     public Provincia buscar(int codigo) throws Exception {
         Provincia provincia=null;
         Distrito distrito;
-        String consulta="select p.codprovincia,p.nombreprovincia,d.coddistrito,d.nombredistrito from provincia p "
-                + "inner join distrito d on(p.coddistrito=d.coddistrito)"
-                + "where p.codprovincia="+codigo;
+        String consulta="select p.provinciaid,p.nombreprovincia,d.distritoid,d.nombredistrito from provincia p "
+                + "inner join distrito d on(p.provinciaid=d.provinciaid)"
+                + "where p.provinciaid="+codigo;
         ResultSet resultado=gestorJDBC.ejecutarConsulta(consulta);
             if(resultado.next()){
-                distrito = new Distrito();
-                distrito.setCodigo(resultado.getInt("coddistrito"));
-                distrito.setNombre(resultado.getString("nombredistrito"));
                 provincia = new Provincia();
-                provincia.setCodigo(resultado.getInt("codprovincia"));
+                provincia.setCodigo(resultado.getInt("idprovincia"));
                 provincia.setNombre(resultado.getString("nombreprovincia"));
-//                provincia.setDistrito(distrito);
+            }
+            ResultSet resultado1=gestorJDBC.ejecutarConsulta(consulta);
+            while(resultado1.next()){
+                distrito = new Distrito();
+                distrito.setCodigo(resultado.getInt("iddistrito"));
+                distrito.setNombre(resultado.getString("nombredistrito"));
+               provincia.agregarDistrito(distrito);
             }
         return provincia;
     }
@@ -135,20 +138,13 @@ public class ProvinciaDAOPostgre implements IProvinciaDAO{
             nombre="";
         }
         Provincia provincia;
-        Distrito distrito;
-        ArrayList<Provincia> listaprovincia= new ArrayList<>();
-        String consulta="select p.codprovincia,p.nombreprovincia,d.coddistrito,d.nombredistrito from provincia p "
-                + "inner join distrito d on(p.coddistrito=d.coddistrito)"
-                + "where p.nombreprovincia like '%"+nombre+"%'";
+        ArrayList<Provincia> listaprovincia= new ArrayList();
+        String consulta="select provinciaid,nombreprovincia from provincia where nombreprovincia like '%"+nombre+"%' and departamentoid is null order by provinciaid";
         ResultSet resultado=gestorJDBC.ejecutarConsulta(consulta);
             while(resultado.next()){
-                distrito = new Distrito();
-                distrito.setCodigo(resultado.getInt("coddistrito"));
-                distrito.setNombre(resultado.getString("nombredistrito"));
                 provincia = new Provincia();
-                provincia.setCodigo(resultado.getInt("codprovincia"));
+                provincia.setCodigo(resultado.getInt("provinciaid"));
                 provincia.setNombre(resultado.getString("nombreprovincia"));
-//                provincia.setDistrito(distrito);
                 listaprovincia.add(provincia);
             }
         return listaprovincia;

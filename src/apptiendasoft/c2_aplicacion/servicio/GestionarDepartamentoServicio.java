@@ -24,17 +24,15 @@ public class GestionarDepartamentoServicio {
         this.gestorJDBC = new GestorJDBCPostgre();
         this.departamentoDAO = new DepartamentoDAOPostgre(gestorJDBC);
     }
-    public int crear(Departamento departamento)throws Exception{
+    public void crear(Departamento departamento)throws Exception{
         gestorJDBC.abrirConexion();
-        int estado=departamentoDAO.crear(departamento);
+        departamentoDAO.crear(departamento);
         gestorJDBC.cerrarConexion();
-        return estado;
     }
-    public int modificar(Departamento departamento)throws Exception{
+    public void modificar(Departamento departamento)throws Exception{
         gestorJDBC.abrirConexion();
-        int estado = departamentoDAO.modificar(departamento);
+        departamentoDAO.modificar(departamento);
         gestorJDBC.cerrarConexion();
-        return estado;
     }
     public int eliminar(int codigo)throws Exception{
         gestorJDBC.abrirConexion();

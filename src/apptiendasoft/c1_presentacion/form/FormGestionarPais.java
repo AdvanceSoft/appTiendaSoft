@@ -6,8 +6,8 @@
 package apptiendasoft.c1_presentacion.form;
 
 import apptiendasoft.c1_presentacion.util.Mensaje;
-import apptiendasoft.c2_aplicacion.servicio.GestionarDistritoServicio;
-import apptiendasoft.c3_dominio.entidad.Distrito;
+import apptiendasoft.c2_aplicacion.servicio.GestionarPaisServicio;
+import apptiendasoft.c3_dominio.entidad.Pais;
 import java.util.ArrayList;
 import javax.swing.table.TableColumn;
 import mastersoft.modelo.ModeloTabla;
@@ -17,14 +17,14 @@ import mastersoft.tabladatos.Tabla;
 
 /**
  *
- * @author sandra
+ * @author LENOVO
  */
-public class FormGestionarDistrito extends javax.swing.JDialog {
+public class FormGestionarPais extends javax.swing.JDialog {
 
-    ArrayList<Distrito> listaDistrito;
+    ArrayList<Pais> listaPais;
     Tabla tabla;
-    ModeloTabla modeloTablaDistrito;
-    public FormGestionarDistrito(java.awt.Frame parent, boolean modal) {
+    ModeloTabla modeloTablaDistritoAsignado;
+    public FormGestionarPais(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         crearTabla();
@@ -44,16 +44,14 @@ public class FormGestionarDistrito extends javax.swing.JDialog {
         botonModificar = new javax.swing.JButton();
         botonEliminar = new javax.swing.JButton();
         botonSalir = new javax.swing.JButton();
-        panelcontenedor = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        textoBuscar = new javax.swing.JTextField();
+        textoNombre = new javax.swing.JTextField();
         botonBuscar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tablaDistrito = new javax.swing.JTable();
+        tablapais = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Gestionar Distrito");
-        setAlwaysOnTop(true);
         setResizable(false);
 
         jToolBar1.setFloatable(false);
@@ -114,59 +112,60 @@ public class FormGestionarDistrito extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Nombre:");
 
-        textoBuscar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        textoBuscar.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        textoNombre.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
         botonBuscar.setBackground(new java.awt.Color(255, 255, 255));
         botonBuscar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         botonBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/apptiendasoft/c5_recursos/iconos/buscarx20.png"))); // NOI18N
         botonBuscar.setText("Buscar");
-        botonBuscar.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         botonBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonBuscarActionPerformed(evt);
             }
         });
 
-        tablaDistrito.setAutoCreateRowSorter(true);
-        tablaDistrito.setModel(new javax.swing.table.DefaultTableModel(
+        tablapais.setAutoCreateRowSorter(true);
+        tablapais.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
 
             }
         ));
-        jScrollPane1.setViewportView(tablaDistrito);
+        jScrollPane1.setViewportView(tablapais);
 
-        javax.swing.GroupLayout panelcontenedorLayout = new javax.swing.GroupLayout(panelcontenedor);
-        panelcontenedor.setLayout(panelcontenedorLayout);
-        panelcontenedorLayout.setHorizontalGroup(
-            panelcontenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelcontenedorLayout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelcontenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelcontenedorLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(textoBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(botonBuscar)
-                        .addGap(0, 2, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(textoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(botonBuscar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-        panelcontenedorLayout.setVerticalGroup(
-            panelcontenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelcontenedorLayout.createSequentialGroup()
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelcontenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(textoBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonBuscar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -174,50 +173,63 @@ public class FormGestionarDistrito extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(panelcontenedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jToolBar1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelcontenedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
-        if(!textoBuscar.getText().trim().isEmpty()){
-            consultarDistrito();
-            ponerFocoConSeleccionEnBuscar();
-        }else{
-            Mensaje.Mostrar_MENSAJE_LLENARCAMPOBUSCAR(this);
-            ponerFocoConSeleccionEnBuscar();
-        }
-    }//GEN-LAST:event_botonBuscarActionPerformed
-
-    private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed
+    private void botonCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearActionPerformed
         // TODO add your handling code here:
-        this.dispose();
-    }//GEN-LAST:event_botonSalirActionPerformed
+        FormRegistrarPais formRegistrarPais = new FormRegistrarPais(this);
+        formRegistrarPais.setVisible(true);
+    }//GEN-LAST:event_botonCrearActionPerformed
+
+    private void botonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarActionPerformed
+        // TODO add your handling code here:
+        int paisid = obtenerCodigoDeLaTabla();
+        if(paisid == 0)
+        return;
+        GestionarPaisServicio gestionarPaisServicio = new GestionarPaisServicio();
+        try {
+            Pais pais = gestionarPaisServicio.buscar(paisid);
+            if(pais != null){
+                FormRegistrarPais formRegistrarPais = new FormRegistrarPais(this, pais);
+                formRegistrarPais.setVisible(true);
+            }
+            else{
+                Mensaje.Mostrar_MENSAJE_FILANOEXISTE(this);
+            }
+            crearTabla();
+            ponerFocoConSeleccionEnBuscar();
+        } catch(Exception e){
+            Mensaje.Mostrar_MENSAJE_ELIMINACIONERRONEA(this);
+        }
+    }//GEN-LAST:event_botonModificarActionPerformed
 
     private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
         // TODO add your handling code here:
-        int distritoid = obtenerCodigoDeLaTabla();
-        if(distritoid == 0)
+        int paisid = obtenerCodigoDeLaTabla();
+        if(paisid == 0)
         return;
         if(!Mensaje.Mostrar_MENSAJE_PREGUNTADEELIMINACION(this))
         return;
-        GestionarDistritoServicio gestionarDistritoServicio = new GestionarDistritoServicio();
+        GestionarPaisServicio gestionarPaisServicio = new GestionarPaisServicio();
         try {
-            int registros_afectados = gestionarDistritoServicio.eliminar(obtenerCodigoDeLaTabla());
+            int registros_afectados = gestionarPaisServicio.eliminar(obtenerCodigoDeLaTabla());
             if(registros_afectados == 1){
                 Mensaje.Mostrar_MENSAJE_ELIMINACIONEXITOSA(this);
                 crearTabla();
@@ -231,48 +243,36 @@ public class FormGestionarDistrito extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_botonEliminarActionPerformed
 
-    private void botonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarActionPerformed
+    private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed
         // TODO add your handling code here:
-        int distritoid = obtenerCodigoDeLaTabla();
-        if(distritoid == 0)
-            return;
-        GestionarDistritoServicio gestionarDistritoServicio = new GestionarDistritoServicio();
-        try {
-            Distrito distrito = gestionarDistritoServicio.buscar(distritoid);
-            if(distrito != null){
-                FormRegistrarDistrito formRegistrarDistrito = new FormRegistrarDistrito(this, distrito);
-                formRegistrarDistrito.setVisible(true);
-            }
-            else{
-                Mensaje.Mostrar_MENSAJE_FILANOEXISTE(this);
-            }
-            crearTabla();
+        this.dispose();
+    }//GEN-LAST:event_botonSalirActionPerformed
+
+    private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
+        // TODO add your handling code here:
+        if(!textoNombre.getText().trim().isEmpty()){
+            consultarPais();
             ponerFocoConSeleccionEnBuscar();
-        } catch(Exception e){
-            Mensaje.Mostrar_MENSAJE_ELIMINACIONERRONEA(this);
+        }else{
+            Mensaje.Mostrar_MENSAJE_LLENARCAMPOBUSCAR(this);
+            ponerFocoConSeleccionEnBuscar();
         }
-    }//GEN-LAST:event_botonModificarActionPerformed
+    }//GEN-LAST:event_botonBuscarActionPerformed
 
-    private void botonCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearActionPerformed
-        // TODO add your handling code here:
-        FormRegistrarDistrito formRegistrarDistrito = new FormRegistrarDistrito(this);
-        formRegistrarDistrito.setVisible(true);
-    }//GEN-LAST:event_botonCrearActionPerformed
-
-    private void consultarDistrito() {
+    private void consultarPais() {
         crearTabla();
-        String nombre = textoBuscar.getText().trim().toUpperCase();
+        String nombre = textoNombre.getText().trim().toUpperCase();
         try {
-            GestionarDistritoServicio gestionarDistritoServicio = new GestionarDistritoServicio();
-            listaDistrito = gestionarDistritoServicio.buscarPorNombre(nombre);
-            if(listaDistrito!=null && listaDistrito.size()>0){
-                for(Distrito distrito : listaDistrito){
+            GestionarPaisServicio gestionarPaisServicio = new GestionarPaisServicio();
+            listaPais = gestionarPaisServicio.buscarPorNombre(nombre);
+            if(listaPais!=null && listaPais.size()>0){
+                for(Pais pais : listaPais){
                     Fila fila = new Fila();
-                    fila.agregarValorCelda(distrito.getCodigo());
-                    fila.agregarValorCelda(distrito.getNombre());
+                    fila.agregarValorCelda(pais.getCodigo());
+                    fila.agregarValorCelda(pais.getNombre());
                     tabla.agregarFila(fila);
                 }         
-                tablaDistrito.setModel(modeloTablaDistrito);
+                tablapais.setModel(modeloTablaDistritoAsignado);
             }else{
                 Mensaje.Mostrar_MENSAJE_NOSEENCONTRONINGUNRESULTADO(this);
                 ponerFocoConSeleccionEnBuscar();
@@ -282,41 +282,43 @@ public class FormGestionarDistrito extends javax.swing.JDialog {
         }
     }
     private void ponerFocoConSeleccionEnBuscar() {
-        textoBuscar.selectAll();
-        textoBuscar.requestFocus();
+        textoNombre.selectAll();
+        textoNombre.requestFocus();
     }
     private void crearTabla() {
         // TODO add your handling code here:
         tabla = new Tabla();
         tabla.agregarColumna(new Columna("Codigo", "java.lang.Integer"));
         tabla.agregarColumna(new Columna("Nombre", "java.lang.String"));
-        modeloTablaDistrito  = new ModeloTabla(tabla);
-        tablaDistrito.setModel(modeloTablaDistrito);
+        modeloTablaDistritoAsignado  = new ModeloTabla(tabla);
+        tablapais.setModel(modeloTablaDistritoAsignado);
         //CODIGO
         TableColumn columna0,columna1;
-        columna0 = tablaDistrito.getColumnModel().getColumn(0);
+        columna0 = tablapais.getColumnModel().getColumn(0);
         columna0.setPreferredWidth(100);
         columna0.setMaxWidth(100);
         columna0.setMinWidth(100);
         //NOMBRE
-        columna1 = tablaDistrito.getColumnModel().getColumn(1);
+        columna1 = tablapais.getColumnModel().getColumn(1);
         columna1.setPreferredWidth(250);
         columna1.setMaxWidth(250);
         columna1.setMinWidth(250);
         
-        tablaDistrito.removeColumn(columna0);
+        tablapais.removeColumn(columna0);
     }
-    
     private int obtenerCodigoDeLaTabla() {
-        int numFila = tablaDistrito.getSelectedRow();
+        int numFila = tablapais.getSelectedRow();
         if(numFila == -1){
             Mensaje.Mostrar_MENSAJE_FILANOSELECCIONADO(this);
             return 0;
         }
-        modeloTablaDistrito = (ModeloTabla) tablaDistrito.getModel();
-        return (Integer)modeloTablaDistrito.getValueAt(numFila, 0); // se retorna el id de la fila seleccionada
+        modeloTablaDistritoAsignado = (ModeloTabla) tablapais.getModel();
+        return (Integer)modeloTablaDistritoAsignado.getValueAt(numFila, 0); // se retorna el id de la fila seleccionada
     }
-
+    /**
+     * @param args the command line arguments
+     */
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonBuscar;
@@ -325,10 +327,10 @@ public class FormGestionarDistrito extends javax.swing.JDialog {
     private javax.swing.JButton botonModificar;
     private javax.swing.JButton botonSalir;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar jToolBar1;
-    private javax.swing.JPanel panelcontenedor;
-    private javax.swing.JTable tablaDistrito;
-    private javax.swing.JTextField textoBuscar;
+    private javax.swing.JTable tablapais;
+    private javax.swing.JTextField textoNombre;
     // End of variables declaration//GEN-END:variables
 }

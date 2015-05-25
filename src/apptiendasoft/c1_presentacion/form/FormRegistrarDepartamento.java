@@ -6,9 +6,9 @@
 package apptiendasoft.c1_presentacion.form;
 
 import apptiendasoft.c1_presentacion.util.Mensaje;
-import apptiendasoft.c2_aplicacion.servicio.GestionarDistritoServicio;
+import apptiendasoft.c2_aplicacion.servicio.GestionarDepartamentoServicio;
 import apptiendasoft.c2_aplicacion.servicio.GestionarProvinciaServicio;
-import apptiendasoft.c3_dominio.entidad.Distrito;
+import apptiendasoft.c3_dominio.entidad.Departamento;
 import apptiendasoft.c3_dominio.entidad.Provincia;
 import java.util.ArrayList;
 import javax.swing.JDialog;
@@ -21,43 +21,38 @@ import mastersoft.tabladatos.Tabla;
 
 /**
  *
- * @author
- * <AdvanceSoft - Medrano Parado Sandra Zoraida - advancesoft.trujillo@gmail.com>
+ * @author LENOVO
  */
-public class FormRegistrarProvincia extends javax.swing.JDialog {
+public class FormRegistrarDepartamento extends javax.swing.JDialog {
 
-    /**
-     * Creates new form FormRegistrarProvincia
-     */
-    ArrayList<Distrito> listaDistrito;
+    ArrayList<Provincia> listaProvincia;
     Tabla tabla;
-    ModeloTabla modeloTablaDistrito;
+    ModeloTabla modeloTablaProvincia;
     ModeloTabla modeloTablaAsignado;
-    Provincia provincia;
+    Departamento departamento;
     private final int ACCION_CREAR = 1;
     private final int ACCION_MODIFICAR = 2;
     private int tipo_accion = 0;
-    public FormRegistrarProvincia(JDialog owner) {
+    public FormRegistrarDepartamento(JDialog owner) {
         super(owner, true);
         initComponents();
         setResizable(false);
         tipo_accion = ACCION_CREAR;
-        this.provincia = new Provincia();
+        this.departamento = new Departamento();
         crearTabla();
         crearTablaAsignados();
     }
-    public FormRegistrarProvincia(JDialog owner, Provincia provincia) {
+    public FormRegistrarDepartamento(JDialog owner, Departamento departamento) {
         super(owner, true);
         initComponents();
         setResizable(false);
         tipo_accion = ACCION_MODIFICAR;
-        obtenerObjetoDeGestionar(provincia);
+        obtenerObjetoDeGestionar(departamento);
     }
-
-    private void obtenerObjetoDeGestionar(Provincia provincia1) {
-        this.provincia = provincia1;
-        textonombreprovincia.setText(provincia1.getNombre());
-        mostrardistritosasignados();
+    private void obtenerObjetoDeGestionar(Departamento departamento1) {
+        this.departamento = departamento1;
+        textonombredepartamento.setText(departamento1.getNombre());
+        mostrarprovinciasasignados();
     }
 
     /**
@@ -69,45 +64,37 @@ public class FormRegistrarProvincia extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        botonQuitar = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        textonombreprovincia = new javax.swing.JTextField();
+        textonombredepartamento = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tablaDistritos = new javax.swing.JTable();
+        tablaProvincias = new javax.swing.JTable();
         jToolBar1 = new javax.swing.JToolBar();
         botonCrear = new javax.swing.JButton();
-        textoDistritoBuscar = new javax.swing.JTextField();
+        textoProvinciaBuscar = new javax.swing.JTextField();
         botonBuscar = new javax.swing.JButton();
+        botonAgregar = new javax.swing.JButton();
+        botonQuitar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tablaAsignadosDistritos = new javax.swing.JTable();
+        tablaAsignadosProvincias = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         labelcantidad = new javax.swing.JLabel();
-        botonAgregar = new javax.swing.JButton();
         botonGuardar = new javax.swing.JButton();
         botonSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Registrar Provincia");
         setAlwaysOnTop(true);
+        setBackground(new java.awt.Color(255, 255, 255));
 
-        botonQuitar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        botonQuitar.setText("Quitar");
-        botonQuitar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonQuitarActionPerformed(evt);
-            }
-        });
-
-        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel1.setText("Provincia:");
+        jLabel1.setText("Departamento");
 
-        textonombreprovincia.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        textonombredepartamento.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -117,8 +104,8 @@ public class FormRegistrarProvincia extends javax.swing.JDialog {
                 .addGap(22, 22, 22)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(textonombreprovincia, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(364, Short.MAX_VALUE))
+                .addComponent(textonombredepartamento, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(344, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -126,27 +113,27 @@ public class FormRegistrarProvincia extends javax.swing.JDialog {
                 .addGap(16, 16, 16)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(textonombreprovincia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(textonombredepartamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel2.setText("Distrito: ");
+        jLabel2.setText("Provincia");
 
-        tablaDistritos.setModel(new javax.swing.table.DefaultTableModel(
+        tablaProvincias.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
-        jScrollPane1.setViewportView(tablaDistritos);
+        jScrollPane1.setViewportView(tablaProvincias);
 
         jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
@@ -163,7 +150,7 @@ public class FormRegistrarProvincia extends javax.swing.JDialog {
         });
         jToolBar1.add(botonCrear);
 
-        textoDistritoBuscar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        textoProvinciaBuscar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
         botonBuscar.setBackground(new java.awt.Color(255, 255, 255));
         botonBuscar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -189,7 +176,7 @@ public class FormRegistrarProvincia extends javax.swing.JDialog {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(textoDistritoBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(textoProvinciaBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(botonBuscar)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -203,30 +190,46 @@ public class FormRegistrarProvincia extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel2)
-                        .addComponent(textoDistritoBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(textoProvinciaBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(botonBuscar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
+
+        botonAgregar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        botonAgregar.setText("Agregar");
+        botonAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAgregarActionPerformed(evt);
+            }
+        });
+
+        botonQuitar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        botonQuitar.setText("Quitar");
+        botonQuitar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonQuitarActionPerformed(evt);
+            }
+        });
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        tablaAsignadosDistritos.setModel(new javax.swing.table.DefaultTableModel(
+        tablaAsignadosProvincias.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
-        jScrollPane2.setViewportView(tablaAsignadosDistritos);
+        jScrollPane2.setViewportView(tablaAsignadosProvincias);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel3.setText("Cantidad de Distritos Asignados:");
+        jLabel3.setText("Cantidad de Provincias Asignados:");
 
         labelcantidad.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         labelcantidad.setText("0");
@@ -259,15 +262,6 @@ public class FormRegistrarProvincia extends javax.swing.JDialog {
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
-        botonAgregar.setBackground(new java.awt.Color(255, 255, 255));
-        botonAgregar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        botonAgregar.setText("Agregar");
-        botonAgregar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonAgregarActionPerformed(evt);
-            }
-        });
-
         botonGuardar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         botonGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/apptiendasoft/c5_recursos/iconos/guardarx32.png"))); // NOI18N
         botonGuardar.setText("Guardar");
@@ -291,45 +285,47 @@ public class FormRegistrarProvincia extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addComponent(botonGuardar)
-                        .addGap(23, 23, 23)
-                        .addComponent(botonSalir)))
-                .addGap(6, 6, 6)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(botonAgregar)
-                    .addComponent(botonQuitar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(10, 10, 10)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(botonAgregar)
+                            .addComponent(botonQuitar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(10, 10, 10)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(botonGuardar)
+                .addGap(23, 23, 23)
+                .addComponent(botonSalir)
+                .addGap(219, 219, 219))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(11, 11, 11)
+                .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(10, 10, 10)
+                            .addComponent(botonAgregar)
+                            .addGap(15, 15, 15)
+                            .addComponent(botonQuitar))
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(17, 17, 17)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(botonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(botonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(100, 100, 100)
-                        .addComponent(botonAgregar)
-                        .addGap(15, 15, 15)
-                        .addComponent(botonQuitar))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(90, 90, 90)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(botonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -338,13 +334,13 @@ public class FormRegistrarProvincia extends javax.swing.JDialog {
 
     private void botonCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearActionPerformed
         // TODO add your handling code here:
-        FormRegistrarDistrito formRegistrarDistrito = new FormRegistrarDistrito(this);
-        formRegistrarDistrito.setVisible(true);
+        FormRegistrarProvincia formRegistrarProvincia = new FormRegistrarProvincia(this);
+        formRegistrarProvincia.setVisible(true);
     }//GEN-LAST:event_botonCrearActionPerformed
 
     private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
-        if(!textoDistritoBuscar.getText().trim().isEmpty()){
-            consultarDistrito();
+        if(!textoProvinciaBuscar.getText().trim().isEmpty()){
+            consultarProvincia();
             ponerFocoConSeleccionEnBuscar();
         }else{
             Mensaje.Mostrar_MENSAJE_LLENARCAMPOBUSCAR(this);
@@ -352,15 +348,45 @@ public class FormRegistrarProvincia extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_botonBuscarActionPerformed
 
+    private void botonAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarActionPerformed
+        // TODO add your handling code here:
+        agregarProvincia();
+        mostrarprovinciasasignados();
+
+    }//GEN-LAST:event_botonAgregarActionPerformed
+
+    private void botonQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonQuitarActionPerformed
+        // TODO add your handling code here:
+        int provinciaid = obtenerCodigoTablaAsignado();
+        if(provinciaid == 0)
+        return;
+        GestionarProvinciaServicio gestionarProvinciaServicio = new GestionarProvinciaServicio();
+        try {
+            Provincia provincia = gestionarProvinciaServicio.buscar(provinciaid);
+            if(provincia != null){
+                if(!Mensaje.Mostrar_MENSAJE_PREGUNTADEELIMINACION(this))
+                return;
+                departamento.eliminarProvincia(provincia);
+                mostrarprovinciasasignados();
+            }
+            else{
+                Mensaje.Mostrar_MENSAJE_FILANOEXISTE(this);
+            }
+        } catch(Exception e){
+            JOptionPane.showMessageDialog(this,"Error: "+e.getMessage());
+        }
+
+    }//GEN-LAST:event_botonQuitarActionPerformed
+
     private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
         if(verificarCamposLlenos()){
-            provincia.setNombre(textonombreprovincia.getText().trim().toUpperCase());
-            GestionarProvinciaServicio gestionarProvinciaServicio  = new GestionarProvinciaServicio();
+            departamento.setNombre(textonombredepartamento.getText().trim().toUpperCase());
+            GestionarDepartamentoServicio gestionarDepartamentoServicio  = new GestionarDepartamentoServicio();
             if(tipo_accion==ACCION_CREAR){
-            try{
-                    gestionarProvinciaServicio.crear(provincia);
-                        Mensaje.Mostrar_MENSAJE_GUARDADOEXITOSO(this);
-                        this.dispose();
+                try{
+                    gestionarDepartamentoServicio.crear(departamento);
+                    Mensaje.Mostrar_MENSAJE_GUARDADOEXITOSO(this);
+                    this.dispose();
                 }catch(Exception ex){
                     Mensaje.Mostrar_MENSAJE_GUARDADOERRONEO(this);
                     //JOptionPane.showMessageDialog(rootPane, ex.getMessage());
@@ -368,9 +394,9 @@ public class FormRegistrarProvincia extends javax.swing.JDialog {
             }
             else{
                 try{
-                    gestionarProvinciaServicio.modificar(provincia);
-                        Mensaje.Mostrar_MENSAJE_MODIFICADOEXITOSO(this);
-                        this.dispose();
+                    gestionarDepartamentoServicio.modificar(departamento);
+                    Mensaje.Mostrar_MENSAJE_MODIFICADOEXITOSO(this);
+                    this.dispose();
                 }catch(Exception ex){
                     //JOptionPane.showMessageDialog(rootPane, ex.getMessage());
                 }
@@ -379,9 +405,9 @@ public class FormRegistrarProvincia extends javax.swing.JDialog {
         else{
             Mensaje.Mostrar_MENSAJE_LLENARCAMPOSOBLIGATORIOS(this);
             mostrarCampoVacio();
-        
+
         }
-          
+
     }//GEN-LAST:event_botonGuardarActionPerformed
 
     private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed
@@ -393,56 +419,27 @@ public class FormRegistrarProvincia extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_botonSalirActionPerformed
 
-    private void botonAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarActionPerformed
-        // TODO add your handling code here:
-        agregarDistrito();
-        mostrardistritosasignados();
-        
-    }//GEN-LAST:event_botonAgregarActionPerformed
-
-    private void botonQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonQuitarActionPerformed
-        // TODO add your handling code here:
-        int distritoid = obtenerCodigoTablaAsignado();
-        if(distritoid == 0)
-            return;
-        GestionarDistritoServicio gestionarDistritoServicio = new GestionarDistritoServicio();
-        try {
-            Distrito distrito = gestionarDistritoServicio.buscar(distritoid);
-            if(distrito != null){
-                 if(!Mensaje.Mostrar_MENSAJE_PREGUNTADEELIMINACION(this))
-                  return;
-                provincia.eliminarDistrito(distrito);
-                mostrardistritosasignados();
-            }
-            else{
-                Mensaje.Mostrar_MENSAJE_FILANOEXISTE(this);
-            }
-        } catch(Exception e){
-            JOptionPane.showMessageDialog(this,"Error: "+e.getMessage());
-        }
-        
-    }//GEN-LAST:event_botonQuitarActionPerformed
-    private void mostrardistritosasignados(){
+    private void mostrarprovinciasasignados(){
         crearTablaAsignados();
-        for(Distrito distrito : provincia.getListadistrito()){
+        for(Provincia provincia : departamento.getListaProvincia()){
                     Fila fila = new Fila();
-                    fila.agregarValorCelda(distrito.getCodigo());
-                    fila.agregarValorCelda(distrito.getNombre());
+                    fila.agregarValorCelda(provincia.getCodigo());
+                    fila.agregarValorCelda(provincia.getNombre());
                     tabla.agregarFila(fila);
                 }         
-        tablaAsignadosDistritos.setModel(modeloTablaAsignado);
+        tablaAsignadosProvincias.setModel(modeloTablaAsignado);
         modeloTablaAsignado.refrescarDatos();
-        labelcantidad.setText(String.valueOf(provincia.cantidadDistritos()));
+        labelcantidad.setText(String.valueOf(departamento.cantidadDeProvincias()));
     }
-    private void agregarDistrito(){
-        int distritoid = obtenerCodigoDeLaTablaDistrito();
-        if(distritoid == 0)
+    private void agregarProvincia(){
+        int provinciaid = obtenerCodigoDeLaTablaProvincia();
+        if(provinciaid == 0)
             return;
-        GestionarDistritoServicio gestionarDistritoServicio = new GestionarDistritoServicio();
+        GestionarProvinciaServicio gestionarProvinciaServicio = new GestionarProvinciaServicio();
         try {
-            Distrito distrito = gestionarDistritoServicio.buscar(distritoid);
-            if(distrito != null){
-                provincia.agregarDistrito(distrito);
+            Provincia provincia = gestionarProvinciaServicio.buscar(provinciaid);
+            if(provincia != null){
+                departamento.agregarProvincias(provincia);
             }
             else{
                 Mensaje.Mostrar_MENSAJE_FILANOEXISTE(this);
@@ -454,7 +451,7 @@ public class FormRegistrarProvincia extends javax.swing.JDialog {
     }
     private boolean verificarCamposLlenos() {
         boolean estanLlenos;
-        if(!(textonombreprovincia.getText().trim().isEmpty()))
+        if(!(textonombredepartamento.getText().trim().isEmpty()))
             estanLlenos = true;
         else
             estanLlenos = false; 
@@ -462,23 +459,23 @@ public class FormRegistrarProvincia extends javax.swing.JDialog {
     }
 
     private void mostrarCampoVacio(){
-        if(textonombreprovincia.getText().trim().isEmpty())
-            textonombreprovincia.requestFocus();
+        if(textonombredepartamento.getText().trim().isEmpty())
+            textonombredepartamento.requestFocus();
     }
-    private void consultarDistrito() {
+    private void consultarProvincia() {
         crearTabla();
-        String nombre = textoDistritoBuscar.getText().trim().toUpperCase();
+        String nombre = textoProvinciaBuscar.getText().trim().toUpperCase();
         try {
-            GestionarDistritoServicio gestionarDistritoServicio = new GestionarDistritoServicio();
-            listaDistrito = gestionarDistritoServicio.buscarPorNombre(nombre);
-            if(listaDistrito!=null && listaDistrito.size()>0){
-                for(Distrito distrito : listaDistrito){
+            GestionarProvinciaServicio gestionarProvinciaServicio = new GestionarProvinciaServicio();
+            listaProvincia = gestionarProvinciaServicio.buscarPorNombre(nombre);
+            if(listaProvincia!=null && listaProvincia.size()>0){
+                for(Provincia provincia : listaProvincia){
                     Fila fila = new Fila();
-                    fila.agregarValorCelda(distrito.getCodigo());
-                    fila.agregarValorCelda(distrito.getNombre());
+                    fila.agregarValorCelda(provincia.getCodigo());
+                    fila.agregarValorCelda(provincia.getNombre());
                     tabla.agregarFila(fila);
                 }         
-                tablaDistritos.setModel(modeloTablaDistrito);
+                tablaProvincias.setModel(modeloTablaProvincia);
             }else{
                 Mensaje.Mostrar_MENSAJE_NOSEENCONTRONINGUNRESULTADO(this);
                 ponerFocoConSeleccionEnBuscar();
@@ -492,21 +489,21 @@ public class FormRegistrarProvincia extends javax.swing.JDialog {
         tabla = new Tabla();
         tabla.agregarColumna(new Columna("Codigo", "java.lang.Integer"));
         tabla.agregarColumna(new Columna("Nombre", "java.lang.String"));
-        modeloTablaDistrito  = new ModeloTabla(tabla);
-        tablaDistritos.setModel(modeloTablaDistrito);
+        modeloTablaProvincia  = new ModeloTabla(tabla);
+        tablaProvincias.setModel(modeloTablaProvincia);
         //CODIGO
         TableColumn columna0,columna1;
-        columna0 = tablaDistritos.getColumnModel().getColumn(0);
+        columna0 = tablaProvincias.getColumnModel().getColumn(0);
         columna0.setPreferredWidth(100);
         columna0.setMaxWidth(100);
         columna0.setMinWidth(100);
         //NOMBRE
-        columna1 = tablaDistritos.getColumnModel().getColumn(1);
+        columna1 = tablaProvincias.getColumnModel().getColumn(1);
         columna1.setPreferredWidth(250);
         columna1.setMaxWidth(250);
         columna1.setMinWidth(250);
         
-        tablaDistritos.removeColumn(columna0);
+        tablaProvincias.removeColumn(columna0);
     }
     private void crearTablaAsignados() {
         // TODO add your handling code here:
@@ -514,46 +511,47 @@ public class FormRegistrarProvincia extends javax.swing.JDialog {
         tabla.agregarColumna(new Columna("Codigo", "java.lang.Integer"));
         tabla.agregarColumna(new Columna("Nombre", "java.lang.String"));
         modeloTablaAsignado  = new ModeloTabla(tabla);
-        tablaAsignadosDistritos.setModel(modeloTablaAsignado);
+        tablaAsignadosProvincias.setModel(modeloTablaAsignado);
         //CODIGO
         TableColumn columna0,columna1;
-        columna0 = tablaAsignadosDistritos.getColumnModel().getColumn(0);
+        columna0 = tablaAsignadosProvincias.getColumnModel().getColumn(0);
         columna0.setPreferredWidth(100);
         columna0.setMaxWidth(100);
         columna0.setMinWidth(100);
         //NOMBRE
-        columna1 = tablaAsignadosDistritos.getColumnModel().getColumn(1);
+        columna1 = tablaAsignadosProvincias.getColumnModel().getColumn(1);
         columna1.setPreferredWidth(250);
         columna1.setMaxWidth(250);
         columna1.setMinWidth(250);
         
-        tablaAsignadosDistritos.removeColumn(columna0);
+        tablaAsignadosProvincias.removeColumn(columna0);
     }
-    private int obtenerCodigoDeLaTablaDistrito() {
-        int numFila = tablaDistritos.getSelectedRow();
+    private int obtenerCodigoDeLaTablaProvincia() {
+        int numFila = tablaProvincias.getSelectedRow();
         if(numFila == -1){
             Mensaje.Mostrar_MENSAJE_FILANOSELECCIONADO(this);
             return 0;
         }
-        modeloTablaDistrito = (ModeloTabla) tablaDistritos.getModel();
-        return (Integer)modeloTablaDistrito.getValueAt(numFila, 0); // se retorna el id de la fila seleccionada
+        modeloTablaProvincia = (ModeloTabla) tablaProvincias.getModel();
+        return (Integer)modeloTablaProvincia.getValueAt(numFila, 0); // se retorna el id de la fila seleccionada
     }
     private int obtenerCodigoTablaAsignado(){
-        int numFila = tablaAsignadosDistritos.getSelectedRow();
+        int numFila = tablaAsignadosProvincias.getSelectedRow();
         if(numFila == -1){
             Mensaje.Mostrar_MENSAJE_FILANOSELECCIONADO(this);
             return 0;
         }
-        modeloTablaAsignado = (ModeloTabla) tablaAsignadosDistritos.getModel();
+        modeloTablaAsignado = (ModeloTabla) tablaAsignadosProvincias.getModel();
         return (Integer)modeloTablaAsignado.getValueAt(numFila, 0);
     }
     private void ponerFocoConSeleccionEnBuscar() {
-        textoDistritoBuscar.selectAll();
-        textoDistritoBuscar.requestFocus();
+        textoProvinciaBuscar.selectAll();
+        textoProvinciaBuscar.requestFocus();
     }
     /**
      * @param args the command line arguments
      */
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAgregar;
@@ -572,9 +570,9 @@ public class FormRegistrarProvincia extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JLabel labelcantidad;
-    private javax.swing.JTable tablaAsignadosDistritos;
-    private javax.swing.JTable tablaDistritos;
-    private javax.swing.JTextField textoDistritoBuscar;
-    private javax.swing.JTextField textonombreprovincia;
+    private javax.swing.JTable tablaAsignadosProvincias;
+    private javax.swing.JTable tablaProvincias;
+    private javax.swing.JTextField textoProvinciaBuscar;
+    private javax.swing.JTextField textonombredepartamento;
     // End of variables declaration//GEN-END:variables
 }

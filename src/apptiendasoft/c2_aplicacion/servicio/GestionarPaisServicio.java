@@ -24,17 +24,15 @@ public class GestionarPaisServicio {
         this.gestorJDBC = new GestorJDBCPostgre();
         this.paisDAO = new PaisDAOPostgre(gestorJDBC);
     }
-    public int crear(Pais pais)throws Exception{
+    public void crear(Pais pais)throws Exception{
         gestorJDBC.abrirConexion();
-        int estado=paisDAO.crear(pais);
+        paisDAO.crear(pais);
         gestorJDBC.cerrarConexion();
-        return estado;
     }
-    public int modificar(Pais pais)throws Exception{
+    public void modificar(Pais pais)throws Exception{
         gestorJDBC.abrirConexion();
-        int estado = paisDAO.modificar(pais);
+        paisDAO.modificar(pais);
         gestorJDBC.cerrarConexion();
-        return estado;
     }
     public int eliminar(int codigo)throws Exception{
         gestorJDBC.abrirConexion();
