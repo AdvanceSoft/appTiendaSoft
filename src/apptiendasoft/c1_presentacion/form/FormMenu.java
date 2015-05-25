@@ -83,6 +83,8 @@ public final class FormMenu extends javax.swing.JFrame {
     private void initComponents() {
 
         grupoLookAndFeel = new javax.swing.ButtonGroup();
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        menuActualizar = new javax.swing.JMenuItem();
         toolBarAccesosDirectos = new javax.swing.JToolBar();
         botonADGestionarProducto = new javax.swing.JButton();
         botonADRegistrarVenta = new javax.swing.JButton();
@@ -147,6 +149,14 @@ public final class FormMenu extends javax.swing.JFrame {
         menuAcercaDe = new javax.swing.JMenuItem();
         menuBackUp = new javax.swing.JMenuItem();
         menuSalir = new javax.swing.JMenuItem();
+
+        menuActualizar.setText("Actualizar");
+        menuActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuActualizarActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(menuActualizar);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Software Tienda");
@@ -248,6 +258,7 @@ public final class FormMenu extends javax.swing.JFrame {
         getContentPane().add(toolBarAccesosDirectos, java.awt.BorderLayout.PAGE_START);
 
         etiquetaFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/apptiendasoft/c5_recursos/iconos/tienda.jpg"))); // NOI18N
+        etiquetaFondo.setComponentPopupMenu(jPopupMenu1);
         getContentPane().add(etiquetaFondo, java.awt.BorderLayout.CENTER);
 
         menuPrincipal.setOpaque(false);
@@ -883,6 +894,8 @@ public final class FormMenu extends javax.swing.JFrame {
 
     private void botonADConfiguracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonADConfiguracionActionPerformed
         // TODO add your handling code here:
+        FormGestionarConfiguracion formGestionarConfiguracion = new FormGestionarConfiguracion(this, true);
+        formGestionarConfiguracion.setVisible(true);
     }//GEN-LAST:event_botonADConfiguracionActionPerformed
 
     private void botonADInternetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonADInternetActionPerformed
@@ -910,6 +923,11 @@ public final class FormMenu extends javax.swing.JFrame {
     private void menuProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuProveedorActionPerformed
        new FormGestionarProveedor(this).setVisible(true);
     }//GEN-LAST:event_menuProveedorActionPerformed
+
+    private void menuActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuActualizarActionPerformed
+        // TODO add your handling code here:
+        cargarFondo();
+    }//GEN-LAST:event_menuActualizarActionPerformed
 
     private void salir(){
         System.exit(0);
@@ -948,8 +966,10 @@ public final class FormMenu extends javax.swing.JFrame {
     private javax.swing.JLabel etiquetaFondo;
     private javax.swing.ButtonGroup grupoLookAndFeel;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JMenuItem menuAcercaDe;
+    private javax.swing.JMenuItem menuActualizar;
     private javax.swing.JMenu menuAplicacion;
     private javax.swing.JMenuItem menuBackUp;
     private javax.swing.JMenuItem menuBackup;

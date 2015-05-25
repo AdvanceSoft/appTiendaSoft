@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package apptiendasoft.c5_recursos.algoritmos;
+package apptiendasoft.c3_dominio.algoritmo;
 
 import apptiendasoft.c6_transversal.exepcion.ExcepcionReglaLogica;
 

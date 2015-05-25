@@ -5,7 +5,7 @@
  */
 package apptiendasoft.c3_dominio.entidad;
 
-import apptiendasoft.c5_recursos.algoritmos.Validador;
+import apptiendasoft.c3_dominio.algoritmo.Validador;
 
 /**
  *
@@ -17,6 +17,10 @@ public class UnidadDeMedida {
     private String nombreUnidadDeMedida;
     private String descripcionUnidadDeMedida;
 
+    public UnidadDeMedida() {
+        this.codigoUnidadDeMedida = 0;
+    }
+    
     public int getCodigoUnidadDeMedida() {
         return codigoUnidadDeMedida;
     }
@@ -33,7 +37,7 @@ public class UnidadDeMedida {
          if(nombreUnidadDeMedida!=null){         
                 if(!nombreUnidadDeMedida.trim().isEmpty()){
                     Validador.validarNombreUnidadDeMedida(nombreUnidadDeMedida);          
-                    this.nombreUnidadDeMedida = nombreUnidadDeMedida.trim();
+                    this.nombreUnidadDeMedida = nombreUnidadDeMedida.trim().toUpperCase();
                 }else
                     this.nombreUnidadDeMedida= "Sin nombre";                  
          }else
