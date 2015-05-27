@@ -109,7 +109,7 @@ public final class FormMenu extends javax.swing.JFrame {
         menuPais = new javax.swing.JMenuItem();
         menuDepartamento = new javax.swing.JMenuItem();
         menuProvincia = new javax.swing.JMenuItem();
-        menuDistrito = new javax.swing.JMenuItem();
+        menudistrito = new javax.swing.JMenuItem();
         menuProveedor = new javax.swing.JMenuItem();
         menuProcesos = new javax.swing.JMenu();
         menuPedido = new javax.swing.JMenuItem();
@@ -360,25 +360,45 @@ public final class FormMenu extends javax.swing.JFrame {
         menuPais.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         menuPais.setText("Pais");
         menuPais.setOpaque(true);
+        menuPais.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuPaisActionPerformed(evt);
+            }
+        });
         menuLocalizacion.add(menuPais);
 
         menuDepartamento.setBackground(new java.awt.Color(255, 255, 255));
         menuDepartamento.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         menuDepartamento.setText("Departamento");
         menuDepartamento.setOpaque(true);
+        menuDepartamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuDepartamentoActionPerformed(evt);
+            }
+        });
         menuLocalizacion.add(menuDepartamento);
 
         menuProvincia.setBackground(new java.awt.Color(255, 255, 255));
         menuProvincia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         menuProvincia.setText("Provincia");
         menuProvincia.setOpaque(true);
+        menuProvincia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuProvinciaActionPerformed(evt);
+            }
+        });
         menuLocalizacion.add(menuProvincia);
 
-        menuDistrito.setBackground(new java.awt.Color(255, 255, 255));
-        menuDistrito.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        menuDistrito.setText("Distrito");
-        menuDistrito.setOpaque(true);
-        menuLocalizacion.add(menuDistrito);
+        menudistrito.setBackground(new java.awt.Color(255, 255, 255));
+        menudistrito.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        menudistrito.setText("Distrito");
+        menudistrito.setOpaque(true);
+        menudistrito.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menudistritoActionPerformed(evt);
+            }
+        });
+        menuLocalizacion.add(menudistrito);
 
         menuGestionar.add(menuLocalizacion);
 
@@ -929,6 +949,29 @@ public final class FormMenu extends javax.swing.JFrame {
         cargarFondo();
     }//GEN-LAST:event_menuActualizarActionPerformed
 
+    private void menuPaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPaisActionPerformed
+        // TODO add your handling code here:
+        FormGestionarPais formGestionarPais= new FormGestionarPais(this, true);
+        formGestionarPais.setVisible(true);
+    }//GEN-LAST:event_menuPaisActionPerformed
+
+    private void menuDepartamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuDepartamentoActionPerformed
+        // TODO add your handling code here:
+        FormGestionarDepartamento formGEstionarDepartamento = new FormGestionarDepartamento(this, true);
+        formGEstionarDepartamento.setVisible(true);
+    }//GEN-LAST:event_menuDepartamentoActionPerformed
+
+    private void menuProvinciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuProvinciaActionPerformed
+        // TODO add your handling code here:
+        FormGestionarProvincia formGestionarProvincia = new FormGestionarProvincia(this, true);
+    }//GEN-LAST:event_menuProvinciaActionPerformed
+
+    private void menudistritoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menudistritoActionPerformed
+        // TODO add your handling code here:
+        FormGestionarDistrito formGestionarDistrito  = new FormGestionarDistrito(this, true);
+        formGestionarDistrito.setVisible(true);
+    }//GEN-LAST:event_menudistritoActionPerformed
+
     private void salir(){
         System.exit(0);
     }
@@ -978,7 +1021,6 @@ public final class FormMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuCliente;
     private javax.swing.JMenuItem menuConfiguracion;
     private javax.swing.JMenuItem menuDepartamento;
-    private javax.swing.JMenuItem menuDistrito;
     private javax.swing.JMenuItem menuEmpleado;
     private javax.swing.JMenuItem menuEmpresa;
     private javax.swing.JMenu menuGestionar;
@@ -1012,6 +1054,7 @@ public final class FormMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuTeclado;
     private javax.swing.JMenuItem menuTipodeProducto;
     private javax.swing.JMenuItem menuUnidadDeMedida;
+    private javax.swing.JMenuItem menudistrito;
     private javax.swing.JRadioButtonMenuItem radiomenuJTattoo;
     private javax.swing.JRadioButtonMenuItem radiomenuLiquid;
     private javax.swing.JRadioButtonMenuItem radiomenuMetal;

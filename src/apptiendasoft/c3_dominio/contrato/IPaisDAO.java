@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public interface IPaisDAO {
     public void crear(Pais pais)throws Exception;
     public void modificar(Pais pais) throws Exception;
-    public int eliminar(int codigo)throws Exception;
+    public void eliminar(int codigo)throws Exception;
     public Pais buscar(int codigo)throws Exception;
     public ArrayList<Pais> buscarPorNombre(String nombre)throws Exception;
 }

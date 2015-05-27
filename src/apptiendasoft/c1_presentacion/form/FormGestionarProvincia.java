@@ -229,17 +229,13 @@ public class FormGestionarProvincia extends javax.swing.JDialog {
         return;
         GestionarProvinciaServicio gestionarProvinciaServicio = new GestionarProvinciaServicio();
         try {
-            int registros_afectados = gestionarProvinciaServicio.eliminar(obtenerCodigoDeLaTabla());
-            if(registros_afectados == 1){
+            gestionarProvinciaServicio.eliminar(obtenerCodigoDeLaTabla());
                 Mensaje.Mostrar_MENSAJE_ELIMINACIONEXITOSA(this);
                 crearTabla();
                 ponerFocoConSeleccionEnBuscar();
-            }else{
-                Mensaje.Mostrar_MENSAJE_ELIMINACIONERRONEA(this);
-            }
-            ponerFocoConSeleccionEnBuscar();
         } catch(Exception e){
-            //JOptionPane.showMessageDialog(panelContenedor, e.getMessage());
+            Mensaje.Mostrar_MENSAJE_ELIMINACIONERRONEA(this);
+            ponerFocoConSeleccionEnBuscar();
         }
     }//GEN-LAST:event_botonEliminarActionPerformed
 

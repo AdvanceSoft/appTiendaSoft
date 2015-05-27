@@ -229,17 +229,13 @@ public class FormGestionarPais extends javax.swing.JDialog {
         return;
         GestionarPaisServicio gestionarPaisServicio = new GestionarPaisServicio();
         try {
-            int registros_afectados = gestionarPaisServicio.eliminar(obtenerCodigoDeLaTabla());
-            if(registros_afectados == 1){
-                Mensaje.Mostrar_MENSAJE_ELIMINACIONEXITOSA(this);
-                crearTabla();
-                ponerFocoConSeleccionEnBuscar();
-            }else{
-                Mensaje.Mostrar_MENSAJE_ELIMINACIONERRONEA(this);
-            }
+            gestionarPaisServicio.eliminar(obtenerCodigoDeLaTabla());
+            Mensaje.Mostrar_MENSAJE_ELIMINACIONEXITOSA(this);
+            crearTabla();
             ponerFocoConSeleccionEnBuscar();
         } catch(Exception e){
-            //JOptionPane.showMessageDialog(panelContenedor, e.getMessage());
+            Mensaje.Mostrar_MENSAJE_ELIMINACIONERRONEA(this);
+            ponerFocoConSeleccionEnBuscar();
         }
     }//GEN-LAST:event_botonEliminarActionPerformed
 

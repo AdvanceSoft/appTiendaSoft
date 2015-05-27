@@ -53,7 +53,6 @@ public class FormGestionarDistrito extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gestionar Distrito");
-        setAlwaysOnTop(true);
         setResizable(false);
 
         jToolBar1.setFloatable(false);

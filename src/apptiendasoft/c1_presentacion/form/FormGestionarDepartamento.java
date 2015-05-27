@@ -230,17 +230,13 @@ public class FormGestionarDepartamento extends javax.swing.JDialog {
         return;
         GestionarDepartamentoServicio gestionarDepartamentoServicio = new GestionarDepartamentoServicio();
         try {
-            int registros_afectados = gestionarDepartamentoServicio.eliminar(obtenerCodigoDeLaTabla());
-            if(registros_afectados == 1){
+                gestionarDepartamentoServicio.eliminar(obtenerCodigoDeLaTabla());
                 Mensaje.Mostrar_MENSAJE_ELIMINACIONEXITOSA(this);
                 crearTabla();
-                ponerFocoConSeleccionEnBuscar();
-            }else{
-                Mensaje.Mostrar_MENSAJE_ELIMINACIONERRONEA(this);
-            }
-            ponerFocoConSeleccionEnBuscar();
+                ponerFocoConSeleccionEnBuscar();                
         } catch(Exception e){
-            //JOptionPane.showMessageDialog(panelContenedor, e.getMessage());
+            Mensaje.Mostrar_MENSAJE_ELIMINACIONERRONEA(this);
+            ponerFocoConSeleccionEnBuscar();
         }
     }//GEN-LAST:event_botonEliminarActionPerformed
 

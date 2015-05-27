@@ -179,7 +179,7 @@ public class FormRegistrarUnidadDeMedida extends javax.swing.JDialog {
 
     private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
         GestionarUnidadDeMedida gestionarUnidadDeMedida = new GestionarUnidadDeMedida();
-        unidadDeMedida.setDescripcionUnidadDeMedida(textoDescripcion.getText().trim().toUpperCase());
+        unidadDeMedida.setDescripcionUnidadDeMedida(textoDescripcion.getText());
         try{         
             if(validarCamposLlenos()){                      
             if(unidadDeMedida.getCodigoUnidadDeMedida()==0){

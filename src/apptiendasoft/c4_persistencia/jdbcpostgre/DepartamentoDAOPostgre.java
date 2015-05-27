@@ -31,8 +31,8 @@ public class DepartamentoDAOPostgre implements IDepartamentoDAO{
         PreparedStatement sentencia;
         ResultSet resultado;
         String sentenciaSQL1 = "insert into departamento(nombredepartamento) values(?)";
-        String sentenciaSQL2 = "select max(departamentoid) as departamentoid_maximo from departamento";
-        String sentenciaSQL3 = "update provincia set departamentoid=? where provinciaid=?";
+        String sentenciaSQL2 = "select max(codigodepartamento) as codigodepartamento_maximo from departamento";
+        String sentenciaSQL3 = "update provincia set codigodepartamento=? where codigoprovincia=?";
         try {
             sentencia = gestorJDBC.prepararSentencia(sentenciaSQL1);
             sentencia.setString(1, departamento.getNombre());
@@ -44,7 +44,7 @@ public class DepartamentoDAOPostgre implements IDepartamentoDAO{
             sentencia = gestorJDBC.prepararSentencia(sentenciaSQL2);
             resultado = sentencia.executeQuery();
             if(resultado.next())
-                departamentoid_maximo = resultado.getInt("departamentoid_maximo");
+                departamentoid_maximo = resultado.getInt("codigodepartamento_maximo");
             else
                 throw ExcepcionSQL.crearErrorInsertar();
             resultado.close();
@@ -69,8 +69,8 @@ public class DepartamentoDAOPostgre implements IDepartamentoDAO{
     public void modificar(Departamento departamento) throws Exception {
         int registros_afectados;        
         PreparedStatement sentencia;
-        String sentenciaSQL1 = "delete from provincia where departamentoid = ?";
-        String sentenciaSQL2 = "insert into provincia(departamentoid, nombreprovincia) values(?,?)";
+        String sentenciaSQL1 = "delete from provincia where codigodepartamento = ?";
+        String sentenciaSQL2 = "insert into provincia(codigodepartamento, nombreprovincia) values(?,?)";
         try {
             sentencia = gestorJDBC.prepararSentencia(sentenciaSQL1);
             sentencia.setInt(1, departamento.getCodigo());
@@ -92,35 +92,53 @@ public class DepartamentoDAOPostgre implements IDepartamentoDAO{
             sentencia.close();
         } 
         catch (ExcepcionSQL er) {
-            throw er;
+            throw ExcepcionSQL.crearErrorModificar();
         }
     }
 
     @Override
-    public int eliminar(int codigo) throws Exception {
-        String consulta="delete from departamento where departamentoid="+codigo;
-        PreparedStatement sentencia=gestorJDBC.prepararSentencia(consulta);
-        return sentencia.executeUpdate();
+    public void eliminar(int codigo) throws Exception {
+        int registros_afectados;
+        PreparedStatement sentencia;
+        String consulta="update provincia set codigodepartamento=null where codigodepartamento="+codigo;
+        String consulta1="delete from departamento where codigodepartamento="+codigo;
+        try{
+            sentencia=gestorJDBC.prepararSentencia(consulta);
+            registros_afectados = sentencia.executeUpdate();
+            sentencia.close();
+             if(registros_afectados == 0){
+                throw ExcepcionSQL.crearErrorEliminar();
+            }
+            sentencia = gestorJDBC.prepararSentencia(consulta1);
+            registros_afectados = sentencia.executeUpdate();
+            sentencia.close();
+            if(registros_afectados == 0){
+                    throw ExcepcionSQL.crearErrorModificar();
+                }
+            sentencia.close();
+        }catch(ExcepcionSQL e){
+            throw ExcepcionSQL.crearErrorEliminar();
+        }
     }
 
     @Override
     public Departamento buscar(int codigo) throws Exception {
         Departamento departamento=null;
         Provincia provincia;
-        String consulta="select p.departamentoid,p.nombredepartamento,d.provinciaid,d.nombreprovincia from departamento p "
-                + "inner join provincia d on(p.departamentoid=d.departamentoid)"
-                + "where p.departamentoid="+codigo;
+        String consulta="select p.codigodepartamento,p.nombredepartamento,d.codigoprovincia,d.nombreprovincia from departamento p "
+                + "inner join provincia d on(p.codigodepartamento=d.codigodepartamento)"
+                + "where p.codigodepartamento="+codigo;
         ResultSet resultado=gestorJDBC.ejecutarConsulta(consulta);
         ResultSet resultado1=gestorJDBC.ejecutarConsulta(consulta);
             if(resultado.next()){
                 departamento = new Departamento();
-                departamento.setCodigo(resultado.getInt("departamentoid"));
-                departamento.setNombre(resultado.getString("nombredepartamento"));
+                departamento.setCodigo(resultado.getInt(1));
+                departamento.setNombre(resultado.getString(2));
             }
             while(resultado1.next()){
                 provincia = new Provincia();
-                provincia.setCodigo(resultado.getInt("idprovincia"));
-                provincia.setNombre(resultado.getString("nombreprovincia"));
+                provincia.setCodigo(resultado.getInt(3));
+                provincia.setNombre(resultado.getString(4));
                 departamento.agregarProvincias(provincia);
             }
         return departamento;
@@ -133,12 +151,12 @@ public class DepartamentoDAOPostgre implements IDepartamentoDAO{
         }
         Departamento departamento;
         ArrayList<Departamento> listadepartamento= new ArrayList<>();
-        String consulta="select departamentoid,nombredepartamento from departamento where nombredepartamento like '%"+nombre+"%' and paisid is null order by departamentoid";
+        String consulta="select codigodepartamento,nombredepartamento from departamento where nombredepartamento like '%"+nombre+"%' and codigopais is null order by codigodepartamento";
         ResultSet resultado=gestorJDBC.ejecutarConsulta(consulta);
             while(resultado.next()){
                 departamento = new Departamento();
-                departamento.setCodigo(resultado.getInt("coddepartamento"));
-                departamento.setNombre(resultado.getString("nombredepartamento"));
+                departamento.setCodigo(resultado.getInt(1));
+                departamento.setNombre(resultado.getString(2));
                 listadepartamento.add(departamento);
             }
         return listadepartamento;

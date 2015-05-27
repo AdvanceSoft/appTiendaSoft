@@ -34,11 +34,10 @@ public class GestionarProvinciaServicio {
         provinciaDAO.modificar(provincia);
         gestorJDBC.cerrarConexion();
     }
-    public int eliminar(int codigo)throws Exception{
+    public void eliminar(int codigo)throws Exception{
         gestorJDBC.abrirConexion();
-        int estado = provinciaDAO.eliminar(codigo);
+        provinciaDAO.eliminar(codigo);
         gestorJDBC.cerrarConexion();
-        return estado;
     }
     public Provincia buscar(int codigo)throws Exception{
         gestorJDBC.abrirConexion();

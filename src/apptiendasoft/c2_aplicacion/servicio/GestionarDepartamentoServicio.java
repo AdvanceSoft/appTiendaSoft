@@ -34,11 +34,10 @@ public class GestionarDepartamentoServicio {
         departamentoDAO.modificar(departamento);
         gestorJDBC.cerrarConexion();
     }
-    public int eliminar(int codigo)throws Exception{
+    public void eliminar(int codigo)throws Exception{
         gestorJDBC.abrirConexion();
-        int estado = departamentoDAO.eliminar(codigo);
+        departamentoDAO.eliminar(codigo);
         gestorJDBC.cerrarConexion();
-        return estado;
     }
     public Departamento buscar(int codigo)throws Exception{
         gestorJDBC.abrirConexion();

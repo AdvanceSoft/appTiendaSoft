@@ -36,8 +36,8 @@ public class ProvinciaDAOPostgre implements IProvinciaDAO{
         PreparedStatement sentencia;
         ResultSet resultado;
         String sentenciaSQL1 = "insert into provincia(nombreprovincia) values(?)";
-        String sentenciaSQL2 = "select max(provinciaid) as provinciaid_maximo from provincia";
-        String sentenciaSQL3 = "update distrito set provinciaid=? where distritoid=?";
+        String sentenciaSQL2 = "select max(codigoprovincia) as codigoprovincia_maximo from provincia";
+        String sentenciaSQL3 = "update distrito set codigoprovincia=? where codigodistrito=?";
         try {
             sentencia = gestorJDBC.prepararSentencia(sentenciaSQL1);
             sentencia.setString(1, provincia.getNombre());
@@ -49,7 +49,7 @@ public class ProvinciaDAOPostgre implements IProvinciaDAO{
             sentencia = gestorJDBC.prepararSentencia(sentenciaSQL2);
             resultado = sentencia.executeQuery();
             if(resultado.next())
-                provinciaid_maximo = resultado.getInt("provinciaid_maximo");
+                provinciaid_maximo = resultado.getInt("codigoprovincia_maximo");
             else
                 throw ExcepcionSQL.crearErrorInsertar();
             resultado.close();
@@ -75,8 +75,8 @@ public class ProvinciaDAOPostgre implements IProvinciaDAO{
     public void modificar(Provincia provincia) throws Exception {
         int registros_afectados;        
         PreparedStatement sentencia;
-        String sentenciaSQL1 = "delete from distrito where provinciaid = ?";
-        String sentenciaSQL2 = "insert into distrito(provinciaid, nombredistrito) values(?,?)";
+        String sentenciaSQL1 = "delete from distrito where codigoprovincia= ?";
+        String sentenciaSQL2 = "insert into distrito(codigoprovincia, nombredistrito) values(?,?)";
         try {
             sentencia = gestorJDBC.prepararSentencia(sentenciaSQL1);
             sentencia.setInt(1, provincia.getCodigo());
@@ -98,37 +98,55 @@ public class ProvinciaDAOPostgre implements IProvinciaDAO{
             sentencia.close();
         } 
         catch (ExcepcionSQL er) {
-            throw er;
+            throw ExcepcionSQL.crearErrorModificar();
         }
     }
 
     @Override
-    public int eliminar(int codigo) throws Exception {
-        String consulta="delete from provincia where provinciaid="+codigo;
-        PreparedStatement sentencia=gestorJDBC.prepararSentencia(consulta);
-        return sentencia.executeUpdate();
+    public void eliminar(int codigo) throws Exception {
+        int registros_afectados;
+        PreparedStatement sentencia;
+        String consulta="update distrito set codigoprovincia=null where codigoprovincia="+codigo;
+        String consulta1="delete from provincia where codigoprovincia="+codigo;
+        try{
+            sentencia=gestorJDBC.prepararSentencia(consulta);
+            registros_afectados = sentencia.executeUpdate();
+            sentencia.close();
+             if(registros_afectados == 0){
+                throw ExcepcionSQL.crearErrorEliminar();
+            }
+            sentencia = gestorJDBC.prepararSentencia(consulta1);
+            registros_afectados = sentencia.executeUpdate();
+            sentencia.close();
+            if(registros_afectados == 0){
+                    throw ExcepcionSQL.crearErrorModificar();
+                }
+            sentencia.close();
+        }catch(ExcepcionSQL e){
+            throw ExcepcionSQL.crearErrorEliminar();
+        }
     }
 
     @Override
     public Provincia buscar(int codigo) throws Exception {
         Provincia provincia=null;
         Distrito distrito;
-        String consulta="select p.provinciaid,p.nombreprovincia,d.distritoid,d.nombredistrito from provincia p "
-                + "inner join distrito d on(p.provinciaid=d.provinciaid)"
-                + "where p.provinciaid="+codigo;
+        String consulta="select p.codigoprovincia,p.nombreprovincia,d.codigodistrito,d.nombredistrito from provincia p "
+                + "inner join distrito d on(p.codigoprovincia=d.codigoprovincia)"
+                + "where p.codigoprovincia="+codigo;
         ResultSet resultado=gestorJDBC.ejecutarConsulta(consulta);
+        ResultSet resultado1=gestorJDBC.ejecutarConsulta(consulta);
             if(resultado.next()){
                 provincia = new Provincia();
-                provincia.setCodigo(resultado.getInt("provinciaid"));
-                provincia.setNombre(resultado.getString("nombreprovincia"));
+                provincia.setCodigo(resultado.getInt(1));
+                provincia.setNombre(resultado.getString(2));
             }
-            while(resultado.next()){
+            while(resultado1.next()){
                 distrito = new Distrito();
-                distrito.setCodigo(resultado.getInt("distritoid"));
-                distrito.setNombre(resultado.getString("nombredistrito"));
+                distrito.setCodigo(resultado.getInt(3));
+                distrito.setNombre(resultado.getString(4));
                 provincia.agregardistrito(distrito);
             }
-               // provincia.set(distrito)
         return provincia;
     }
 
@@ -139,12 +157,12 @@ public class ProvinciaDAOPostgre implements IProvinciaDAO{
         }
         Provincia provincia;
         ArrayList<Provincia> listaprovincia= new ArrayList();
-        String consulta="select provinciaid,nombreprovincia from provincia where nombreprovincia like '%"+nombre+"%' and departamentoid is null order by provinciaid";
+        String consulta="select codigoprovincia,nombreprovincia from provincia where nombreprovincia like '%"+nombre+"%' and codigodepartamento is null order by codigoprovincia";
         ResultSet resultado=gestorJDBC.ejecutarConsulta(consulta);
             while(resultado.next()){
                 provincia = new Provincia();
-                provincia.setCodigo(resultado.getInt("provinciaid"));
-                provincia.setNombre(resultado.getString("nombreprovincia"));
+                provincia.setCodigo(resultado.getInt(1));
+                provincia.setNombre(resultado.getString(2));
                 listaprovincia.add(provincia);
             }
         return listaprovincia;

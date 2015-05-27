@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public interface IDepartamentoDAO {
     public void crear(Departamento departamento)throws Exception;
     public void modificar(Departamento departamento) throws Exception;
-    public int eliminar(int codigo)throws Exception;
+    public void eliminar(int codigo)throws Exception;
     public Departamento buscar(int codigo)throws Exception;
     public ArrayList<Departamento> buscarPorNombre(String nombre)throws Exception;
 }

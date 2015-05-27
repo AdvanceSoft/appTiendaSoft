@@ -34,11 +34,10 @@ public class GestionarPaisServicio {
         paisDAO.modificar(pais);
         gestorJDBC.cerrarConexion();
     }
-    public int eliminar(int codigo)throws Exception{
+    public void eliminar(int codigo)throws Exception{
         gestorJDBC.abrirConexion();
-        int estado = paisDAO.eliminar(codigo);
+        paisDAO.eliminar(codigo);
         gestorJDBC.cerrarConexion();
-        return estado;
     }
     public Pais buscar(int codigo)throws Exception{
         gestorJDBC.abrirConexion();
