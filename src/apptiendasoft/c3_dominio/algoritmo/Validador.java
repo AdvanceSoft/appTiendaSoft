@@ -49,11 +49,15 @@ public class Validador {
             throw ExcepcionReglaLogica.crearErrorMENSAJE_RUC();
     }
     public static void validarNombreUnidadDeMedida(String nombre)throws Exception{
-        int contador=0; 
-        for(int i=0; i<nombre.length(); i++){
-            contador++;
-        }
-        if(contador>NUM_MAX_NOMRE)
-            throw ExcepcionReglaLogica.crearErrorMENSAJE_UNIDADMEDIDAD();
+       if(nombre!=null){
+           if(!nombre.trim().isEmpty()){
+                int contador=0;
+                for(int i=0; i<nombre.length(); i++){
+                    contador++;
+                }
+                if(contador>NUM_MAX_NOMRE)
+                    throw ExcepcionReglaLogica.crearErrorMENSAJE_UNIDADMEDIDAD();
+            }             
+       }         
     }
 }

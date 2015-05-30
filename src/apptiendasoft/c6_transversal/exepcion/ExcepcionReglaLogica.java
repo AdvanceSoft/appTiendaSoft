@@ -17,7 +17,7 @@ public class ExcepcionReglaLogica extends Exception {
     private static final String Mensaje_ERROR_CORREO= "El correo ingresado no es valido.";
     private static final String MENSAJE_ERROR_RUC= "El ruc ingresado no es valido.";
     private static final String MENSAJE_ERROR_UNIDAD_MEDIDA = "La abreviatura para esta unidad de medida no es valida.";
-    private static final String MENSAJE_ERROR_PRECIOPRODUCTO = "El precio del producto es invalido"; 
+    private static final String MENSAJE_ERROR_PRECIOPRODUCTO = "El precio del producto es invalido";
     
     private ExcepcionReglaLogica(String message) {
         super(message);
@@ -34,12 +34,15 @@ public class ExcepcionReglaLogica extends Exception {
     public static ExcepcionReglaLogica crearErrorMENSAJE_NOMBRE(){
         return new ExcepcionReglaLogica(MENSAJE_ERROR_NOMBRE);
     }
+    
     public static ExcepcionReglaLogica crearErrorMENSAJE_CORREO(){
         return new ExcepcionReglaLogica(Mensaje_ERROR_CORREO);
     }
+    
     public static ExcepcionReglaLogica crearErrorMENSAJE_RUC(){
         return new ExcepcionReglaLogica(MENSAJE_ERROR_RUC);
     }
+    
     public static ExcepcionReglaLogica crearErrorMENSAJE_UNIDADMEDIDAD(){
         return new ExcepcionReglaLogica(MENSAJE_ERROR_UNIDAD_MEDIDA);
     }
@@ -48,5 +51,6 @@ public class ExcepcionReglaLogica extends Exception {
         return new ExcepcionReglaLogica(MENSAJE_ERROR_PRECIOPRODUCTO);
     }
     
+   
     
 }

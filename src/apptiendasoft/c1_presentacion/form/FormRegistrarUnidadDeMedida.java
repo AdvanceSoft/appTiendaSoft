@@ -7,6 +7,7 @@ package apptiendasoft.c1_presentacion.form;
 
 import apptiendasoft.c1_presentacion.util.Mensaje;
 import apptiendasoft.c2_aplicacion.servicio.GestionarUnidadDeMedida;
+import apptiendasoft.c3_dominio.algoritmo.Validador;
 import apptiendasoft.c3_dominio.entidad.UnidadDeMedida;
 import javax.swing.JDialog;
 
@@ -62,33 +63,30 @@ public class FormRegistrarUnidadDeMedida extends javax.swing.JDialog {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        textoDescripcion = new javax.swing.JTextArea();
         jLabel2 = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
         botonSalir = new javax.swing.JButton();
         etiquetamensaje = new javax.swing.JLabel();
         botonGuardar = new javax.swing.JButton();
         textoNombre = new javax.swing.JTextField();
+        textoDescripcion = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Registrar Unidad De Medida");
         setResizable(false);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Abreviatura:");
 
-        textoDescripcion.setColumns(20);
-        textoDescripcion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        textoDescripcion.setRows(5);
-        jScrollPane1.setViewportView(textoDescripcion);
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel2.setText("Descripción:");
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel2.setText("Nombre:");
 
         botonSalir.setBackground(new java.awt.Color(255, 255, 255));
+        botonSalir.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         botonSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/apptiendasoft/c5_recursos/iconos/salirx32.png"))); // NOI18N
         botonSalir.setText("Salir");
+        botonSalir.setMaximumSize(new java.awt.Dimension(117, 41));
+        botonSalir.setMinimumSize(new java.awt.Dimension(117, 41));
+        botonSalir.setPreferredSize(new java.awt.Dimension(117, 41));
         botonSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonSalirActionPerformed(evt);
@@ -100,20 +98,24 @@ public class FormRegistrarUnidadDeMedida extends javax.swing.JDialog {
         etiquetamensaje.setText("mensaje excepcion");
 
         botonGuardar.setBackground(new java.awt.Color(255, 255, 255));
+        botonGuardar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         botonGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/apptiendasoft/c5_recursos/iconos/guardarx32.png"))); // NOI18N
         botonGuardar.setText("Guardar");
+        botonGuardar.setPreferredSize(new java.awt.Dimension(117, 41));
         botonGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonGuardarActionPerformed(evt);
             }
         });
 
-        textoNombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        textoNombre.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
         textoNombre.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 textoNombreKeyTyped(evt);
             }
         });
+
+        textoDescripcion.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -121,24 +123,19 @@ public class FormRegistrarUnidadDeMedida extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator1)
+                    .addComponent(textoNombre)
+                    .addComponent(textoDescripcion)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
+                        .addComponent(botonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(etiquetamensaje)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(textoNombre)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(botonGuardar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(botonSalir)))
+                        .addComponent(botonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 83, Short.MAX_VALUE))
+                    .addComponent(etiquetamensaje, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -151,16 +148,12 @@ public class FormRegistrarUnidadDeMedida extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(etiquetamensaje)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonGuardar)
+                    .addComponent(jLabel2)
+                    .addComponent(textoDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(botonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -179,19 +172,20 @@ public class FormRegistrarUnidadDeMedida extends javax.swing.JDialog {
 
     private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
         GestionarUnidadDeMedida gestionarUnidadDeMedida = new GestionarUnidadDeMedida();
+        unidadDeMedida.setNombreUnidadDeMedida(textoNombre.getText());
         unidadDeMedida.setDescripcionUnidadDeMedida(textoDescripcion.getText());
         try{         
             if(validarCamposLlenos()){                      
-            if(unidadDeMedida.getCodigoUnidadDeMedida()==0){
-                gestionarUnidadDeMedida.guardarUnidadDeMedida(unidadDeMedida);
-                Mensaje.Mostrar_MENSAJE_GUARDADOEXITOSO(this);
-                this.dispose();
+                if(unidadDeMedida.getCodigoUnidadDeMedida()==0){
+                    gestionarUnidadDeMedida.guardarUnidadDeMedida(unidadDeMedida);
+                    Mensaje.Mostrar_MENSAJE_GUARDADOEXITOSO(this);
+                    this.dispose();
+                }else{
+                    gestionarUnidadDeMedida.modificarUnidadDeMedida(unidadDeMedida);
+                    Mensaje.Mostrar_MENSAJE_MODIFICADOEXITOSO(this);
+                    this.dispose();
+                }
             }else{
-                gestionarUnidadDeMedida.modificarUnidadDeMedida(unidadDeMedida);
-                Mensaje.Mostrar_MENSAJE_MODIFICADOEXITOSO(this);
-                this.dispose();
-            }
-        }else{
             Mensaje.Mostrar_MENSAJE_LLENARCAMPOSOBLIGATORIOS(this);
             mostrarCamposVacios();
         }
@@ -205,7 +199,7 @@ public class FormRegistrarUnidadDeMedida extends javax.swing.JDialog {
             String nombreunidad= textoNombre.getText();
             botonGuardar.setEnabled(true);
             etiquetamensaje.setVisible(false);
-            unidadDeMedida.setNombreUnidadDeMedida(nombreunidad);
+            Validador.validarNombreUnidadDeMedida(nombreunidad);
         } catch (Exception e) {
             etiquetamensaje.setVisible(true);
             etiquetamensaje.setText(e.getMessage());
@@ -221,9 +215,7 @@ public class FormRegistrarUnidadDeMedida extends javax.swing.JDialog {
     private javax.swing.JLabel etiquetamensaje;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextArea textoDescripcion;
+    private javax.swing.JTextField textoDescripcion;
     private javax.swing.JTextField textoNombre;
     // End of variables declaration//GEN-END:variables
 }

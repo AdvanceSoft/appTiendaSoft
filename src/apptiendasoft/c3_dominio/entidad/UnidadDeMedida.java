@@ -5,7 +5,6 @@
  */
 package apptiendasoft.c3_dominio.entidad;
 
-import apptiendasoft.c3_dominio.algoritmo.Validador;
 
 /**
  *
@@ -33,16 +32,16 @@ public class UnidadDeMedida {
         return nombreUnidadDeMedida;
     }
 
-    public void setNombreUnidadDeMedida(String nombreUnidadDeMedida)throws Exception{
+    public void setNombreUnidadDeMedida(String nombreUnidadDeMedida){
          if(nombreUnidadDeMedida!=null){         
-                if(!nombreUnidadDeMedida.trim().isEmpty()){
-                    Validador.validarNombreUnidadDeMedida(nombreUnidadDeMedida);          
+                if(!nombreUnidadDeMedida.trim().isEmpty()){         
                     this.nombreUnidadDeMedida = nombreUnidadDeMedida.trim().toUpperCase();
                 }else
                     this.nombreUnidadDeMedida= "Sin nombre";                  
          }else
             this.nombreUnidadDeMedida = "Sin nombre";  
     }
+    
     /**
      * Metodo para modificar el objeto de la base de datos
      * @param nombreUnidadDeMedida 
