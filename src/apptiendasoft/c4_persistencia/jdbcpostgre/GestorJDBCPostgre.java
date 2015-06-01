@@ -21,6 +21,6 @@ public class GestorJDBCPostgre extends GestorJDBC {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException ex) { }
         String url = "jdbc:postgresql://localhost:5432/tienda_advancesoft";
-        conexion = DriverManager.getConnection(url, "postgres", "root");
+        conexion = DriverManager.getConnection(url, "postgres", "123");
     }   
 }
