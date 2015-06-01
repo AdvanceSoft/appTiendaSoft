@@ -18,4 +18,5 @@ public interface ICargoDAO {
     public int eliminar(int codigo)throws Exception;
     public Cargo buscar(int codigo)throws Exception;
     public ArrayList<Cargo> buscarPorNombre(String nombre)throws Exception;
+    public Cargo buscarNombre(String nombre)throws Exception;
 }

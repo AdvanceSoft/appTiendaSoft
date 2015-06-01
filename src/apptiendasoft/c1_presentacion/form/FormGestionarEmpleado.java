@@ -8,12 +8,14 @@ package apptiendasoft.c1_presentacion.form;
 import apptiendasoft.c1_presentacion.util.Mensaje;
 import apptiendasoft.c2_aplicacion.servicio.GestionarEmpleadoServicio;
 import apptiendasoft.c3_dominio.entidad.Empleado;
+import apptiendasoft.c3_dominio.entidad.Usuario;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.TableColumn;
 import mastersoft.modelo.ModeloTabla;
 import mastersoft.tabladatos.Columna;
+import mastersoft.tabladatos.Fila;
 import mastersoft.tabladatos.Tabla;
 
 /**
@@ -33,8 +35,7 @@ public final class FormGestionarEmpleado extends javax.swing.JDialog {
     public FormGestionarEmpleado(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        setLocationRelativeTo(null);
-        setTitle("Gestionar Empleados");
+        setTitle("Gestionar Empleado");
         setResizable(false);
         crearTabla();
     }
@@ -62,6 +63,7 @@ public final class FormGestionarEmpleado extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
 
         botonCrear.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -125,6 +127,11 @@ public final class FormGestionarEmpleado extends javax.swing.JDialog {
         botonBuscar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         botonBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/apptiendasoft/c5_recursos/iconos/buscarx20.png"))); // NOI18N
         botonBuscar.setText("Buscar");
+        botonBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonBuscarActionPerformed(evt);
+            }
+        });
 
         tablaEmpleado.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -182,6 +189,7 @@ public final class FormGestionarEmpleado extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearActionPerformed
@@ -198,13 +206,14 @@ public final class FormGestionarEmpleado extends javax.swing.JDialog {
     private void botonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarActionPerformed
         // TODO add your handling code here:
         int empleadoCodigo = obtenerCodigoDeLaTabla();
-        if(empleadoCodigo > 0)
+        int codigoUsuario;
+        if(empleadoCodigo == 0)
             return;
         GestionarEmpleadoServicio gestionarEmpleadoServicio = new GestionarEmpleadoServicio();
-        try {
+        try {            
             Empleado empleado = gestionarEmpleadoServicio.buscar(empleadoCodigo);
             if(empleado != null){
-                FormRegistrarEmpleado formRegistrarEmpleado = new FormRegistrarEmpleado(this);
+                FormRegistrarEmpleado formRegistrarEmpleado = new FormRegistrarEmpleado(this,empleado);
                 formRegistrarEmpleado.setVisible(true);
             }
             else{
@@ -242,6 +251,18 @@ public final class FormGestionarEmpleado extends javax.swing.JDialog {
         }
             
     }//GEN-LAST:event_botonEliminarActionPerformed
+
+    private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
+        // TODO add your handling code here:
+        if(!textoBuscar.getText().trim().isEmpty()){
+            consultarEmpleado();
+            ponerFocoConSeleccionEnBuscar();
+        }
+        else{
+            Mensaje.Mostrar_MENSAJE_LLENARCAMPOBUSCAR(this);
+            ponerFocoConSeleccionEnBuscar();
+        }
+    }//GEN-LAST:event_botonBuscarActionPerformed
     public void ponerFocoConSeleccionEnBuscar(){
         textoBuscar.selectAll();
         textoBuscar.requestFocus();
@@ -256,15 +277,22 @@ public final class FormGestionarEmpleado extends javax.swing.JDialog {
         tabla.agregarColumna( new Columna("Direccion","java.lang.String"));
         tabla.agregarColumna( new Columna("Telefono","java.lang.String"));
         tabla.agregarColumna( new Columna("Celular","java.lang.String"));
-        tabla.agregarColumna( new Columna("Sexo","java.lang.String"));
-        tabla.agregarColumna( new Columna("Estado","java.lang.String"));
+        tabla.agregarColumna(new Columna("Correo", "java.lang.String"));
+        tabla.agregarColumna( new Columna("Genero","java.lang.String"));
+        tabla.agregarColumna( new Columna("Activo","java.lang.String"));
+//        tabla.agregarColumna(new Columna("Pais", "java.lang.String"));
+//        tabla.agregarColumna(new Columna("Departamento", "java.lang.String"));
+//        tabla.agregarColumna(new Columna("Provincia", "java.lang.String"));
+//        tabla.agregarColumna(new Columna("Distrito", "java.lang.String"));
+        tabla.agregarColumna(new Columna("Cargo", "java.lang.String"));
+        tabla.agregarColumna(new Columna("Usuario", "java.lang.String"));
         tabla.agregarColumna( new Columna("Fecha de Ingreso","java.lang.Date"));
         tabla.agregarColumna( new Columna("Fecha de Salida","java.lang.Date"));
         tabla.agregarColumna( new Columna("Sueldo","java.lang.Double"));
         modeloTablaEmpleado = new ModeloTabla(tabla);
         tablaEmpleado.setModel(modeloTablaEmpleado);
         //CODIGO
-        TableColumn columna0,columna1,columna2,columna3,columna4,columna5, columna6, columna7, columna8, columna9, columna10, columna11;
+        TableColumn columna0,columna1,columna2,columna3,columna4,columna5, columna6, columna7, columna8, columna9, columna10, columna11, columna12, columna13,columna14, columna15;
         columna0 = tablaEmpleado.getColumnModel().getColumn(0);
         columna0.setPreferredWidth(100);
         columna0.setMaxWidth(100);
@@ -299,31 +327,46 @@ public final class FormGestionarEmpleado extends javax.swing.JDialog {
         columna6.setPreferredWidth(100);
         columna6.setMaxWidth(100);
         columna6.setMinWidth(100);
-        //SEXO
+        //CORREO
         columna7 = tablaEmpleado.getColumnModel().getColumn(7);
-        columna7.setPreferredWidth(50);
-        columna7.setMaxWidth(50);
-        columna7.setMinWidth(50);
-        //ESTADO
+        columna7.setPreferredWidth(150);
+        columna7.setMaxWidth(150);
+        columna7.setMinWidth(150);
+        //GENERO
         columna8 = tablaEmpleado.getColumnModel().getColumn(8);
         columna8.setPreferredWidth(50);
         columna8.setMaxWidth(50);
         columna8.setMinWidth(50);
-        //FECHA INGRESO
+        //ESTADO
         columna9 = tablaEmpleado.getColumnModel().getColumn(9);
         columna9.setPreferredWidth(150);
         columna9.setMaxWidth(150);
         columna9.setMinWidth(150);
-        //FECHA SALIDA
+        //CARGO
         columna10 = tablaEmpleado.getColumnModel().getColumn(10);
-        columna10.setPreferredWidth(180);
-        columna10.setMaxWidth(180);
-        columna10.setMinWidth(180);
-        //SUELDO
+        columna10.setPreferredWidth(100);
+        columna10.setMaxWidth(100);
+        columna10.setMinWidth(100);
+        //USUARIO
         columna11 = tablaEmpleado.getColumnModel().getColumn(11);
         columna11.setPreferredWidth(100);
         columna11.setMaxWidth(100);
         columna11.setMinWidth(100);
+        //FECHA INGRESO
+        columna12 = tablaEmpleado.getColumnModel().getColumn(12);
+        columna12.setPreferredWidth(100);
+        columna12.setMaxWidth(100);
+        columna12.setMinWidth(100);
+        //FECHA SALIDA
+        columna13 = tablaEmpleado.getColumnModel().getColumn(13);
+        columna13.setPreferredWidth(100);
+        columna13.setMaxWidth(100);
+        columna13.setMinWidth(100);
+        //SUELDO
+        columna14 = tablaEmpleado.getColumnModel().getColumn(14);
+        columna14.setPreferredWidth(50);
+        columna14.setMaxWidth(50);
+        columna14.setMinWidth(50);
         
         tablaEmpleado.removeColumn(columna0);
     }
@@ -336,6 +379,42 @@ public final class FormGestionarEmpleado extends javax.swing.JDialog {
         }
         modeloTablaEmpleado = (ModeloTabla) tablaEmpleado.getModel();
         return (Integer)modeloTablaEmpleado.getValueAt(numFila,0); //Se obtendra en codigo de la fila seleccionada
+    }
+    
+    private void consultarEmpleado(){
+        crearTabla();
+        String nombre = textoBuscar.getText().trim().toUpperCase();
+        try {
+            GestionarEmpleadoServicio gestionarEmpleadoServicio = new GestionarEmpleadoServicio();
+            listaEmpleados = gestionarEmpleadoServicio.buscarPorNombre(nombre);
+            if(listaEmpleados!=null && listaEmpleados.size()>0){
+                for(Empleado empleado : listaEmpleados){
+                    Fila fila = new Fila();
+                    fila.agregarValorCelda(empleado.getCodigo());
+                    fila.agregarValorCelda(empleado.getNombre());
+                    fila.agregarValorCelda(empleado.getApellido());
+                    fila.agregarValorCelda(empleado.getDni());
+                    fila.agregarValorCelda(empleado.getDireccion());
+                    fila.agregarValorCelda(empleado.getTelefono());
+                    fila.agregarValorCelda(empleado.getCelular());
+                    fila.agregarValorCelda(empleado.getCorreo());
+                    fila.agregarValorCelda(empleado.getGenero());
+                    fila.agregarValorCelda(empleado.isActivo());
+//                    fila.agregarValorCelda(empleado.getPais());
+//                    fila.agregarValorCelda(empleado.getDepartamento());
+//                    fila.agregarValorCelda(empleado.getProvincia());
+//                    fila.agregarValorCelda(empleado.getDistrito());
+                    fila.agregarValorCelda(empleado.getCargo());
+                    fila.agregarValorCelda(empleado.getUsuario());
+                    fila.agregarValorCelda(empleado.getFechaIngreso());
+                    fila.agregarValorCelda(empleado.getFechaSalida());
+                    fila.agregarValorCelda(empleado.getSueldo());
+                    tabla.agregarFila(fila);
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(FormGestionarEmpleado.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonBuscar;

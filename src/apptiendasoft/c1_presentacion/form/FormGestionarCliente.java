@@ -33,7 +33,6 @@ public final class FormGestionarCliente extends javax.swing.JDialog {
     public FormGestionarCliente(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        setLocationRelativeTo(null);
         setTitle("Gestionar Clientes");
         setResizable(false);
         crearTabla();
@@ -57,10 +56,12 @@ public final class FormGestionarCliente extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         textoBuscar = new javax.swing.JTextField();
         botonBuscar = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaClientes = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
@@ -133,6 +134,8 @@ public final class FormGestionarCliente extends javax.swing.JDialog {
             }
         });
 
+        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+
         tablaClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -141,61 +144,67 @@ public final class FormGestionarCliente extends javax.swing.JDialog {
 
             }
         ));
+        tablaClientes.setPreferredSize(new java.awt.Dimension(50, 200));
+        tablaClientes.setVerifyInputWhenFocusTarget(false);
         jScrollPane1.setViewportView(tablaClientes);
+
+        jScrollPane2.setViewportView(jScrollPane1);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
                         .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(textoBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(botonBuscar))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 467, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(botonBuscar)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(textoBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonBuscar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(7, 7, 7))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(230, 230, 230))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearActionPerformed
         // TODO add your handling code here:
-        FormRegistarCliente formRegistarCliente = new FormRegistarCliente(this);
+        FormRegistrarCliente formRegistarCliente = new FormRegistrarCliente(this);
         formRegistarCliente.setVisible(true);
     }//GEN-LAST:event_botonCrearActionPerformed
 
@@ -206,14 +215,14 @@ public final class FormGestionarCliente extends javax.swing.JDialog {
 
     private void botonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarActionPerformed
         // TODO add your handling code here:
-        int marcaCodigo = obtenerCodigoDeLaTabla();
-        if(marcaCodigo == 0)
+        int clienteCodigo = obtenerCodigoDeLaTabla();
+        if(clienteCodigo == 0)
             return;
         GestionarClienteServicio gestionarClienteServicio = new GestionarClienteServicio();
         try {
-            Cliente cliente = gestionarClienteServicio.buscar(marcaCodigo);
+            Cliente cliente = gestionarClienteServicio.buscar(clienteCodigo);            
             if(cliente != null){
-                FormRegistarCliente formRegistarCliente = new FormRegistarCliente(this);
+                FormRegistrarCliente formRegistarCliente = new FormRegistrarCliente(this, cliente);
                 formRegistarCliente.setVisible(true);
             }
             else{
@@ -270,7 +279,7 @@ public final class FormGestionarCliente extends javax.swing.JDialog {
         try {
             GestionarClienteServicio gestionarClienteServicio = new GestionarClienteServicio();
             listaClientes = gestionarClienteServicio.buscarPorNombre(nombre);
-            if(listaClientes != null && listaClientes.size() > 0){
+            if(listaClientes!=null && listaClientes.size()>0){
                 for(Cliente cliente : listaClientes){
                     Fila fila = new Fila();
                     fila.agregarValorCelda(cliente.getCodigo());
@@ -281,9 +290,12 @@ public final class FormGestionarCliente extends javax.swing.JDialog {
                     fila.agregarValorCelda(cliente.getTelefono());
                     fila.agregarValorCelda(cliente.getCelular());
                     fila.agregarValorCelda(cliente.getCorreo());
-                    fila.agregarValorCelda(cliente.getSexo());
+                    fila.agregarValorCelda(cliente.getGenero());
                     fila.agregarValorCelda(cliente.isActivo());
                     fila.agregarValorCelda(cliente.getPais());
+                    fila.agregarValorCelda(cliente.getDepartamento());
+                    fila.agregarValorCelda(cliente.getProvincia());
+                    fila.agregarValorCelda(cliente.getDistrito());
                     tabla.agregarFila(fila);
                }
                 tablaClientes.setModel(modeloTablaCliente);
@@ -305,20 +317,23 @@ public final class FormGestionarCliente extends javax.swing.JDialog {
         // TODO add your handling code here:
         tabla = new Tabla();
         tabla.agregarColumna( new Columna("Codigo","java.lang.Integer"));
-        tabla.agregarColumna( new Columna("Nombres","java.lang.String"));
+        tabla.agregarColumna( new Columna("Nombre","java.lang.String"));
         tabla.agregarColumna( new Columna("Apellidos","java.lang.String"));
         tabla.agregarColumna( new Columna("DNI","java.lang.String"));
         tabla.agregarColumna( new Columna("Direccion","java.lang.String"));
         tabla.agregarColumna( new Columna("Telefono","java.lang.String"));
         tabla.agregarColumna( new Columna("Celular","java.lang.String"));
         tabla.agregarColumna(new Columna("Correo", "java.lang.String"));
-        tabla.agregarColumna( new Columna("Sexo","java.lang.String"));
-        tabla.agregarColumna( new Columna("Estado","java.lang.String"));
+        tabla.agregarColumna( new Columna("Genero","java.lang.String"));
+        tabla.agregarColumna( new Columna("Ativo","java.lang.String"));
         tabla.agregarColumna(new Columna("Pais", "java.lang.String"));
+        tabla.agregarColumna(new Columna("Departamento", "java.lang.String"));
+        tabla.agregarColumna(new Columna("Provincia", "java.lang.String"));
+        tabla.agregarColumna(new Columna("Distrito", "java.lang.String"));
         modeloTablaCliente = new ModeloTabla(tabla);
         tablaClientes.setModel(modeloTablaCliente);
         //CODIGO
-        TableColumn columna0,columna1,columna2,columna3,columna4,columna5, columna6, columna7, columna8, columna9;
+        TableColumn columna0,columna1,columna2,columna3,columna4,columna5, columna6, columna7, columna8, columna9, columna10,columna11,columna12, columna13;
         columna0 = tablaClientes.getColumnModel().getColumn(0);
         columna0.setPreferredWidth(100);
         columna0.setMaxWidth(100);
@@ -353,21 +368,42 @@ public final class FormGestionarCliente extends javax.swing.JDialog {
         columna6.setPreferredWidth(100);
         columna6.setMaxWidth(100);
         columna6.setMinWidth(100);
-        //SEXO
+         //CORREO
         columna7 = tablaClientes.getColumnModel().getColumn(7);
-        columna7.setPreferredWidth(50);
-        columna7.setMaxWidth(50);
-        columna7.setMinWidth(50);
-        //ESTADO
+        columna7.setPreferredWidth(100);
+        columna7.setMaxWidth(100);
+        columna7.setMinWidth(100);
+        //GENERO
         columna8 = tablaClientes.getColumnModel().getColumn(8);
         columna8.setPreferredWidth(50);
         columna8.setMaxWidth(50);
         columna8.setMinWidth(50);
-        //PAIS
+        //ESTADO
         columna9 = tablaClientes.getColumnModel().getColumn(9);
-        columna9.setPreferredWidth(150);
-        columna9.setMaxWidth(150);
-        columna9.setMinWidth(150);
+        columna9.setPreferredWidth(50);
+        columna9.setMaxWidth(50);
+        columna9.setMinWidth(50);
+        //PAIS
+        columna10 = tablaClientes.getColumnModel().getColumn(10);
+        columna10.setPreferredWidth(150);
+        columna10.setMaxWidth(150);
+        columna10.setMinWidth(150);
+        //DEPARTAMENTO
+        columna11 = tablaClientes.getColumnModel().getColumn(11);
+        columna11.setPreferredWidth(150);
+        columna11.setMaxWidth(150);
+        columna11.setMinWidth(150);
+        
+        //PROVINCIA
+        columna12 = tablaClientes.getColumnModel().getColumn(12);
+        columna12.setPreferredWidth(150);
+        columna12.setMaxWidth(150);
+        columna12.setMinWidth(150);
+        //DISTRITO
+        columna13 = tablaClientes.getColumnModel().getColumn(13);
+        columna13.setPreferredWidth(150);
+        columna13.setMaxWidth(150);
+        columna13.setMinWidth(150);
         
         tablaClientes.removeColumn(columna0);
     }
@@ -383,6 +419,7 @@ public final class FormGestionarCliente extends javax.swing.JDialog {
         return (Integer)modeloTablaCliente.getValueAt(numFila,0);
             
     }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botnEliminar;
@@ -393,6 +430,7 @@ public final class FormGestionarCliente extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JTable tablaClientes;
     private javax.swing.JTextField textoBuscar;

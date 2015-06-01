@@ -5,7 +5,6 @@
  */
 package apptiendasoft.c3_dominio.entidad;
 
-import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -25,8 +24,8 @@ public class Empleado extends Persona{
         
     }
 
-    public Empleado(int codigo, String nombre, String apellido, String dni, String direccion, String telefono, String celular, String correo, String sexo, boolean activo, Pais pais, Date fechaIngreso, Date fechaSalida, double sueldo, Cargo cargo, Usuario usuario) {
-        super(codigo, nombre, apellido, dni, direccion, telefono, celular, correo, sexo, activo, pais);
+    public Empleado(int codigo, String nombre, String apellido, String dni, String direccion, String telefono, String celular, String correo, String sexo, boolean activo, Pais pais,Departamento departamento, Provincia provincia,Distrito distrito, Date fechaIngreso, Date fechaSalida, double sueldo, Cargo cargo, Usuario usuario) {
+        super(codigo, nombre, apellido, dni, direccion, telefono, celular, correo, sexo, activo,pais, departamento, provincia, distrito );
         this.fechaIngreso = fechaIngreso;
         this.fechaSalida = fechaSalida;
         this.sueldo = sueldo;

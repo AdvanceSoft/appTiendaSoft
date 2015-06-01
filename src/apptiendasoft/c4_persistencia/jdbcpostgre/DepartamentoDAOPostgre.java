@@ -93,5 +93,4 @@ public class DepartamentoDAOPostgre implements IDepartamentoDAO{
             }
         return listadepartamento;
     }
-    
 }

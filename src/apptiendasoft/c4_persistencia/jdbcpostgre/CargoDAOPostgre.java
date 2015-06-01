@@ -81,4 +81,18 @@ public class CargoDAOPostgre implements ICargoDAO{
         }
         return listaCargo;
     }    
+
+    @Override
+    public Cargo buscarNombre(String nombre) throws Exception {
+        Cargo cargo = null;
+        String consulta = "select codigocargo, nombrecargo, descripcioncargo from cargo where codigocargo="+nombre;
+        ResultSet resultado = gestorJDBC.ejecutarConsulta(consulta);
+        if(resultado.next()){
+            cargo = new Cargo();
+            cargo.setCodigo(resultado.getInt(1));
+            cargo.setNombre(resultado.getString(2));
+            cargo.setDescripcion(resultado.getString(3));
+        }
+        return cargo;
+    }
 }

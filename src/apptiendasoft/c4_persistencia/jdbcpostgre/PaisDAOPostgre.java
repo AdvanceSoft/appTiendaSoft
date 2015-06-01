@@ -77,21 +77,20 @@ public class PaisDAOPostgre implements IPaisDAO{
         Pais pais;
         Departamento departamento;
         ArrayList<Pais> listapais= new ArrayList<>();
-        String consulta="select p.codpais,p.nombrepais,d.coddepartamento,d.nombredepartamento from pais p "
-                + "inner join departamento d on(p.coddepartamento=d.coddepartamento)"
-                + "where p.nombrepais like '%"+nombre+"%'";
+        String consulta="select p.codigopais,p.nombrepais,d.codigodepartamento,d.nombredepartamento from pais p \n" +
+                        "inner join departamento d on p.codigodepartamento=d.codigodepartamento\n" +
+                        "where p.nombrepais like '%"+nombre+"%'";
         ResultSet resultado=gestorJDBC.ejecutarConsulta(consulta);
             while(resultado.next()){
                 departamento = new Departamento();
-                departamento.setCodigo(resultado.getInt("coddepartamento"));
+                departamento.setCodigo(resultado.getInt("codigodepartamento"));
                 departamento.setNombre(resultado.getString("nombredepartamento"));
                 pais = new Pais();
-                pais.setCodigo(resultado.getInt("codpais"));
+                pais.setCodigo(resultado.getInt("codigopais"));
                 pais.setNombre(resultado.getString("nombrepais"));
                 pais.setDepartamento(departamento);
                 listapais.add(pais);
             }
         return listapais;
-    }
-    
+    }   
 }

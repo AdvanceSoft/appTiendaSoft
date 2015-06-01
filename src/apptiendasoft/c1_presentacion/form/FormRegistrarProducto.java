@@ -184,7 +184,6 @@ public class FormRegistrarProducto extends javax.swing.JDialog {
         botonCrearTipoProducto.setBackground(new java.awt.Color(255, 255, 255));
         botonCrearTipoProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/apptiendasoft/c5_recursos/iconos/tipoproductox20.png"))); // NOI18N
         botonCrearTipoProducto.setText("Crear");
-        botonCrearTipoProducto.setOpaque(false);
         botonCrearTipoProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonCrearTipoProductoActionPerformed(evt);
@@ -205,6 +204,11 @@ public class FormRegistrarProducto extends javax.swing.JDialog {
         botonCrearUnidadMedida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/apptiendasoft/c5_recursos/iconos/unidaddemedidax20.png"))); // NOI18N
         botonCrearUnidadMedida.setText("Crear");
         botonCrearUnidadMedida.setOpaque(false);
+        botonCrearUnidadMedida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCrearUnidadMedidaActionPerformed(evt);
+            }
+        });
 
         botonGuardar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         botonGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/apptiendasoft/c5_recursos/iconos/guardarx32.png"))); // NOI18N
@@ -324,6 +328,10 @@ public class FormRegistrarProducto extends javax.swing.JDialog {
     private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_botonGuardarActionPerformed
+
+    private void botonCrearUnidadMedidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearUnidadMedidaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botonCrearUnidadMedidaActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonCrearMarca;

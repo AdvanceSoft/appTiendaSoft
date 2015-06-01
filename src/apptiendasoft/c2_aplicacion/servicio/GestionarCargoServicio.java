@@ -61,4 +61,11 @@ public class GestionarCargoServicio {
         gestorJDBC.cerrarConexion();
         return listaCargo;
     }  
+    
+    public Cargo buscarNombre(String nombre)throws Exception{
+        gestorJDBC.abrirConexion();
+        Cargo cargo = cargoDAO.buscarNombre(nombre);
+        gestorJDBC.cerrarConexion();
+        return cargo;
+    }
 }

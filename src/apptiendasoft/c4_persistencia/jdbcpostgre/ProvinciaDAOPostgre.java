@@ -93,5 +93,4 @@ public class ProvinciaDAOPostgre implements IProvinciaDAO{
             }
         return listaprovincia;
     }
-    
 }
