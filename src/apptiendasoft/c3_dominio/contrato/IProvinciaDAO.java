@@ -13,9 +13,9 @@ import java.util.ArrayList;
  * @author sandra
  */
 public interface IProvinciaDAO {
-    public int crear(Provincia provincia)throws Exception;
-    public int modificar(Provincia provincia) throws Exception;
-    public int eliminar(int codigo) throws Exception;
+    public void crear(Provincia provincia)throws Exception;
+    public void modificar(Provincia provincia) throws Exception;
+    public void eliminar(int codigo) throws Exception;
     public Provincia buscar(int codigo) throws Exception;
     public ArrayList<Provincia> buscarPorNombre(String nombre)throws Exception;
 }

@@ -8,6 +8,8 @@ package apptiendasoft.c2_aplicacion.servicio;
 import apptiendasoft.c3_dominio.contrato.IDepartamentoDAO;
 import apptiendasoft.c3_dominio.entidad.Departamento;
 import apptiendasoft.c4_persistencia.GestorJDBC;
+import apptiendasoft.c4_persistencia.jdbcpostgre.DepartamentoDAOPostgre;
+import apptiendasoft.c4_persistencia.jdbcpostgre.GestorJDBCPostgre;
 import java.util.ArrayList;
 
 /**
@@ -19,26 +21,23 @@ public class GestionarDepartamentoServicio {
     IDepartamentoDAO departamentoDAO;
 
     public GestionarDepartamentoServicio() {
-        this.gestorJDBC = gestorJDBC;
-        this.departamentoDAO = departamentoDAO;
+        this.gestorJDBC = new GestorJDBCPostgre();
+        this.departamentoDAO = new DepartamentoDAOPostgre(gestorJDBC);
     }
-    public int crear(Departamento departamento)throws Exception{
+    public void crear(Departamento departamento)throws Exception{
         gestorJDBC.abrirConexion();
-        int estado=departamentoDAO.crear(departamento);
+        departamentoDAO.crear(departamento);
         gestorJDBC.cerrarConexion();
-        return estado;
     }
-    public int modificar(Departamento departamento)throws Exception{
+    public void modificar(Departamento departamento)throws Exception{
         gestorJDBC.abrirConexion();
-        int estado = departamentoDAO.modificar(departamento);
+        departamentoDAO.modificar(departamento);
         gestorJDBC.cerrarConexion();
-        return estado;
     }
-    public int eliminar(int codigo)throws Exception{
+    public void eliminar(int codigo)throws Exception{
         gestorJDBC.abrirConexion();
-        int estado = departamentoDAO.eliminar(codigo);
+        departamentoDAO.eliminar(codigo);
         gestorJDBC.cerrarConexion();
-        return estado;
     }
     public Departamento buscar(int codigo)throws Exception{
         gestorJDBC.abrirConexion();

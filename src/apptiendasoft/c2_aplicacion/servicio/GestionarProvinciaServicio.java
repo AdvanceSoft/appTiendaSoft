@@ -8,6 +8,8 @@ package apptiendasoft.c2_aplicacion.servicio;
 import apptiendasoft.c3_dominio.contrato.IProvinciaDAO;
 import apptiendasoft.c3_dominio.entidad.Provincia;
 import apptiendasoft.c4_persistencia.GestorJDBC;
+import apptiendasoft.c4_persistencia.jdbcpostgre.GestorJDBCPostgre;
+import apptiendasoft.c4_persistencia.jdbcpostgre.ProvinciaDAOPostgre;
 import java.util.ArrayList;
 
 /**
@@ -19,26 +21,23 @@ public class GestionarProvinciaServicio {
     IProvinciaDAO provinciaDAO;
 
     public GestionarProvinciaServicio() {
-        this.gestorJDBC = gestorJDBC;
-        this.provinciaDAO = provinciaDAO;
+        this.gestorJDBC = new GestorJDBCPostgre();
+        this.provinciaDAO = new ProvinciaDAOPostgre(gestorJDBC);
     }
-    public int crear(Provincia provincia)throws Exception{
+    public void crear(Provincia provincia)throws Exception{
         gestorJDBC.abrirConexion();
-        int estado=provinciaDAO.crear(provincia);
+        provinciaDAO.crear(provincia);
         gestorJDBC.cerrarConexion();
-        return estado;
     }
-    public int modificar(Provincia provincia)throws Exception{
+    public void modificar(Provincia provincia)throws Exception{
         gestorJDBC.abrirConexion();
-        int estado = provinciaDAO.modificar(provincia);
+        provinciaDAO.modificar(provincia);
         gestorJDBC.cerrarConexion();
-        return estado;
     }
-    public int eliminar(int codigo)throws Exception{
+    public void eliminar(int codigo)throws Exception{
         gestorJDBC.abrirConexion();
-        int estado = provinciaDAO.eliminar(codigo);
+        provinciaDAO.eliminar(codigo);
         gestorJDBC.cerrarConexion();
-        return estado;
     }
     public Provincia buscar(int codigo)throws Exception{
         gestorJDBC.abrirConexion();

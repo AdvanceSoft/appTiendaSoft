@@ -8,7 +8,7 @@ package apptiendasoft.c1_presentacion.form;
 import apptiendasoft.c1_presentacion.util.Mensaje;
 import apptiendasoft.c2_aplicacion.servicio.GestionarEmpleadoServicio;
 import apptiendasoft.c3_dominio.entidad.Empleado;
-import apptiendasoft.c3_dominio.entidad.Usuario;
+//import apptiendasoft.c3_dominio.entidad.Usuario;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;

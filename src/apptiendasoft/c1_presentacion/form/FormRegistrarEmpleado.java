@@ -660,11 +660,10 @@ public final class FormRegistrarEmpleado extends javax.swing.JDialog {
     }//GEN-LAST:event_botonSalirActionPerformed
     
     private boolean verificarDatosLlenos(){
-
         boolean estanLlenos;
        if(!(textoNombres.getText().trim().isEmpty()) && !(textoApellidos.getText().trim().isEmpty()) && !(textoDni.getText().trim().isEmpty()) && !(textoDireccion.getText().trim().isEmpty())
            && !(textoTelefono.getText().trim().isEmpty()) && !(textoCelular.getText().trim().isEmpty()) && !(textoCorreo.getText().trim().isEmpty()) && checkEstado.isSelected() && comboCargo.getSelectedIndex()!=-1
-          && jDateIngreso.getDate()!=null && jDateSalida.getDate()!=null && !(textoSueldo.getText().trim().isEmpty()) && !(textoUsuario.getText().trim().isEmpty()) && !(textoContraseña.getText().isEmpty()) && !(textoConfirmaContraseña.getText().isEmpty()))
+          && jDateIngreso.getDate()!=null && jDateSalida.getDate()!=null && !(textoSueldo.getText().trim().isEmpty()) && !(textoUsuario.getText().trim().isEmpty()) )
             estanLlenos = true;
         else
             estanLlenos = false; 
@@ -732,8 +731,8 @@ public final class FormRegistrarEmpleado extends javax.swing.JDialog {
             listaCargo = new ArrayList<>();
             listaCargo = gestionarCargoServicio.buscarporNombre(null);
             comboCargo.removeAllItems();
-            for(Cargo cargo : listaCargo){
-                comboCargo.addItem(cargo.getNombre());
+            for(Cargo cargo1 : listaCargo){
+                comboCargo.addItem(cargo1.getNombre());
             }
         } catch (Exception ex) {
             //Logger.getLogger(FormRegistrarEmpleado.class.getName()).log(Level.SEVERE, null, ex);

@@ -5,6 +5,9 @@
  */
 package apptiendasoft.c3_dominio.entidad;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author sandra
@@ -12,15 +15,10 @@ package apptiendasoft.c3_dominio.entidad;
 public class Departamento {
     private int codigo;
     private String nombre;
-    private Provincia provincia;
+    List<Provincia> listaProvincia;
 
     public Departamento() {
-    }
-
-    public Departamento(int codigo, String nombre, Provincia provincia) {
-        this.codigo = codigo;
-        this.nombre = nombre;
-        this.provincia = provincia;
+        listaProvincia = new ArrayList();
     }
 
     public int getCodigo() {
@@ -39,11 +37,25 @@ public class Departamento {
         this.nombre = nombre;
     }
 
-    public Provincia getProvincia() {
-        return provincia;
+    public List<Provincia> getListaProvincia() {
+        return listaProvincia;
     }
 
-    public void setProvincia(Provincia provincia) {
-        this.provincia = provincia;
+    public void agregarProvincias(Provincia provincia){
+        //antes de agregar si hay una validacion tiene que ir aquí
+        listaProvincia.add(provincia);
+    }
+    
+    public int cantidadDeProvincias(){
+        return listaProvincia.size();
+    }
+    
+    public void eliminarProvincia(Provincia provincia){
+        for(Provincia provinciaeliminar : listaProvincia){
+            if(provinciaeliminar.getNombre().equals(provincia.getNombre())){
+                listaProvincia.remove(provinciaeliminar);
+                break;
+            }
+        }
     }
 }

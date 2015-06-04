@@ -78,12 +78,43 @@ public class UnidadDeMedidaDAOPostgre implements IUnidadDeMedidaDAO{
 
     @Override
     public void ingresar(UnidadDeMedida unidadDeMedida) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       int registrosafectados;
+       PreparedStatement sentencia; 
+       String sentenciaSQL="insert into unidaddemedida(nombreunidaddemedida, descripcionunidaddemedida) values(?,?)";
+        try {
+            sentencia=gestorJDBC.prepararSentencia(sentenciaSQL);
+            asignarParametros(sentencia, unidadDeMedida);
+            registrosafectados= sentencia.executeUpdate(); 
+            sentencia.close();
+            if(registrosafectados == 0){
+                throw ExcepcionSQL.crearErrorInsertar();
+            }
+        } catch (SQLException | ExcepcionSQL e) {
+            throw ExcepcionSQL.crearErrorInsertar();
+        }
+    }
+    private void asignarParametros(PreparedStatement sentencia, UnidadDeMedida unidadDeMedida) throws SQLException {
+        sentencia.setString(1, unidadDeMedida.getNombreUnidadDeMedida());
+        sentencia.setString(2, unidadDeMedida.getDescripcionUnidadDeMedida());
     }
 
     @Override
     public void modificar(UnidadDeMedida unidadDeMedida) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int registrosafectados; 
+        PreparedStatement sentencia;
+        String sentenciaSQL ="update unidaddemedida set nombreunidaddemedida= ?, descripcionunidaddemedida=? where codigounidaddemedida= ?";
+        try {
+            sentencia=gestorJDBC.prepararSentencia(sentenciaSQL);
+            asignarParametros(sentencia, unidadDeMedida);
+            sentencia.setInt(3, unidadDeMedida.getCodigoUnidadDeMedida());
+            registrosafectados= sentencia.executeUpdate(); 
+            sentencia.close();
+            if(registrosafectados == 0){
+                throw ExcepcionSQL.crearErrorModificar();
+            }            
+        } catch (SQLException | ExcepcionSQL e) {
+           throw ExcepcionSQL.crearErrorModificar();
+        }
     }
 
     @Override

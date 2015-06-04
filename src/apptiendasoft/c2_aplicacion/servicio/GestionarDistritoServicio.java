@@ -8,6 +8,8 @@ package apptiendasoft.c2_aplicacion.servicio;
 import apptiendasoft.c3_dominio.contrato.IDistritoDAO;
 import apptiendasoft.c3_dominio.entidad.Distrito;
 import apptiendasoft.c4_persistencia.GestorJDBC;
+import apptiendasoft.c4_persistencia.jdbcpostgre.DistritoDAOPostgre;
+import apptiendasoft.c4_persistencia.jdbcpostgre.GestorJDBCPostgre;
 import java.util.ArrayList;
 
 /**
@@ -19,8 +21,8 @@ public class GestionarDistritoServicio {
     IDistritoDAO distritoDAO;
 
     public GestionarDistritoServicio() {
-        this.gestorJDBC = gestorJDBC;
-        this.distritoDAO = distritoDAO;
+        this.gestorJDBC = new GestorJDBCPostgre();
+        this.distritoDAO = new DistritoDAOPostgre(gestorJDBC);
     }
     public int crear(Distrito distrito)throws Exception{
         gestorJDBC.abrirConexion();
