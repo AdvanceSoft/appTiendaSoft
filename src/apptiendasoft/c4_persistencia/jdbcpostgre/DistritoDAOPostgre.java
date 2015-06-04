@@ -64,13 +64,8 @@ public class DistritoDAOPostgre implements IDistritoDAO{
             nombre="";
         }
         Distrito distrito;
-<<<<<<< HEAD
-        ArrayList<Distrito> listadistrito= new ArrayList<>();
-        String consulta="select codigodistrito,nombredistrito from distrito where nombredistrito like '%"+nombre+"%' order by codigodistrito";
-=======
         ArrayList<Distrito> listadistrito= new ArrayList();
         String consulta="select codigodistrito,nombredistrito from distrito where nombredistrito like '%"+nombre+"%' and codigoprovincia is null order by codigodistrito";
->>>>>>> origin/master
         ResultSet resultado= gestorJDBC.ejecutarConsulta(consulta);
             while(resultado.next()){
                 distrito = new Distrito();

@@ -5,7 +5,18 @@
  */
 package apptiendasoft.c1_presentacion.form;
 
-import java.awt.Color;
+import apptiendasoft.c1_presentacion.util.Mensaje;
+import apptiendasoft.c2_aplicacion.servicio.GestionarProveedorServicio;
+import apptiendasoft.c3_dominio.entidad.Proveedor;
+import apptiendasoft.c3_dominio.servicio.ConsultaProveedores;
+import java.util.List;
+import javax.swing.table.TableColumn;
+import mastersoft.modelo.ModeloTabla;
+import mastersoft.tabladatos.Columna;
+import mastersoft.tabladatos.Fila;
+import mastersoft.tabladatos.Tabla;
+
+
 
 /**
  *
@@ -20,8 +31,79 @@ public class FormGestionarProveedor extends javax.swing.JDialog {
     public FormGestionarProveedor(java.awt.Frame parent) {
         super(parent, true);
         initComponents();
-        this.getContentPane().setBackground(Color.WHITE);
-        
+        crearTablaProveedor();
+    }
+    private void crearTablaProveedor(){  
+        try{
+            GestionarProveedorServicio gestionarProveedorServicio = new GestionarProveedorServicio();
+            ConsultaProveedores consultaProveedores = gestionarProveedorServicio.buscarAll();       
+            Tabla tablaUnidadDeMedida = new Tabla();
+            tablaUnidadDeMedida.agregarColumna(new Columna("CODIGOPROVEEDOR","java.lang.Integer"));
+            tablaUnidadDeMedida.agregarColumna(new Columna("RAZON SOCIAL","java.lang.String"));
+            tablaUnidadDeMedida.agregarColumna(new Columna("RUC","java.lang.String"));
+            tablaUnidadDeMedida.agregarColumna(new Columna("SERVICIO","java.lang.String"));
+            tablaUnidadDeMedida.agregarColumna(new Columna("DIRECCIÓN","java.lang.String"));
+            tablaUnidadDeMedida.agregarColumna(new Columna("CELULAR","java.lang.String"));
+            ModeloTabla modeloTablaUnidadDeMedida = new ModeloTabla(tablaUnidadDeMedida); 
+            tablaProveedores.setModel(modeloTablaUnidadDeMedida);       
+            TableColumn columna0,columna1,columna2,columna3,columna4,columna5;
+            columna0= tablaProveedores.getColumnModel().getColumn(0);
+            tablaProveedores.removeColumn(columna0);
+            columna1 = tablaProveedores.getColumnModel().getColumn(0);
+            columna1.setPreferredWidth(400);
+            columna1.setMaxWidth(400);
+            columna1.setMinWidth(100);
+            columna2 = tablaProveedores.getColumnModel().getColumn(1);
+            columna2.setPreferredWidth(100);
+            columna2.setMaxWidth(150);
+            columna2.setMinWidth(50);  
+            columna3 = tablaProveedores.getColumnModel().getColumn(1);
+            columna3.setPreferredWidth(400);
+            columna3.setMaxWidth(400);
+            columna3.setMinWidth(100);
+            columna4 = tablaProveedores.getColumnModel().getColumn(1);
+            columna4.setPreferredWidth(400);
+            columna4.setMaxWidth(400);
+            columna4.setMinWidth(100);
+            columna5 = tablaProveedores.getColumnModel().getColumn(1);
+            columna5.setPreferredWidth(100);
+            columna5.setMaxWidth(150);
+            columna5.setMinWidth(50);  
+            etiquetaCantidadDeRegistros.setText(String.valueOf(consultaProveedores.cantidadProveedoresConsultados()));
+            etiquetaActivos.setText(String.valueOf(consultaProveedores.cantidadProveedoresActivos()));
+            etiquetaInactivos.setText(String.valueOf(consultaProveedores.cantidadProveedoresInactivos()));
+        }catch(Exception e){
+            Mensaje.mostrarErrorExcepcion(this, e.getMessage());
+        }
+    }
+    
+    private  void consultarProveedores(){
+      String descripcion = textoBusqueda.getText();
+      ModeloTabla modeloTablaUnidadDeMedida = (ModeloTabla)tablaProveedores.getModel();
+        try {
+            GestionarProveedorServicio gestionarProveedorServicio = new GestionarProveedorServicio();
+            ConsultaProveedores consultaProveedores = gestionarProveedorServicio.buscar(descripcion); 
+            List<Proveedor> proveedores = consultaProveedores.getProveedores();
+            modeloTablaUnidadDeMedida.eliminarTotalFilas();
+            if(proveedores.size()>0){
+                for(Proveedor proveedor : proveedores){
+                    Fila fila = new Fila();
+                    fila.agregarValorCelda(proveedor.getCodigo());
+                    fila.agregarValorCelda(proveedor.getRazonsocial());
+                    fila.agregarValorCelda(proveedor.getRuc());
+                    fila.agregarValorCelda(proveedor.getServicio());
+                    fila.agregarValorCelda(proveedor.getDireccion());
+                    fila.agregarValorCelda(proveedor.getCelular());
+                    modeloTablaUnidadDeMedida.agregarFila(fila);
+                }
+                    modeloTablaUnidadDeMedida.refrescarDatos();
+                    etiquetaresultados.setText(String.valueOf(consultaProveedores.cantidadProveedoresConsultados()));
+            }else{
+                Mensaje.Mostrar_MENSAJE_NOSEENCONTRONINGUNRESULTADO(this);                
+            }        
+        } catch (Exception e) {
+          Mensaje.mostrarErrorExcepcion(this, e.getMessage());
+        }
     }
 
     /**
@@ -40,22 +122,21 @@ public class FormGestionarProveedor extends javax.swing.JDialog {
         botonSalir = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        comboBusqueda = new javax.swing.JComboBox();
         botonBuscar = new javax.swing.JButton();
-        textoBusquedaProvincia = new javax.swing.JTextField();
+        textoBusqueda = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaProveedores = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        etiquetaCantidadDeRegistros = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        etiquetaActivos = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
+        etiquetaresultados = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
+        etiquetaInactivos = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gestionar Proveedores");
@@ -126,23 +207,29 @@ public class FormGestionarProveedor extends javax.swing.JDialog {
         });
         jToolBar1.add(botonSalir);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel1.setText("Buscar Por:");
-
-        comboBusqueda.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        comboBusqueda.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Razon Social", "Rubro", "Ruc", "Dirección " }));
+        jLabel1.setText("Buscar por razon social:");
 
         botonBuscar.setBackground(new java.awt.Color(255, 255, 255));
         botonBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/apptiendasoft/c5_recursos/iconos/buscarx20.png"))); // NOI18N
         botonBuscar.setText("Buscar");
+        botonBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonBuscarActionPerformed(evt);
+            }
+        });
 
-        textoBusquedaProvincia.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        textoBusquedaProvincia.setToolTipText("descripción de la busqueda");
-        textoBusquedaProvincia.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        textoBusquedaProvincia.setSelectionColor(new java.awt.Color(102, 102, 102));
+        textoBusqueda.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        textoBusqueda.setToolTipText("descripción de la busqueda");
+        textoBusqueda.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        textoBusqueda.setSelectionColor(new java.awt.Color(102, 102, 102));
+        textoBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                textoBusquedaKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -152,9 +239,7 @@ public class FormGestionarProveedor extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(comboBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(textoBusquedaProvincia)
+                .addComponent(textoBusqueda)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(botonBuscar)
                 .addContainerGap())
@@ -165,31 +250,31 @@ public class FormGestionarProveedor extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(comboBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonBuscar)
-                    .addComponent(textoBusquedaProvincia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(textoBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(tablaProveedores);
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel2.setText("RESUMEN");
+        jLabel2.setText("INFORMACIÓN GENERAL");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(102, 102, 102));
         jLabel3.setText("Cantidad de Registros:");
 
-        jLabel4.setText("0");
+        etiquetaCantidadDeRegistros.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        etiquetaCantidadDeRegistros.setText("0");
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(102, 102, 102));
         jLabel5.setText("Cantidad de Proveedores activos:");
 
-        jLabel6.setText("0");
+        etiquetaActivos.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        etiquetaActivos.setText("0");
 
         jLabel7.setForeground(new java.awt.Color(102, 102, 102));
         jLabel7.setText("Cerca de");
@@ -197,14 +282,16 @@ public class FormGestionarProveedor extends javax.swing.JDialog {
         jLabel8.setForeground(new java.awt.Color(102, 102, 102));
         jLabel8.setText("resultados.");
 
-        jLabel9.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel9.setText("0");
+        etiquetaresultados.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        etiquetaresultados.setForeground(new java.awt.Color(102, 102, 102));
+        etiquetaresultados.setText("0");
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(102, 102, 102));
         jLabel10.setText("Cantidad de Proveedores desactivos:");
 
-        jLabel11.setText("0");
+        etiquetaInactivos.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        etiquetaInactivos.setText("0");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -216,22 +303,22 @@ public class FormGestionarProveedor extends javax.swing.JDialog {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel4)
+                        .addComponent(etiquetaCantidadDeRegistros)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel6)
+                        .addComponent(etiquetaActivos)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel11)
+                        .addComponent(etiquetaInactivos)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel9)
+                        .addComponent(etiquetaresultados)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel8)))
                 .addContainerGap())
@@ -244,15 +331,15 @@ public class FormGestionarProveedor extends javax.swing.JDialog {
                     .addComponent(jLabel2)
                     .addComponent(jLabel7)
                     .addComponent(jLabel8)
-                    .addComponent(jLabel9))
+                    .addComponent(etiquetaresultados))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel4)
+                    .addComponent(etiquetaCantidadDeRegistros)
                     .addComponent(jLabel5)
-                    .addComponent(jLabel6)
+                    .addComponent(etiquetaActivos)
                     .addComponent(jLabel10)
-                    .addComponent(jLabel11))
+                    .addComponent(etiquetaInactivos))
                 .addContainerGap())
         );
 
@@ -260,7 +347,7 @@ public class FormGestionarProveedor extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 793, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 891, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -276,7 +363,7 @@ public class FormGestionarProveedor extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -304,29 +391,36 @@ public class FormGestionarProveedor extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_botonSalirActionPerformed
 
+    private void textoBusquedaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textoBusquedaKeyTyped
+        consultarProveedores();
+    }//GEN-LAST:event_textoBusquedaKeyTyped
+
+    private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
+        consultarProveedores();
+    }//GEN-LAST:event_botonBuscarActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonBuscar;
     private javax.swing.JButton botonCrear;
     private javax.swing.JButton botonEliminar;
     private javax.swing.JButton botonModificar;
     private javax.swing.JButton botonSalir;
-    private javax.swing.JComboBox comboBusqueda;
+    private javax.swing.JLabel etiquetaActivos;
+    private javax.swing.JLabel etiquetaCantidadDeRegistros;
+    private javax.swing.JLabel etiquetaInactivos;
+    private javax.swing.JLabel etiquetaresultados;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JTable tablaProveedores;
-    private javax.swing.JTextField textoBusquedaProvincia;
+    private javax.swing.JTextField textoBusqueda;
     // End of variables declaration//GEN-END:variables
 }

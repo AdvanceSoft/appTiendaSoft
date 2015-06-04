@@ -150,32 +150,32 @@ public class PaisDAOPostgre implements IPaisDAO{
         }
         Pais pais;
         ArrayList<Pais> listapais= new ArrayList<>();
-<<<<<<< HEAD
-        String consulta="select p.codigopais,p.nombrepais,d.codigodepartamento,d.nombredepartamento from pais p \n" +
-                        "inner join departamento d on p.codigodepartamento=d.codigodepartamento\n" +
-                        "where p.nombrepais like '%"+nombre+"%'";
-=======
-        String consulta="select codigopais,nombrepais from pais where nombrepais like '%"+nombre+"%' order by codigopais";
->>>>>>> origin/master
-        ResultSet resultado=gestorJDBC.ejecutarConsulta(consulta);
-            while(resultado.next()){
-<<<<<<< HEAD
-                departamento = new Departamento();
-                departamento.setCodigo(resultado.getInt("codigodepartamento"));
-                departamento.setNombre(resultado.getString("nombredepartamento"));
-=======
->>>>>>> origin/master
-                pais = new Pais();
-<<<<<<< HEAD
-                pais.setCodigo(resultado.getInt("codigopais"));
-                pais.setNombre(resultado.getString("nombrepais"));
-                pais.setDepartamento(departamento);
-=======
-                pais.setCodigo(resultado.getInt(1));
-                pais.setNombre(resultado.getString(2));
->>>>>>> origin/master
-                listapais.add(pais);
-            }
+//<<<<<<< HEAD
+//        String consulta="select p.codigopais,p.nombrepais,d.codigodepartamento,d.nombredepartamento from pais p \n" +
+//                        "inner join departamento d on p.codigodepartamento=d.codigodepartamento\n" +
+//                        "where p.nombrepais like '%"+nombre+"%'";
+//=======
+//        String consulta="select codigopais,nombrepais from pais where nombrepais like '%"+nombre+"%' order by codigopais";
+//>>>>>>> origin/master
+//        ResultSet resultado=gestorJDBC.ejecutarConsulta(consulta);
+//            while(resultado.next()){
+//<<<<<<< HEAD
+//                departamento = new Departamento();
+//                departamento.setCodigo(resultado.getInt("codigodepartamento"));
+//                departamento.setNombre(resultado.getString("nombredepartamento"));
+//=======
+//>>>>>>> origin/master
+//                pais = new Pais();
+//<<<<<<< HEAD
+//                pais.setCodigo(resultado.getInt("codigopais"));
+//                pais.setNombre(resultado.getString("nombrepais"));
+//                pais.setDepartamento(departamento);
+//=======
+//                pais.setCodigo(resultado.getInt(1));
+//                pais.setNombre(resultado.getString(2));
+//>>>>>>> origin/master
+//                listapais.add(pais);
+//            }
         return listapais;
     }   
 }

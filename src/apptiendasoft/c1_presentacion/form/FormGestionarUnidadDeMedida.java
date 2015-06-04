@@ -8,7 +8,6 @@ package apptiendasoft.c1_presentacion.form;
 import apptiendasoft.c1_presentacion.util.Mensaje;
 import apptiendasoft.c2_aplicacion.servicio.GestionarUnidadDeMedida;
 import apptiendasoft.c3_dominio.entidad.UnidadDeMedida;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.TableColumn;
 import mastersoft.modelo.ModeloTabla;
