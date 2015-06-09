@@ -45,6 +45,4 @@ public class ConsultaProveedores {
         }
         return cantidad;
     }
-    
-   
 }

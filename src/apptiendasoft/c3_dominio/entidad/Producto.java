@@ -21,11 +21,14 @@ public class Producto {
     private boolean estado;
 
     private Marca marca;
+    private UnidadDeMedida unidadDeMedida;
+    private TipoProducto tipoProducto;
     
     public Producto() {
+        this.codigo = 0;
     }
 
-    public Producto(int codigo, String codigobarras, String nombre, String descripcion, double precio, boolean estado, Marca marca) {
+    public Producto(int codigo, String codigobarras, String nombre, String descripcion, double precio, boolean estado, Marca marca, UnidadDeMedida unidadDeMedida, TipoProducto tipoProducto) {
         this.codigo = codigo;
         this.codigobarras = codigobarras;
         this.nombre = nombre;
@@ -33,6 +36,8 @@ public class Producto {
         this.precio = precio;
         this.estado = estado;
         this.marca = marca;
+        this.unidadDeMedida = unidadDeMedida;
+        this.tipoProducto = tipoProducto;
     }
 
     public int getCodigo() {
@@ -89,6 +94,22 @@ public class Producto {
 
     public void setMarca(Marca marca) {
         this.marca = marca;
+    }
+
+    public UnidadDeMedida getUnidadDeMedida() {
+        return unidadDeMedida;
+    }
+
+    public void setUnidadDeMedida(UnidadDeMedida unidadDeMedida) {
+        this.unidadDeMedida = unidadDeMedida;
+    }
+
+    public TipoProducto getTipoProducto() {
+        return tipoProducto;
+    }
+
+    public void setTipoProducto(TipoProducto tipoProducto) {
+        this.tipoProducto = tipoProducto;
     }
     
     public void verificarPrecio() throws ExcepcionRegla{

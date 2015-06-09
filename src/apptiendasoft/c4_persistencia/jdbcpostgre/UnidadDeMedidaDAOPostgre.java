@@ -78,18 +78,15 @@ public class UnidadDeMedidaDAOPostgre implements IUnidadDeMedidaDAO{
 
     @Override
     public void ingresar(UnidadDeMedida unidadDeMedida) throws Exception {
-       int registrosafectados;
+       //int registrosafectados;
        PreparedStatement sentencia; 
-       String sentenciaSQL="insert into unidaddemedida(nombreunidaddemedida, descripcionunidaddemedida) values(?,?)";
+       String sentenciaSQL="insert into 5unidaddemedida(nombreunidaddemedida, descripcionunidaddemedida) values(?,?)";
         try {
             sentencia=gestorJDBC.prepararSentencia(sentenciaSQL);
             asignarParametros(sentencia, unidadDeMedida);
-            registrosafectados= sentencia.executeUpdate(); 
+            sentencia.executeUpdate(); 
             sentencia.close();
-            if(registrosafectados == 0){
-                throw ExcepcionSQL.crearErrorInsertar();
-            }
-        } catch (SQLException | ExcepcionSQL e) {
+        } catch (SQLException e) {
             throw ExcepcionSQL.crearErrorInsertar();
         }
     }

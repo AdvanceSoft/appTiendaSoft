@@ -5,6 +5,17 @@
  */
 package apptiendasoft.c1_presentacion.form;
 
+import apptiendasoft.c1_presentacion.util.Mensaje;
+import apptiendasoft.c2_aplicacion.servicio.GestionarProductoServicio;
+import apptiendasoft.c3_dominio.entidad.Producto;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.TableColumn;
+import mastersoft.modelo.ModeloTabla;
+import mastersoft.tabladatos.Columna;
+import mastersoft.tabladatos.Fila;
+import mastersoft.tabladatos.Tabla;
+
 /**
  *
  * @author
@@ -15,11 +26,94 @@ public class FormGestionarProducto extends javax.swing.JDialog {
     /**
      * Creates new form FormGestionarProducto
      * @param parent
-     * @param modal
      */
-    public FormGestionarProducto(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public FormGestionarProducto(java.awt.Frame parent) {
+        super(parent, true);
         initComponents();
+        crearTabla();
+    }
+    
+    private void crearTabla() {
+        Tabla tabla_Producto = new Tabla();
+        tabla_Producto.agregarColumna(new Columna("Codigo", "java.lang.Integer"));
+        tabla_Producto.agregarColumna(new Columna("Nombre", "java.lang.String"));
+        tabla_Producto.agregarColumna(new Columna("Tipo Producto", "java.lang.String"));
+        tabla_Producto.agregarColumna(new Columna("U. Medida", "java.lang.String"));
+        tabla_Producto.agregarColumna(new Columna("Marca", "java.lang.String"));
+        tabla_Producto.agregarColumna(new Columna("Descripcion", "java.lang.String"));
+        //tabla_Producto.agregarColumna(new Columna("Stock", "java.lang.Integer"));
+        tabla_Producto.agregarColumna(new Columna("Precio", "java.lang.Double"));
+        
+        ModeloTabla modeloTablaProducto = new ModeloTabla(tabla_Producto);
+        tablaProducto.setModel(modeloTablaProducto );
+        
+        TableColumn columna0,columna1,columna2,columna3,columna4,columna5,columna6;
+        //Codigo
+        columna0 = tablaProducto.getColumnModel().getColumn(0);
+        columna0.setPreferredWidth(150);
+        columna0.setMaxWidth(200);
+        columna0.setMinWidth(150);
+        //Nombre
+        columna1 = tablaProducto.getColumnModel().getColumn(1);
+        columna1.setPreferredWidth(140);
+        columna1.setMaxWidth(250);
+        columna1.setMinWidth(140);
+        //Tipo Producto
+        columna2 = tablaProducto.getColumnModel().getColumn(2);
+        columna2.setPreferredWidth(120);
+        columna2.setMaxWidth(160);
+        columna2.setMinWidth(120);
+        //Unidad de Medida
+        columna3 = tablaProducto.getColumnModel().getColumn(3);
+        columna3.setPreferredWidth(65);
+        columna3.setMaxWidth(75);
+        columna3.setMinWidth(65);
+        //Marca
+        columna4 = tablaProducto.getColumnModel().getColumn(4);
+        columna4.setPreferredWidth(100);
+        columna4.setMaxWidth(120);
+        columna4.setMinWidth(100);
+        //Descripcion
+        columna5 = tablaProducto.getColumnModel().getColumn(5);
+        columna5.setPreferredWidth(250);
+        columna5.setMaxWidth(300);
+        columna5.setMinWidth(250);
+        //Precio
+        columna6 = tablaProducto.getColumnModel().getColumn(6);
+        columna6.setPreferredWidth(55);
+        columna6.setMaxWidth(60);
+        columna6.setMinWidth(55);
+        tablaProducto.removeColumn(columna0);
+    }
+    
+    private void buscar(){
+        ArrayList<Producto> listaProducto;
+        ModeloTabla modeloTablaProducto = (ModeloTabla) tablaProducto.getModel();
+        modeloTablaProducto.eliminarTotalFilas();
+        String nombre = textoBuscar.getText().trim().toLowerCase();
+        try {
+            GestionarProductoServicio gestionarProductoServicio = new GestionarProductoServicio();
+            listaProducto = gestionarProductoServicio.buscar(nombre);
+            if(listaProducto!=null && listaProducto.size()>0){
+                for(Producto producto : listaProducto){
+                    Fila fila = new Fila();
+                    fila.agregarValorCelda(producto.getCodigo());
+                    fila.agregarValorCelda(producto.getNombre());
+                    fila.agregarValorCelda(producto.getTipoProducto().getNombre());
+                    fila.agregarValorCelda(producto.getUnidadDeMedida().getNombreUnidadDeMedida());
+                    fila.agregarValorCelda(producto.getMarca().getNombre());
+                    fila.agregarValorCelda(producto.getDescripcion());
+                    fila.agregarValorCelda(producto.getPrecio());
+                    modeloTablaProducto.agregarFila(fila);
+                }  
+                tablaProducto.setModel(modeloTablaProducto);
+            }else{
+                Mensaje.Mostrar_MENSAJE_NOSEENCONTRONINGUNRESULTADO(this);
+                //ponerFocoConSeleccionEnBuscar();
+            }             
+        } catch(Exception e){
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
     }
 
     /**
@@ -53,6 +147,7 @@ public class FormGestionarProducto extends javax.swing.JDialog {
         botonBuscar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaProducto = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gestionar Producto");
@@ -178,6 +273,9 @@ public class FormGestionarProducto extends javax.swing.JDialog {
         ));
         jScrollPane1.setViewportView(tablaProducto);
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setText("Nombre:");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -186,6 +284,8 @@ public class FormGestionarProducto extends javax.swing.JDialog {
                 .addGap(23, 23, 23)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(textoBuscar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(botonBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -198,7 +298,8 @@ public class FormGestionarProducto extends javax.swing.JDialog {
                 .addGap(15, 15, 15)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(textoBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botonBuscar))
+                    .addComponent(botonBuscar)
+                    .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -225,6 +326,7 @@ public class FormGestionarProducto extends javax.swing.JDialog {
 
     private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
         // TODO add your handling code here:
+        buscar();
     }//GEN-LAST:event_botonBuscarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -234,6 +336,7 @@ public class FormGestionarProducto extends javax.swing.JDialog {
     private javax.swing.JButton botonModificar;
     private javax.swing.JButton botonSalir;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

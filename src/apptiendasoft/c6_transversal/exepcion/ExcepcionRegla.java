@@ -41,7 +41,4 @@ public class ExcepcionRegla extends Exception{
     public static ExcepcionRegla crearErrorMENSAJE_PRODUCTONOCREADO(){
         return new ExcepcionRegla(MENSAJE_PRODUCTONOCREADO);
     }
-    
-    
-       
 }

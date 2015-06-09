@@ -305,7 +305,7 @@ public final class FormMenu extends javax.swing.JFrame {
         menuTipodeProducto.setBackground(new java.awt.Color(255, 255, 255));
         menuTipodeProducto.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         menuTipodeProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/apptiendasoft/c5_recursos/iconos/TipoProductox32.png"))); // NOI18N
-        menuTipodeProducto.setText("Gestioonar Tipo de Producto");
+        menuTipodeProducto.setText("Gestionar Tipo de Producto");
         menuTipodeProducto.setOpaque(true);
         menuTipodeProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -762,6 +762,8 @@ public final class FormMenu extends javax.swing.JFrame {
 
     private void menuTipodeProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuTipodeProductoActionPerformed
         // TODO add your handling code here:
+        FormGestionarTipoProducto formGestionarTipoProducto = new FormGestionarTipoProducto(this, true);
+        formGestionarTipoProducto.setVisible(true);
     }//GEN-LAST:event_menuTipodeProductoActionPerformed
 
     private void menuUnidadDeMedidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuUnidadDeMedidaActionPerformed
@@ -808,6 +810,7 @@ public final class FormMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
         FormRegistrarEmpresa formRegistrarEmpresa = new FormRegistrarEmpresa(this, true);
         formRegistrarEmpresa.setVisible(true);
+        cargarFondo();
     }//GEN-LAST:event_menuEmpresaActionPerformed
 
     private void menuReportesClienteCompraronMasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuReportesClienteCompraronMasActionPerformed
@@ -893,7 +896,7 @@ public final class FormMenu extends javax.swing.JFrame {
 
     private void botonADGestionarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonADGestionarProductoActionPerformed
         // TODO add your handling code here:
-        FormGestionarProducto formGestionarProducto = new FormGestionarProducto(this, true);
+        FormGestionarProducto formGestionarProducto = new FormGestionarProducto(this);
         formGestionarProducto.setVisible(true);
     }//GEN-LAST:event_botonADGestionarProductoActionPerformed
 
@@ -916,6 +919,7 @@ public final class FormMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
         FormGestionarConfiguracion formGestionarConfiguracion = new FormGestionarConfiguracion(this, true);
         formGestionarConfiguracion.setVisible(true);
+        cargarFondo();
     }//GEN-LAST:event_botonADConfiguracionActionPerformed
 
     private void botonADInternetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonADInternetActionPerformed

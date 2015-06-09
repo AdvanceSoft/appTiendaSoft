@@ -54,7 +54,7 @@ public class UnidadDeMedida {
         return descripcionUnidadDeMedida;
     }
 
-    public void setDescripcionUnidadDeMedida(String descripcionUnidadDeMedida) {
+    public void setDescripcionUnidadDeMedida(String descripcionUnidadDeMedida) {        
        if(descripcionUnidadDeMedida!=null)
            this.descripcionUnidadDeMedida = descripcionUnidadDeMedida.trim().isEmpty() ? "Sin descripción" : descripcionUnidadDeMedida.trim().toUpperCase();
        else
