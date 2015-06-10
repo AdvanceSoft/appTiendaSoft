@@ -7,57 +7,61 @@ package apptiendasoft.c3_dominio.algoritmo;
 
 import apptiendasoft.c6_transversal.exepcion.ExcepcionReglaLogica;
 
+
+
 /**
  *
  * @author
  * <AdvanceSoft - Mendoza Torres, Valentin - advancesoft.trujillo@gmail.com>
  */
 public class Validador {
-    private static final int APELLIDO_MAX = 3;
-    private static final int NOMBRE_MAX = 5;
+    private static final int APELLIDO_MAX = 30;
+    private static final int APELLIDO_MIN = 3;
+    private static final int PALABRA_APELLIDO_MAX = 4;
+    
+    private static final int NOMBRE_MAX = 25;
+    private static final int NOMBRE_MIN = 2;
+    private static final int PALABRA_NOMBRE_MAX = 5;
+  
     private static final int NUM_RUC= 11;
-    private static final int NUM_MAX_NOMRE = 5;
+    private static final int NUM_MAX_ABREVIATURA = 5;
     
     public static void validarApellido(String apellido)throws Exception{
-        String apellidoArray[] = apellido.split(" ");
-        int contador=0;
-        for (String palbra : apellidoArray){
-             contador++;
+        String apellidoArray[] = apellido.trim().split(" ");
+        int contador=0;        
+        for (String palabra : apellidoArray){
+            contador++;             
+            if(palabra.length()<=APELLIDO_MIN || palabra.length()>=APELLIDO_MAX ||!palabra.matches("[a-zA-Z]*"))
+                     throw ExcepcionReglaLogica.crearErrorMENSAJE_APELLIDO();                        
         }
-        if(contador > APELLIDO_MAX)
+        if(contador>PALABRA_APELLIDO_MAX)
             throw ExcepcionReglaLogica.crearErrorMENSAJE_APELLIDO();
     }
+    
     public static void validarNombre(String nombre)throws Exception{
-        String apellidoArray[] = nombre.split(" ");
-        int contador=0;
-        for (String palabra : apellidoArray){
-             contador++;
+        String nombreArray[] = nombre.trim().split(" ");
+        int contador=0;        
+        for (String palabra : nombreArray){
+            contador++;             
+            if(palabra.length()<=NOMBRE_MIN || palabra.length()>=NOMBRE_MAX ||!palabra.matches("[a-zA-Z]*"))
+                     throw ExcepcionReglaLogica.crearErrorMENSAJE_NOMBRE();                        
         }
-        if(contador > NOMBRE_MAX)
+        if(contador>PALABRA_NOMBRE_MAX)
             throw ExcepcionReglaLogica.crearErrorMENSAJE_NOMBRE();
     }
+    
     public static void validarCorreo(String correo)throws Exception{
         if(!correo.contains("@") || !correo.contains("."))
             throw ExcepcionReglaLogica.crearErrorMENSAJE_CORREO(); 
     }
+    
     public static void validarRuc(String ruc)throws Exception{
-        int contador=0;
-        for(int i =0; i<ruc.length(); i++){
-           contador++;
-       } 
-          if(contador > NUM_RUC || !ruc.matches("[0-9]*"))
-            throw ExcepcionReglaLogica.crearErrorMENSAJE_RUC();
+        if(ruc.length() > NUM_RUC || ruc.length() < NUM_RUC || !ruc.matches("[0-9]*"))
+        throw ExcepcionReglaLogica.crearErrorMENSAJE_RUC();
     }
-    public static void validarNombreUnidadDeMedida(String nombre)throws Exception{
-       if(nombre!=null){
-           if(!nombre.trim().isEmpty()){
-                int contador=0;
-                for(int i=0; i<nombre.length(); i++){
-                    contador++;
-                }
-                if(contador>NUM_MAX_NOMRE)
-                    throw ExcepcionReglaLogica.crearErrorMENSAJE_UNIDADMEDIDAD();
-            }             
-       }         
+    
+    public static void validarAbreviaturaUnidadDeMedida(String abreviatura)throws Exception{        
+        if(abreviatura.trim().length()>NUM_MAX_ABREVIATURA)
+            throw ExcepcionReglaLogica.crearErrorMENSAJE_UNIDADMEDIDAD();
     }
 }

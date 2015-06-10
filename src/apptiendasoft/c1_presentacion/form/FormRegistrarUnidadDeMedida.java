@@ -199,7 +199,7 @@ public class FormRegistrarUnidadDeMedida extends javax.swing.JDialog {
             String nombreunidad= textoNombre.getText();
             botonGuardar.setEnabled(true);
             etiquetamensaje.setVisible(false);
-            Validador.validarNombreUnidadDeMedida(nombreunidad);
+            Validador.validarAbreviaturaUnidadDeMedida(nombreunidad);
         } catch (Exception e) {
             etiquetamensaje.setVisible(true);
             etiquetamensaje.setText(e.getMessage());

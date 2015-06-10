@@ -138,9 +138,6 @@
           <Image iconType="3" name="/apptiendasoft/c5_recursos/iconos/guardarx32.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Guardar"/>
-        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[117, 41]"/>
-        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonGuardarActionPerformed"/>
