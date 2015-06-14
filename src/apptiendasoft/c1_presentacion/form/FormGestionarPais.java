@@ -16,20 +16,80 @@ import mastersoft.tabladatos.Fila;
 import mastersoft.tabladatos.Tabla;
 
 /**
- *
- * @author LENOVO
+ * @author
+ * <AdvanceSoft - Medrano Parado Sandra Zoraida - advancesoft.trujillo@gmail.com>
  */
 public class FormGestionarPais extends javax.swing.JDialog {
 
-    ArrayList<Pais> listaPais;
-    Tabla tabla;
-    ModeloTabla modeloTablaDistritoAsignado;
+    Pais pais;
     public FormGestionarPais(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         crearTabla();
     }
 
+    private void crearTabla() {
+        // TODO add your handling code here:
+        Tabla tabla = new Tabla();
+        tabla.agregarColumna(new Columna("Codigo", "java.lang.Integer"));
+        tabla.agregarColumna(new Columna("Nombre", "java.lang.String"));
+        ModeloTabla modeloTablaDistritoAsignado = new ModeloTabla(tabla);
+        tablapais.setModel(modeloTablaDistritoAsignado);
+        //CODIGO
+        TableColumn columna0,columna1;
+        columna0 = tablapais.getColumnModel().getColumn(0);
+        tablapais.removeColumn(columna0);
+        //NOMBRE
+        columna1 = tablapais.getColumnModel().getColumn(1);
+        columna1.setPreferredWidth(250);
+        columna1.setMaxWidth(250);
+        columna1.setMinWidth(250);  
+    }
+    
+    private void buscar() {
+        String nombre = textoNombre.getText().trim().toUpperCase();
+        ModeloTabla modeloTablaPais = (ModeloTabla) tablapais.getModel();
+        try {
+            GestionarPaisServicio gestionarPaisServicio = new GestionarPaisServicio();
+            ArrayList<Pais> listaPais = gestionarPaisServicio.buscarPorNombre(nombre);
+            if(listaPais!=null && listaPais.size()>0){
+                for(Pais pais : listaPais){
+                    Fila fila = new Fila();
+                    fila.agregarValorCelda(pais.getCodigo());
+                    fila.agregarValorCelda(pais.getNombre());
+                    modeloTablaPais.agregarFila(fila);
+                }
+                modeloTablaPais.refrescarDatos();
+                ponerFocoConSeleccionEnBuscar();
+            }else{
+                Mensaje.Mostrar_MENSAJE_NOSEENCONTRONINGUNRESULTADO(this);
+                ponerFocoConSeleccionEnBuscar();
+            }
+        } catch(Exception e){    
+            Mensaje.Mostrar_MENSAJE_NOSEENCONTRONINGUNRESULTADO(this);
+            ponerFocoConSeleccionEnBuscar();
+        }
+    }
+    private void ponerFocoConSeleccionEnBuscar() {
+        textoNombre.selectAll();
+        textoNombre.requestFocus();
+    }
+    
+    private Pais obtenerCodigoDeLaTabla() {
+        Pais pais = null;
+        int numFila = tablapais.getSelectedRow();
+        if(numFila >=0){
+            GestionarPaisServicio gestionarPaisServicio = new GestionarPaisServicio();
+            ModeloTabla modeloTabla = (ModeloTabla) tablapais.getModel();
+            int codigo = (int)modeloTabla.getValueAt(numFila, 0);
+            try{
+                pais = gestionarPaisServicio.buscar(codigo);
+            }catch(Exception ex){
+                Mensaje.Mostrar_MENSAJE_FILANOSELECCIONADO(this);
+            }
+        }
+        return pais;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -39,20 +99,49 @@ public class FormGestionarPais extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jToolBar1 = new javax.swing.JToolBar();
-        botonCrear = new javax.swing.JButton();
-        botonModificar = new javax.swing.JButton();
-        botonEliminar = new javax.swing.JButton();
-        botonSalir = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         textoNombre = new javax.swing.JTextField();
         botonBuscar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablapais = new javax.swing.JTable();
+        jToolBar1 = new javax.swing.JToolBar();
+        botonCrear = new javax.swing.JButton();
+        botonModificar = new javax.swing.JButton();
+        botonEliminar = new javax.swing.JButton();
+        botonSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setText("Nombre:");
+
+        textoNombre.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+
+        botonBuscar.setBackground(new java.awt.Color(255, 255, 255));
+        botonBuscar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        botonBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/apptiendasoft/c5_recursos/iconos/buscarx20.png"))); // NOI18N
+        botonBuscar.setText("Buscar");
+        botonBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonBuscarActionPerformed(evt);
+            }
+        });
+
+        tablapais.setAutoCreateRowSorter(true);
+        tablapais.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane1.setViewportView(tablapais);
 
         jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
@@ -109,84 +198,39 @@ public class FormGestionarPais extends javax.swing.JDialog {
         });
         jToolBar1.add(botonSalir);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel1.setText("Nombre:");
-
-        textoNombre.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-
-        botonBuscar.setBackground(new java.awt.Color(255, 255, 255));
-        botonBuscar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        botonBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/apptiendasoft/c5_recursos/iconos/buscarx20.png"))); // NOI18N
-        botonBuscar.setText("Buscar");
-        botonBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonBuscarActionPerformed(evt);
-            }
-        });
-
-        tablapais.setAutoCreateRowSorter(true);
-        tablapais.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {},
-                {},
-                {},
-                {}
-            },
-            new String [] {
-
-            }
-        ));
-        jScrollPane1.setViewportView(tablapais);
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(textoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(botonBuscar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(4, 4, 4)
+                        .addComponent(textoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6)
+                        .addComponent(botonBuscar)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(textoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonBuscar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jToolBar1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
         pack();
         setLocationRelativeTo(null);
@@ -196,46 +240,34 @@ public class FormGestionarPais extends javax.swing.JDialog {
         // TODO add your handling code here:
         FormRegistrarPais formRegistrarPais = new FormRegistrarPais(this);
         formRegistrarPais.setVisible(true);
+        buscar();
     }//GEN-LAST:event_botonCrearActionPerformed
 
     private void botonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarActionPerformed
         // TODO add your handling code here:
-        int paisid = obtenerCodigoDeLaTabla();
-        if(paisid == 0)
-        return;
-        GestionarPaisServicio gestionarPaisServicio = new GestionarPaisServicio();
-        try {
-            Pais pais = gestionarPaisServicio.buscar(paisid);
-            if(pais != null){
+        if(obtenerCodigoDeLaTabla() != null){
                 FormRegistrarPais formRegistrarPais = new FormRegistrarPais(this, pais);
                 formRegistrarPais.setVisible(true);
-            }
-            else{
-                Mensaje.Mostrar_MENSAJE_FILANOEXISTE(this);
-            }
-            crearTabla();
-            ponerFocoConSeleccionEnBuscar();
-        } catch(Exception e){
-            Mensaje.Mostrar_MENSAJE_ELIMINACIONERRONEA(this);
-        }
+                buscar();
+         }
     }//GEN-LAST:event_botonModificarActionPerformed
 
     private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
         // TODO add your handling code here:
-        int paisid = obtenerCodigoDeLaTabla();
-        if(paisid == 0)
-        return;
-        if(!Mensaje.Mostrar_MENSAJE_PREGUNTADEELIMINACION(this))
-        return;
-        GestionarPaisServicio gestionarPaisServicio = new GestionarPaisServicio();
-        try {
-            gestionarPaisServicio.eliminar(obtenerCodigoDeLaTabla());
-            Mensaje.Mostrar_MENSAJE_ELIMINACIONEXITOSA(this);
-            crearTabla();
-            ponerFocoConSeleccionEnBuscar();
-        } catch(Exception e){
-            Mensaje.Mostrar_MENSAJE_ELIMINACIONERRONEA(this);
-            ponerFocoConSeleccionEnBuscar();
+        if(obtenerCodigoDeLaTabla() != null){
+            if(!Mensaje.Mostrar_MENSAJE_PREGUNTADEELIMINACION(this))
+            return;
+            GestionarPaisServicio gestionarPaisServicio = new GestionarPaisServicio();
+            try {
+                gestionarPaisServicio.eliminar(obtenerCodigoDeLaTabla());
+                Mensaje.Mostrar_MENSAJE_ELIMINACIONEXITOSA(this);
+                buscar();
+                ponerFocoConSeleccionEnBuscar();
+            }catch(Exception e){
+                Mensaje.Mostrar_MENSAJE_ELIMINACIONERRONEA(this);
+                buscar();
+                ponerFocoConSeleccionEnBuscar();
+            }
         }
     }//GEN-LAST:event_botonEliminarActionPerformed
 
@@ -246,71 +278,8 @@ public class FormGestionarPais extends javax.swing.JDialog {
 
     private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
         // TODO add your handling code here:
-        if(!textoNombre.getText().trim().isEmpty()){
-            consultarPais();
-            ponerFocoConSeleccionEnBuscar();
-        }else{
-            Mensaje.Mostrar_MENSAJE_LLENARCAMPOBUSCAR(this);
-            ponerFocoConSeleccionEnBuscar();
-        }
+        buscar();
     }//GEN-LAST:event_botonBuscarActionPerformed
-
-    private void consultarPais() {
-        crearTabla();
-        String nombre = textoNombre.getText().trim().toUpperCase();
-        try {
-            GestionarPaisServicio gestionarPaisServicio = new GestionarPaisServicio();
-            listaPais = gestionarPaisServicio.buscarPorNombre(nombre);
-            if(listaPais!=null && listaPais.size()>0){
-                for(Pais pais : listaPais){
-                    Fila fila = new Fila();
-                    fila.agregarValorCelda(pais.getCodigo());
-                    fila.agregarValorCelda(pais.getNombre());
-                    tabla.agregarFila(fila);
-                }         
-                tablapais.setModel(modeloTablaDistritoAsignado);
-            }else{
-                Mensaje.Mostrar_MENSAJE_NOSEENCONTRONINGUNRESULTADO(this);
-                ponerFocoConSeleccionEnBuscar();
-            }
-        } catch(Exception e){    
-            //
-        }
-    }
-    private void ponerFocoConSeleccionEnBuscar() {
-        textoNombre.selectAll();
-        textoNombre.requestFocus();
-    }
-    private void crearTabla() {
-        // TODO add your handling code here:
-        tabla = new Tabla();
-        tabla.agregarColumna(new Columna("Codigo", "java.lang.Integer"));
-        tabla.agregarColumna(new Columna("Nombre", "java.lang.String"));
-        modeloTablaDistritoAsignado  = new ModeloTabla(tabla);
-        tablapais.setModel(modeloTablaDistritoAsignado);
-        //CODIGO
-        TableColumn columna0,columna1;
-        columna0 = tablapais.getColumnModel().getColumn(0);
-        columna0.setPreferredWidth(100);
-        columna0.setMaxWidth(100);
-        columna0.setMinWidth(100);
-        //NOMBRE
-        columna1 = tablapais.getColumnModel().getColumn(1);
-        columna1.setPreferredWidth(250);
-        columna1.setMaxWidth(250);
-        columna1.setMinWidth(250);
-        
-        tablapais.removeColumn(columna0);
-    }
-    private int obtenerCodigoDeLaTabla() {
-        int numFila = tablapais.getSelectedRow();
-        if(numFila == -1){
-            Mensaje.Mostrar_MENSAJE_FILANOSELECCIONADO(this);
-            return 0;
-        }
-        modeloTablaDistritoAsignado = (ModeloTabla) tablapais.getModel();
-        return (Integer)modeloTablaDistritoAsignado.getValueAt(numFila, 0); // se retorna el id de la fila seleccionada
-    }
     /**
      * @param args the command line arguments
      */

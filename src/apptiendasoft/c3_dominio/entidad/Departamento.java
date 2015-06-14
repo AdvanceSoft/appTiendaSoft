@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author sandra
+ * @author
+ * <AdvanceSoft - Medrano Parado Sandra Zoraida - advancesoft.trujillo@gmail.com>
  */
 public class Departamento {
     private int codigo;
@@ -18,6 +18,7 @@ public class Departamento {
     List<Provincia> listaProvincia;
 
     public Departamento() {
+        this.codigo = 0;
         listaProvincia = new ArrayList();
     }
 
@@ -41,9 +42,20 @@ public class Departamento {
         return listaProvincia;
     }
 
-    public void agregarProvincias(Provincia provincia){
-        //antes de agregar si hay una validacion tiene que ir aquí
-        listaProvincia.add(provincia);
+    public void agregarProvincias(Provincia provincia) throws Exception{
+        if(provincia.getCodigo()!=0){
+            verificarProvincia(provincia);
+            listaProvincia.add(provincia);
+        }else{
+            listaProvincia.add(provincia);
+        }
+    }
+    public void verificarProvincia(Provincia provincia) throws Exception{
+        for (Provincia provinciabuscar : listaProvincia) {
+            if(provinciabuscar.getCodigo()==provincia.getCodigo()){
+                throw new Exception("Ya existe el registro");
+            }
+        }
     }
     
     public int cantidadDeProvincias(){

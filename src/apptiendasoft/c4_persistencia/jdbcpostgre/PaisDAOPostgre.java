@@ -15,8 +15,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 /**
- *
- * @author sandra
+ * @author
+ * <AdvanceSoft - Medrano Parado Sandra Zoraida - advancesoft.trujillo@gmail.com>
  */
 public class PaisDAOPostgre implements IPaisDAO{
     GestorJDBC gestorJDBC;
@@ -69,7 +69,7 @@ public class PaisDAOPostgre implements IPaisDAO{
         int registros_afectados;        
         PreparedStatement sentencia;
         String sentenciaSQL1 = "delete from departamento where codigopais = ?";
-        String sentenciaSQL2 = "insert into departamento(codigopais, nombredepartamento) values(?,?)";
+        String sentenciaSQL2 = "insert into departamento(codigopais,nombredepartamento) values(?,?)";
         try {
             sentencia = gestorJDBC.prepararSentencia(sentenciaSQL1);
             sentencia.setInt(1, pais.getCodigo());
@@ -81,8 +81,7 @@ public class PaisDAOPostgre implements IPaisDAO{
             sentencia = gestorJDBC.prepararSentencia(sentenciaSQL2);
             for(Departamento departamento : pais.getListaDepartamento()){
                 sentencia.setInt(1, pais.getCodigo());
-                sentencia.setInt(2, departamento.getCodigo());
-                sentencia.setString(3, departamento.getNombre());
+                sentencia.setString(2, departamento.getNombre());
                 registros_afectados = sentencia.executeUpdate();
                 if(registros_afectados == 0){
                     throw ExcepcionSQL.crearErrorModificar();
@@ -91,24 +90,26 @@ public class PaisDAOPostgre implements IPaisDAO{
             sentencia.close();
         } 
         catch (ExcepcionSQL er) {
-            throw er;
+            throw ExcepcionSQL.crearErrorModificar();
         }
     }
 
     @Override
-    public void eliminar(int codigo) throws Exception {
+    public void eliminar(Pais pais) throws Exception {
         int registros_afectados;
         PreparedStatement sentencia;
-        String consulta="update departamento set codigopais=null where codigopais="+codigo;
-        String consulta1="delete from pais where codigopais="+codigo;
+        String consulta="update departamento set codigopais=null where codigopais=?";
+        String consulta1="delete from pais where codigopais=?";
         try{
             sentencia=gestorJDBC.prepararSentencia(consulta);
             registros_afectados = sentencia.executeUpdate();
+            sentencia.setInt(1, pais.getCodigo());
             sentencia.close();
              if(registros_afectados == 0){
                 throw ExcepcionSQL.crearErrorEliminar();
             }
             sentencia = gestorJDBC.prepararSentencia(consulta1);
+            sentencia.setInt(1, pais.getCodigo());
             registros_afectados = sentencia.executeUpdate();
             sentencia.close();
             if(registros_afectados == 0){
@@ -127,55 +128,44 @@ public class PaisDAOPostgre implements IPaisDAO{
         String consulta="select p.codigopais,p.nombrepais,d.codigodepartamento,d.nombredepartamento from pais p "
                 + "inner join departamento d on(p.codigopais=d.codigopais)"
                 + "where p.codigopais="+codigo;
-        ResultSet resultado=gestorJDBC.ejecutarConsulta(consulta);
-        ResultSet resultado1=gestorJDBC.ejecutarConsulta(consulta);
+        ResultSet resultado;
+        try{
+            resultado=gestorJDBC.ejecutarConsulta(consulta);
             if(resultado.next()){
                 pais = new Pais();
                 pais.setCodigo(resultado.getInt(1));
                 pais.setNombre(resultado.getString(2));
             }
-            while(resultado1.next()){
+            resultado.close();
+            resultado=gestorJDBC.ejecutarConsulta(consulta);
+            while(resultado.next()){
                 departamento = new Departamento();
                 departamento.setCodigo(resultado.getInt(3));
                 departamento.setNombre(resultado.getString(4));
                 pais.agregarDepartamentos(departamento);
             }
+        }catch(Exception e){
+            throw ExcepcionSQL.crearErrorConsultar();
+        }
         return pais;
     }
 
     @Override
     public ArrayList<Pais> buscarPorNombre(String nombre) throws Exception {
-        if(nombre==null){
-            nombre="";
-        }
         Pais pais;
-        ArrayList<Pais> listapais= new ArrayList<>();
-//<<<<<<< HEAD
-//        String consulta="select p.codigopais,p.nombrepais,d.codigodepartamento,d.nombredepartamento from pais p \n" +
-//                        "inner join departamento d on p.codigodepartamento=d.codigodepartamento\n" +
-//                        "where p.nombrepais like '%"+nombre+"%'";
-//=======
-//        String consulta="select codigopais,nombrepais from pais where nombrepais like '%"+nombre+"%' order by codigopais";
-//>>>>>>> origin/master
-//        ResultSet resultado=gestorJDBC.ejecutarConsulta(consulta);
-//            while(resultado.next()){
-//<<<<<<< HEAD
-//                departamento = new Departamento();
-//                departamento.setCodigo(resultado.getInt("codigodepartamento"));
-//                departamento.setNombre(resultado.getString("nombredepartamento"));
-//=======
-//>>>>>>> origin/master
-//                pais = new Pais();
-//<<<<<<< HEAD
-//                pais.setCodigo(resultado.getInt("codigopais"));
-//                pais.setNombre(resultado.getString("nombrepais"));
-//                pais.setDepartamento(departamento);
-//=======
-//                pais.setCodigo(resultado.getInt(1));
-//                pais.setNombre(resultado.getString(2));
-//>>>>>>> origin/master
-//                listapais.add(pais);
-//            }
+        ArrayList<Pais> listapais= new ArrayList();
+        String consulta="select codigopais,nombrepais from pais where nombrepais like '%"+nombre+"%' order by codigopais";
+        try{
+        ResultSet resultado=gestorJDBC.ejecutarConsulta(consulta);
+            while(resultado.next()){
+                pais = new Pais();
+                pais.setCodigo(resultado.getInt(1));
+                pais.setNombre(resultado.getString(2));
+                listapais.add(pais);
+            }
+        }catch(Exception e){
+            throw ExcepcionSQL.crearErrorConsultar();
+        }
         return listapais;
     }   
 }

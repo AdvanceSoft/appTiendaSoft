@@ -11,37 +11,45 @@ import apptiendasoft.c2_aplicacion.servicio.GestionarDistritoServicio;
 import apptiendasoft.c3_dominio.entidad.Distrito;
 
 /**
- *
- * @author sandra
+ * @author
+ * <AdvanceSoft - Medrano Parado Sandra Zoraida - advancesoft.trujillo@gmail.com>
  */
 public class FormRegistrarDistrito extends javax.swing.JDialog {
 
-    private final int ACCION_CREAR = 1;
-    private final int ACCION_MODIFICAR = 2;
-    private int tipo_accion = 0;
     Distrito distrito;
     public FormRegistrarDistrito(JDialog owner) {
         super(owner, true);
         initComponents();
-        setResizable(false);
-        tipo_accion = ACCION_CREAR;
         this.distrito = new Distrito();
-        
     }
 
     public FormRegistrarDistrito(JDialog owner, Distrito distrito) {
         super(owner, true);
         initComponents();
-        setResizable(false);
-        tipo_accion = ACCION_MODIFICAR;
         obtenerObjetoDeGestionar(distrito);
     }
 
-    private void obtenerObjetoDeGestionar(Distrito distrito1) {
-        this.distrito = distrito1;
-        textoNombre.setText(distrito1.getNombre());
+    private void obtenerObjetoDeGestionar(Distrito distrito) {
+        this.distrito = distrito;
+        textoNombre.setText(distrito.getNombre());
     }
-
+    
+    private boolean verificarCamposLlenos() {
+        boolean estanLlenos = false;
+        if(!(textoNombre.getText().trim().isEmpty()))
+            estanLlenos = true;
+        return estanLlenos;
+    }
+    
+    private boolean verificarCamposVacios(){
+        boolean verificar = true;
+        if(textoNombre.getText().trim().isEmpty()){
+            Mensaje.Mostrar_MENSAJE_LLENARCAMPOSOBLIGATORIOS(this);
+            textoNombre.requestFocus();
+            verificar = false;
+        }
+        return verificar;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -88,16 +96,16 @@ public class FormRegistrarDistrito extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(33, 33, 33)
+                        .addGap(10, 10, 10)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(textoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
+                        .addGap(51, 51, 51)
                         .addComponent(botonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40)
+                        .addGap(18, 18, 18)
                         .addComponent(botonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -106,11 +114,11 @@ public class FormRegistrarDistrito extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(textoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(11, 11, 11)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         pack();
@@ -119,37 +127,23 @@ public class FormRegistrarDistrito extends javax.swing.JDialog {
 
     private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
         // TODO add your handling code here:
-        if(verificarCamposLlenos()){
-            distrito.setNombre(textoNombre.getText().trim().toUpperCase());
-            GestionarDistritoServicio gestionarDistritoServicio  = new GestionarDistritoServicio();
-            int estado;
-            if(tipo_accion==ACCION_CREAR){
-                try{
-                    estado = gestionarDistritoServicio.crear(distrito);
-                    if(estado > 0){
+        GestionarDistritoServicio gestionarDistritoServicio  = new GestionarDistritoServicio();    
+        distrito.setNombre(textoNombre.getText().trim().toUpperCase());
+            try{
+                if(distrito.getCodigo()==0){
+                    if(verificarCamposVacios()){
+                        gestionarDistritoServicio.crear(distrito);
                         Mensaje.Mostrar_MENSAJE_GUARDADOEXITOSO(this);
                         this.dispose();
                     }
-                }catch(Exception ex){
-                    Mensaje.Mostrar_MENSAJE_GUARDADOERRONEO(this);
-                    //JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+                }else{
+                    gestionarDistritoServicio.modificar(distrito);
+                    Mensaje.Mostrar_MENSAJE_MODIFICADOEXITOSO(this);
+                    this.dispose();
                 }
-            }else{
-                try{
-                    estado = gestionarDistritoServicio.modificar(distrito);
-                    if(estado > 0){
-                        Mensaje.Mostrar_MENSAJE_MODIFICADOEXITOSO(this);
-                        this.dispose();
-                    }
-                }catch(Exception ex){
-                    //JOptionPane.showMessageDialog(rootPane, ex.getMessage());
-                }
+            }catch(Exception e){
+                Mensaje.mostrarErrorExcepcion(this, e.getMessage());
             }
-
-        }else{
-            Mensaje.Mostrar_MENSAJE_LLENARCAMPOSOBLIGATORIOS(this);
-            mostrarCampoVacio();
-        }
     }//GEN-LAST:event_botonGuardarActionPerformed
 
     private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed
@@ -158,7 +152,7 @@ public class FormRegistrarDistrito extends javax.swing.JDialog {
             if(Mensaje.Mostrar_MENSAJE_SALIRSINGUARDAR(this))
             this.dispose();
         }else
-        this.dispose();
+            this.dispose();
     }//GEN-LAST:event_botonSalirActionPerformed
 
 
@@ -168,17 +162,4 @@ public class FormRegistrarDistrito extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField textoNombre;
     // End of variables declaration//GEN-END:variables
-    private boolean verificarCamposLlenos() {
-        boolean estanLlenos;
-        if(!(textoNombre.getText().trim().isEmpty()))
-            estanLlenos = true;
-        else
-            estanLlenos = false; 
-        return estanLlenos;
-    }
-
-    private void mostrarCampoVacio(){
-        if(textoNombre.getText().trim().isEmpty())
-            textoNombre.requestFocus();
-    }
 }

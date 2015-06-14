@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author sandra
+ * @author
+ * <AdvanceSoft - Medrano Parado Sandra Zoraida - advancesoft.trujillo@gmail.com>
  */
 public class Provincia {
     private int codigo;
@@ -18,6 +18,7 @@ public class Provincia {
     List<Distrito> listadistrito;
 
     public Provincia() {
+        this.codigo = 0;
         listadistrito = new ArrayList();
     }
 
@@ -41,11 +42,12 @@ public class Provincia {
         return listadistrito;
     }
     public void agregarDistrito(Distrito distrito)throws Exception{
-        verificarExistencia(distrito);
-        listadistrito.add(distrito);
-    }
-    public void agregardistrito(Distrito distrito){
-        listadistrito.add(distrito);
+        if(distrito.getCodigo()!=0){
+            verificarExistencia(distrito);
+            listadistrito.add(distrito);
+        }else{
+            listadistrito.add(distrito);
+        }
     }
     public int cantidadDistritos(){
         return listadistrito.size();

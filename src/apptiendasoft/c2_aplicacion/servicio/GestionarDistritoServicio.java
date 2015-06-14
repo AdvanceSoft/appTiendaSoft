@@ -13,8 +13,8 @@ import apptiendasoft.c4_persistencia.jdbcpostgre.GestorJDBCPostgre;
 import java.util.ArrayList;
 
 /**
- *
- * @author sandra
+ * @author
+ * <AdvanceSoft - Medrano Parado Sandra Zoraida - advancesoft.trujillo@gmail.com>
  */
 public class GestionarDistritoServicio {
     GestorJDBC gestorJDBC;
@@ -24,35 +24,58 @@ public class GestionarDistritoServicio {
         this.gestorJDBC = new GestorJDBCPostgre();
         this.distritoDAO = new DistritoDAOPostgre(gestorJDBC);
     }
-    public int crear(Distrito distrito)throws Exception{
+    public void crear(Distrito distrito)throws Exception{
         gestorJDBC.abrirConexion();
-        int estado = distritoDAO.crear(distrito);
+        try{
+            distritoDAO.crear(distrito);
+        }catch(Exception e){        
+            gestorJDBC.cerrarConexion();
+            throw e;
+        }
         gestorJDBC.cerrarConexion();
-        return estado;
     }
     
-    public int modificar(Distrito distrito)throws Exception{
+    public void modificar(Distrito distrito)throws Exception{
         gestorJDBC.abrirConexion();
-        int estado = distritoDAO.modificar(distrito);
+        try{
+            distritoDAO.modificar(distrito);
+        }catch(Exception e){
+            gestorJDBC.cerrarConexion();
+        }
         gestorJDBC.cerrarConexion();
-        return estado;
     }
     
-    public int eliminar(int codigo)throws Exception{
+    public void eliminar(Distrito distrito)throws Exception{
         gestorJDBC.abrirConexion();
-        int estado = distritoDAO.eliminar(codigo);
+        try{
+            distritoDAO.eliminar(distrito);
+        }catch(Exception e){
+            gestorJDBC.cerrarConexion();
+            throw e;
+        }
         gestorJDBC.cerrarConexion();
-        return estado;
     }
     public Distrito buscar(int codigo)throws Exception{
+        Distrito distrito;
         gestorJDBC.abrirConexion();
-        Distrito distrito = distritoDAO.buscar(codigo);
+        try{
+            distrito = distritoDAO.buscar(codigo);
+        }catch(Exception e){
+            gestorJDBC.cerrarConexion();
+            throw e;
+        }
         gestorJDBC.cerrarConexion();
         return distrito;
     }
     public ArrayList<Distrito> buscarPorNombre(String nombre)throws Exception{
+        ArrayList<Distrito> listadistrito;
         gestorJDBC.abrirConexion();
-        ArrayList<Distrito> listadistrito = distritoDAO.buscarPorNombre(nombre);
+        try{
+            listadistrito = distritoDAO.buscarPorNombre(nombre);
+        }catch(Exception e){
+            gestorJDBC.cerrarConexion();
+            throw e;
+        }
         gestorJDBC.cerrarConexion();
         return listadistrito;
     }

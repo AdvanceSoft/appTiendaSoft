@@ -6,14 +6,15 @@
 package apptiendasoft.c3_dominio.entidad;
 
 /**
- *
- * @author sandra
+ * @author
+ * <AdvanceSoft - Medrano Parado Sandra Zoraida - advancesoft.trujillo@gmail.com>
  */
 public class Distrito {
     private int codigo;
     private String nombre;
 
     public Distrito() {
+        this.codigo = 0;
     }
 
     public Distrito(int codigo, String nombre) {

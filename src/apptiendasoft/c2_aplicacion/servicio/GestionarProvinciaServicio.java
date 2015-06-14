@@ -13,8 +13,8 @@ import apptiendasoft.c4_persistencia.jdbcpostgre.ProvinciaDAOPostgre;
 import java.util.ArrayList;
 
 /**
- *
- * @author sandra
+ * @author
+ * <AdvanceSoft - Medrano Parado Sandra Zoraida - advancesoft.trujillo@gmail.com>
  */
 public class GestionarProvinciaServicio {
     GestorJDBC gestorJDBC;
@@ -26,29 +26,56 @@ public class GestionarProvinciaServicio {
     }
     public void crear(Provincia provincia)throws Exception{
         gestorJDBC.abrirConexion();
-        provinciaDAO.crear(provincia);
-        gestorJDBC.cerrarConexion();
+        try{
+            provinciaDAO.crear(provincia);
+        }catch(Exception e){
+            gestorJDBC.cerrarConexion();
+            throw e;
+        }
+            gestorJDBC.cerrarConexion();
     }
     public void modificar(Provincia provincia)throws Exception{
         gestorJDBC.abrirConexion();
-        provinciaDAO.modificar(provincia);
+        try{
+            provinciaDAO.modificar(provincia);
+        }catch(Exception e){
+            gestorJDBC.cerrarConexion();
+            throw e;
+        }
         gestorJDBC.cerrarConexion();
     }
-    public void eliminar(int codigo)throws Exception{
+    public void eliminar(Provincia provincia)throws Exception{
         gestorJDBC.abrirConexion();
-        provinciaDAO.eliminar(codigo);
+        try{
+            provinciaDAO.eliminar(provincia);
+        }catch(Exception e){
+            gestorJDBC.cerrarConexion();
+            throw e;
+        }
         gestorJDBC.cerrarConexion();
     }
     public Provincia buscar(int codigo)throws Exception{
+        Provincia provincia;
         gestorJDBC.abrirConexion();
-        Provincia provincia = provinciaDAO.buscar(codigo);
+        try{
+            provincia = provinciaDAO.buscar(codigo);
+        }catch(Exception e){
+            gestorJDBC.cerrarConexion();
+            throw e;
+        }
         gestorJDBC.cerrarConexion();
         return provincia;
     }
-    
+
     public ArrayList<Provincia> buscarPorNombre(String nombre)throws Exception{
+        ArrayList<Provincia>listaprovincia;
         gestorJDBC.abrirConexion();
-        ArrayList<Provincia> listaprovincia = provinciaDAO.buscarPorNombre(nombre);
+        try{
+            listaprovincia = provinciaDAO.buscarPorNombre(nombre);
+        }catch(Exception e){
+            gestorJDBC.cerrarConexion();
+            throw e;
+        }
         gestorJDBC.cerrarConexion();
         return listaprovincia;
     }

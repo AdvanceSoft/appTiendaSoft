@@ -13,8 +13,8 @@ import apptiendasoft.c4_persistencia.jdbcpostgre.GestorJDBCPostgre;
 import java.util.ArrayList;
 
 /**
- *
- * @author sandra
+ * @author
+ * <AdvanceSoft - Medrano Parado Sandra Zoraida - advancesoft.trujillo@gmail.com>
  */
 public class GestionarDepartamentoServicio {
     GestorJDBC gestorJDBC;
@@ -26,30 +26,57 @@ public class GestionarDepartamentoServicio {
     }
     public void crear(Departamento departamento)throws Exception{
         gestorJDBC.abrirConexion();
-        departamentoDAO.crear(departamento);
+        try{
+            departamentoDAO.crear(departamento);
+        }catch(Exception e){
+            gestorJDBC.cerrarConexion();
+            throw e;
+        }
         gestorJDBC.cerrarConexion();
     }
     public void modificar(Departamento departamento)throws Exception{
         gestorJDBC.abrirConexion();
-        departamentoDAO.modificar(departamento);
+        try{
+            departamentoDAO.modificar(departamento);
+        }catch(Exception e){
+            gestorJDBC.cerrarConexion();
+            throw e;
+        }
         gestorJDBC.cerrarConexion();
     }
-    public void eliminar(int codigo)throws Exception{
+    public void eliminar(Departamento departamento)throws Exception{
         gestorJDBC.abrirConexion();
-        departamentoDAO.eliminar(codigo);
+        try{
+            departamentoDAO.eliminar(departamento);
+        }catch(Exception e){
+            gestorJDBC.cerrarConexion();
+            throw e;
+        }
         gestorJDBC.cerrarConexion();
     }
     public Departamento buscar(int codigo)throws Exception{
+        Departamento departamento;
         gestorJDBC.abrirConexion();
-        Departamento departamento = departamentoDAO.buscar(codigo);
+        try{
+            departamento = departamentoDAO.buscar(codigo);
+        }catch(Exception e){
+            gestorJDBC.cerrarConexion();
+            throw e;
+        }
         gestorJDBC.cerrarConexion();
         return departamento;
     }
     
     public ArrayList<Departamento> buscarPorNombre(String nombre)throws Exception{
+        ArrayList<Departamento> listaDepartamentos;
         gestorJDBC.abrirConexion();
-        ArrayList<Departamento> listadepartamento = departamentoDAO.buscarPorNombre(nombre);
+        try{
+            listaDepartamentos = departamentoDAO.buscarPorNombre(nombre);
+        }catch(Exception e){
+            gestorJDBC.cerrarConexion();
+            throw e;
+        }
         gestorJDBC.cerrarConexion();
-        return listadepartamento;
+        return listaDepartamentos;
     }
 }

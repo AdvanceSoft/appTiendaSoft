@@ -9,13 +9,13 @@ import apptiendasoft.c3_dominio.entidad.Distrito;
 import java.util.ArrayList;
 
 /**
- *
- * @author sandra
+ * @author
+ * <AdvanceSoft - Medrano Parado Sandra Zoraida - advancesoft.trujillo@gmail.com>
  */
 public interface IDistritoDAO {
-    public int crear(Distrito distrito)throws Exception;
-    public int modificar(Distrito distrito) throws Exception;
-    public int eliminar(int codigo) throws Exception;
+    public void crear(Distrito distrito)throws Exception;
+    public void modificar(Distrito distrito) throws Exception;
+    public void eliminar(Distrito distrito) throws Exception;
     public Distrito buscar(int codigo) throws Exception;
     public ArrayList<Distrito> buscarPorNombre(String nombre) throws Exception;
 }

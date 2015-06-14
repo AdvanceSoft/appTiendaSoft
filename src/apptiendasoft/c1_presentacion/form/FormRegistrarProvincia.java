@@ -29,19 +29,10 @@ public class FormRegistrarProvincia extends javax.swing.JDialog {
     /**
      * Creates new form FormRegistrarProvincia
      */
-    ArrayList<Distrito> listaDistrito;
-    Tabla tabla;
-    ModeloTabla modeloTablaDistrito;
-    ModeloTabla modeloTablaAsignado;
     Provincia provincia;
-    private final int ACCION_CREAR = 1;
-    private final int ACCION_MODIFICAR = 2;
-    private int tipo_accion = 0;
     public FormRegistrarProvincia(JDialog owner) {
         super(owner, true);
         initComponents();
-        setResizable(false);
-        tipo_accion = ACCION_CREAR;
         this.provincia = new Provincia();
         crearTabla();
         crearTablaAsignados();
@@ -49,15 +40,159 @@ public class FormRegistrarProvincia extends javax.swing.JDialog {
     public FormRegistrarProvincia(JDialog owner, Provincia provincia) {
         super(owner, true);
         initComponents();
-        setResizable(false);
-        tipo_accion = ACCION_MODIFICAR;
         obtenerObjetoDeGestionar(provincia);
     }
 
-    private void obtenerObjetoDeGestionar(Provincia provincia1) {
-        this.provincia = provincia1;
-        textonombreprovincia.setText(provincia1.getNombre());
+    private void obtenerObjetoDeGestionar(Provincia provincia) {
+        this.provincia = provincia;
+        textoNombreProvincia.setText(provincia.getNombre());
         mostrardistritosasignados();
+    }
+    
+    private void crearTabla() {
+        // TODO add your handling code here:
+        Tabla tabla = new Tabla();
+        tabla.agregarColumna(new Columna("Codigo", "java.lang.Integer"));
+        tabla.agregarColumna(new Columna("Nombre", "java.lang.String"));
+        ModeloTabla modeloTablaDistrito = new ModeloTabla(tabla);
+        tablaDistritos.setModel(modeloTablaDistrito);
+        //CODIGO
+        TableColumn columna0,columna1;
+        columna0 = tablaDistritos.getColumnModel().getColumn(0);
+        tablaDistritos.removeColumn(columna0);
+        //NOMBRE
+        columna1 = tablaDistritos.getColumnModel().getColumn(1);
+        columna1.setPreferredWidth(250);
+        columna1.setMaxWidth(250);
+        columna1.setMinWidth(250);  
+    }
+    private void crearTablaAsignados() {
+        // TODO add your handling code here:
+        Tabla tabla = new Tabla();
+        tabla.agregarColumna(new Columna("Codigo", "java.lang.Integer"));
+        tabla.agregarColumna(new Columna("Nombre", "java.lang.String"));
+        ModeloTabla modeloTablaAsignado = new ModeloTabla(tabla);
+        tablaAsignadosDistritos.setModel(modeloTablaAsignado);
+        //CODIGO
+        TableColumn columna0,columna1;
+        columna0 = tablaAsignadosDistritos.getColumnModel().getColumn(0);
+        tablaAsignadosDistritos.removeColumn(columna0);
+        //NOMBRE
+        columna1 = tablaAsignadosDistritos.getColumnModel().getColumn(1);
+        columna1.setPreferredWidth(250);
+        columna1.setMaxWidth(250);
+        columna1.setMinWidth(250);
+    }
+    private void mostrardistritosasignados(){
+        ModeloTabla modeloTabla = (ModeloTabla) tablaAsignadosDistritos.getModel();
+        for(Distrito distrito : provincia.getListadistrito()){
+                    Fila fila = new Fila();
+                    fila.agregarValorCelda(distrito.getCodigo());
+                    fila.agregarValorCelda(distrito.getNombre());
+                    modeloTabla.agregarFila(fila);
+                }
+        modeloTabla.refrescarDatos();
+        labelcantidad.setText(String.valueOf(provincia.cantidadDistritos()));
+    }
+    private void agregarDistrito(int codigo){
+        if(obtenerCodigoDeLaTablaDistrito()!= null){
+            GestionarDistritoServicio gestionarDistritoServicio = new GestionarDistritoServicio();
+            try {
+                Distrito distrito = gestionarDistritoServicio.buscar(codigo);
+                    if(distrito != null)
+                        provincia.agregarDistrito(distrito);
+                    else
+                        Mensaje.Mostrar_MENSAJE_FILANOEXISTE(this);
+            }catch(Exception e){
+                Mensaje.mostrarErrorExcepcion(this, e.getMessage());
+            }
+        }
+        else{
+            Mensaje.Mostrar_MENSAJE_FILANOSELECCIONADO(this);
+        }
+    }
+    private boolean verificarCamposLlenos() {
+        boolean estanLlenos;
+        if(!(textoNombreProvincia.getText().trim().isEmpty()))
+            estanLlenos = true;
+        else
+            estanLlenos = false; 
+        return estanLlenos;
+    }
+     public boolean verificarCamposVacios(){
+        boolean verificar = true;
+        if(textoNombreProvincia.getText().trim().isEmpty()){
+           Mensaje.Mostrar_MENSAJE_LLENARCAMPOSOBLIGATORIOS(this);
+           textoNombreProvincia.requestFocus();
+           verificar = false;
+        }else
+            verificar = false;
+        return verificar;
+    }
+
+     private void buscar() {
+        String nombre = textoDistritoBuscar.getText().trim().toUpperCase();
+        ModeloTabla modeloTablaTipoProducto = (ModeloTabla) tablaDistritos.getModel();
+        modeloTablaTipoProducto.eliminarTotalFilas();
+        try {
+            GestionarDistritoServicio gestionarDistritoServicio = new GestionarDistritoServicio();
+            ArrayList<Distrito> listaDistrito = gestionarDistritoServicio.buscarPorNombre(nombre);
+            if(listaDistrito!=null && listaDistrito.size()>0){
+                for(Distrito distrito : listaDistrito){
+                    Fila fila = new Fila();
+                    fila.agregarValorCelda(distrito.getCodigo());
+                    fila.agregarValorCelda(distrito.getNombre());
+                    modeloTablaTipoProducto.agregarFila(fila);
+                }         
+                modeloTablaTipoProducto.refrescarDatos();
+                ponerFocoConSeleccionEnBuscar();
+            }else{
+                Mensaje.Mostrar_MENSAJE_NOSEENCONTRONINGUNRESULTADO(this);
+                ponerFocoConSeleccionEnBuscar();
+            }
+        } catch(Exception e){    
+            Mensaje.Mostrar_MENSAJE_NOSEENCONTRONINGUNRESULTADO(this);
+            ponerFocoConSeleccionEnBuscar();
+        }
+    }
+ 
+    private Distrito obtenerCodigoDeLaTablaDistrito() {
+        Distrito distrito = null;
+        int numFila = tablaDistritos.getSelectedRow();
+        if(numFila >=0){
+            GestionarDistritoServicio gestionarDistritoServicio = new GestionarDistritoServicio();
+            ModeloTabla modeloTabla = (ModeloTabla)tablaDistritos.getModel();
+            int codigo = (int) modeloTabla.getValueAt(numFila, 0);
+            try{
+                distrito = gestionarDistritoServicio.buscar(codigo);
+            }catch(Exception e){
+                Mensaje.mostrarErrorExcepcion(this, e.getMessage());
+            }
+        }else{
+            Mensaje.Mostrar_MENSAJE_FILANOSELECCIONADO(this);
+        }
+        return distrito;
+    }
+    private Distrito obtenerCodigoTablaAsignado(){
+        Distrito distrito = null;
+        int numFila = tablaAsignadosDistritos.getSelectedRow();
+        if(numFila >=0){
+            GestionarDistritoServicio gestionarDistritoServicio = new GestionarDistritoServicio();
+            ModeloTabla modeloTabla = (ModeloTabla)tablaAsignadosDistritos.getModel();
+            int codigo = (int) modeloTabla.getValueAt(numFila, 0);
+            try{
+                distrito = gestionarDistritoServicio.buscar(codigo);
+            }catch(Exception e){
+                Mensaje.mostrarErrorExcepcion(this, e.getMessage());
+            }
+        }else{
+            Mensaje.Mostrar_MENSAJE_FILANOSELECCIONADO(this);
+        }
+        return distrito;
+    }
+    private void ponerFocoConSeleccionEnBuscar() {
+        textoDistritoBuscar.selectAll();
+        textoDistritoBuscar.requestFocus();
     }
 
     /**
@@ -69,10 +204,8 @@ public class FormRegistrarProvincia extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        botonSalir = new javax.swing.JButton();
         botonQuitar = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        textonombreprovincia = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -86,13 +219,24 @@ public class FormRegistrarProvincia extends javax.swing.JDialog {
         tablaAsignadosDistritos = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         labelcantidad = new javax.swing.JLabel();
+        textoNombreProvincia = new javax.swing.JTextField();
         botonAgregar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
         botonGuardar = new javax.swing.JButton();
-        botonSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Registrar Provincia");
         setAlwaysOnTop(true);
+
+        botonSalir.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        botonSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/apptiendasoft/c5_recursos/iconos/salirx32.png"))); // NOI18N
+        botonSalir.setText("Salir");
+        botonSalir.setPreferredSize(new java.awt.Dimension(117, 41));
+        botonSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonSalirActionPerformed(evt);
+            }
+        });
 
         botonQuitar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         botonQuitar.setText("Quitar");
@@ -102,50 +246,11 @@ public class FormRegistrarProvincia extends javax.swing.JDialog {
             }
         });
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel1.setText("Provincia:");
-
-        textonombreprovincia.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(textonombreprovincia, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(364, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(textonombreprovincia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setText("Distrito: ");
 
-        tablaDistritos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
         jScrollPane1.setViewportView(tablaDistritos);
 
         jToolBar1.setFloatable(false);
@@ -183,16 +288,18 @@ public class FormRegistrarProvincia extends javax.swing.JDialog {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(textoDistritoBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(botonBuscar)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(4, 4, 4)
+                                .addComponent(textoDistritoBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(botonBuscar)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -205,24 +312,13 @@ public class FormRegistrarProvincia extends javax.swing.JDialog {
                         .addComponent(jLabel2)
                         .addComponent(textoDistritoBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(botonBuscar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21))
+                .addGap(10, 10, 10))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        tablaAsignadosDistritos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
         jScrollPane2.setViewportView(tablaAsignadosDistritos);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -238,13 +334,13 @@ public class FormRegistrarProvincia extends javax.swing.JDialog {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGap(10, 10, 10)
                         .addComponent(jLabel3)
                         .addGap(18, 18, 18)
-                        .addComponent(labelcantidad)))
+                        .addComponent(labelcantidad))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -256,8 +352,10 @@ public class FormRegistrarProvincia extends javax.swing.JDialog {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(labelcantidad))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        textoNombreProvincia.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
         botonAgregar.setBackground(new java.awt.Color(255, 255, 255));
         botonAgregar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -268,6 +366,9 @@ public class FormRegistrarProvincia extends javax.swing.JDialog {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setText("Provincia:");
+
         botonGuardar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         botonGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/apptiendasoft/c5_recursos/iconos/guardarx32.png"))); // NOI18N
         botonGuardar.setText("Guardar");
@@ -277,59 +378,58 @@ public class FormRegistrarProvincia extends javax.swing.JDialog {
             }
         });
 
-        botonSalir.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        botonSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/apptiendasoft/c5_recursos/iconos/salirx32.png"))); // NOI18N
-        botonSalir.setText("Salir");
-        botonSalir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonSalirActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(botonGuardar)
-                        .addGap(23, 23, 23)
-                        .addComponent(botonSalir)))
-                .addGap(6, 6, 6)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(botonAgregar)
-                    .addComponent(botonQuitar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(10, 10, 10)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(35, 35, 35)
+                        .addComponent(botonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(178, 178, 178))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(4, 4, 4)
+                                .addComponent(textoNombreProvincia))
+                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(botonAgregar)
+                            .addComponent(botonQuitar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(11, 11, 11)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(17, 17, 17)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(botonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(botonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(100, 100, 100)
-                        .addComponent(botonAgregar)
-                        .addGap(15, 15, 15)
-                        .addComponent(botonQuitar))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(botonAgregar)
+                                .addGap(15, 15, 15)
+                                .addComponent(botonQuitar))
+                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(90, 90, 90)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(textoNombreProvincia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(10, 10, 10)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(botonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonGuardar))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         pack();
@@ -340,48 +440,32 @@ public class FormRegistrarProvincia extends javax.swing.JDialog {
         // TODO add your handling code here:
         FormRegistrarDistrito formRegistrarDistrito = new FormRegistrarDistrito(this);
         formRegistrarDistrito.setVisible(true);
+        buscar();
     }//GEN-LAST:event_botonCrearActionPerformed
 
     private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
-        if(!textoDistritoBuscar.getText().trim().isEmpty()){
-            consultarDistrito();
-            ponerFocoConSeleccionEnBuscar();
-        }else{
-            Mensaje.Mostrar_MENSAJE_LLENARCAMPOBUSCAR(this);
-            ponerFocoConSeleccionEnBuscar();
-        }
+        buscar();
     }//GEN-LAST:event_botonBuscarActionPerformed
 
     private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
-        if(verificarCamposLlenos()){
-            provincia.setNombre(textonombreprovincia.getText().trim().toUpperCase());
-            GestionarProvinciaServicio gestionarProvinciaServicio  = new GestionarProvinciaServicio();
-            if(tipo_accion==ACCION_CREAR){
+
+        provincia.setNombre(textoNombreProvincia.getText().trim().toUpperCase());
+        GestionarProvinciaServicio gestionarProvinciaServicio  = new GestionarProvinciaServicio();
             try{
+                if(provincia.getCodigo()==0){
+                    if(verificarCamposVacios()){
                     gestionarProvinciaServicio.crear(provincia);
-                        Mensaje.Mostrar_MENSAJE_GUARDADOEXITOSO(this);
-                        this.dispose();
-                }catch(Exception ex){
-                    Mensaje.Mostrar_MENSAJE_GUARDADOERRONEO(this);
-                    //JOptionPane.showMessageDialog(rootPane, ex.getMessage());
-                }
-            }
-            else{
-                try{
+                    Mensaje.Mostrar_MENSAJE_GUARDADOEXITOSO(this);
+                    this.dispose();
+                    }
+                }else{
                     gestionarProvinciaServicio.modificar(provincia);
-                        Mensaje.Mostrar_MENSAJE_MODIFICADOEXITOSO(this);
-                        this.dispose();
-                }catch(Exception ex){
-                    //JOptionPane.showMessageDialog(rootPane, ex.getMessage());
-                }
-            }
-        }
-        else{
-            Mensaje.Mostrar_MENSAJE_LLENARCAMPOSOBLIGATORIOS(this);
-            mostrarCampoVacio();
-        
-        }
-          
+                    Mensaje.Mostrar_MENSAJE_MODIFICADOEXITOSO(this);
+                    this.dispose();     
+                }     
+            }catch(Exception ex){
+                    Mensaje.mostrarErrorExcepcion(this, ex.getMessage());
+            }          
     }//GEN-LAST:event_botonGuardarActionPerformed
 
     private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed
@@ -395,23 +479,18 @@ public class FormRegistrarProvincia extends javax.swing.JDialog {
 
     private void botonAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarActionPerformed
         // TODO add your handling code here:
-        agregarDistrito();
+        agregarDistrito(obtenerCodigoDeLaTablaDistrito().getCodigo());
         mostrardistritosasignados();
         
     }//GEN-LAST:event_botonAgregarActionPerformed
 
     private void botonQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonQuitarActionPerformed
         // TODO add your handling code here:
-        int distritoid = obtenerCodigoTablaAsignado();
-        if(distritoid == 0)
-            return;
-        GestionarDistritoServicio gestionarDistritoServicio = new GestionarDistritoServicio();
         try {
-            Distrito distrito = gestionarDistritoServicio.buscar(distritoid);
-            if(distrito != null){
-                 if(!Mensaje.Mostrar_MENSAJE_PREGUNTADEELIMINACION(this))
-                  return;
-                provincia.eliminarDistrito(distrito);
+            if(obtenerCodigoTablaAsignado() != null){
+                if(!Mensaje.Mostrar_MENSAJE_PREGUNTADEELIMINACION(this))
+                    return;
+                provincia.eliminarDistrito(obtenerCodigoTablaAsignado());
                 mostrardistritosasignados();
             }
             else{
@@ -419,139 +498,9 @@ public class FormRegistrarProvincia extends javax.swing.JDialog {
             }
         } catch(Exception e){
             JOptionPane.showMessageDialog(this,"Error: "+e.getMessage());
-        }
-        
+        }        
     }//GEN-LAST:event_botonQuitarActionPerformed
-    private void mostrardistritosasignados(){
-        crearTablaAsignados();
-        for(Distrito distrito : provincia.getListadistrito()){
-                    Fila fila = new Fila();
-                    fila.agregarValorCelda(distrito.getCodigo());
-                    fila.agregarValorCelda(distrito.getNombre());
-                    tabla.agregarFila(fila);
-                }         
-        tablaAsignadosDistritos.setModel(modeloTablaAsignado);
-        modeloTablaAsignado.refrescarDatos();
-        labelcantidad.setText(String.valueOf(provincia.cantidadDistritos()));
-    }
-    private void agregarDistrito(){
-        int distritoid = obtenerCodigoDeLaTablaDistrito();
-        if(distritoid == 0)
-            return;
-        GestionarDistritoServicio gestionarDistritoServicio = new GestionarDistritoServicio();
-        try {
-            Distrito distrito = gestionarDistritoServicio.buscar(distritoid);
-            if(distrito != null){
-                provincia.agregarDistrito(distrito);
-            }
-            else{
-                Mensaje.Mostrar_MENSAJE_FILANOEXISTE(this);
-            }
-        } catch(Exception e){
-            JOptionPane.showMessageDialog(this,"Error: "+e.getMessage());
-        }
-        
-    }
-    private boolean verificarCamposLlenos() {
-        boolean estanLlenos;
-        if(!(textonombreprovincia.getText().trim().isEmpty()))
-            estanLlenos = true;
-        else
-            estanLlenos = false; 
-        return estanLlenos;
-    }
-
-    private void mostrarCampoVacio(){
-        if(textonombreprovincia.getText().trim().isEmpty())
-            textonombreprovincia.requestFocus();
-    }
-    private void consultarDistrito() {
-        crearTabla();
-        String nombre = textoDistritoBuscar.getText().trim().toUpperCase();
-        try {
-            GestionarDistritoServicio gestionarDistritoServicio = new GestionarDistritoServicio();
-            listaDistrito = gestionarDistritoServicio.buscarPorNombre(nombre);
-            if(listaDistrito!=null && listaDistrito.size()>0){
-                for(Distrito distrito : listaDistrito){
-                    Fila fila = new Fila();
-                    fila.agregarValorCelda(distrito.getCodigo());
-                    fila.agregarValorCelda(distrito.getNombre());
-                    tabla.agregarFila(fila);
-                }         
-                tablaDistritos.setModel(modeloTablaDistrito);
-            }else{
-                Mensaje.Mostrar_MENSAJE_NOSEENCONTRONINGUNRESULTADO(this);
-                ponerFocoConSeleccionEnBuscar();
-            }
-        } catch(Exception e){    
-            //
-        }
-    }
-    private void crearTabla() {
-        // TODO add your handling code here:
-        tabla = new Tabla();
-        tabla.agregarColumna(new Columna("Codigo", "java.lang.Integer"));
-        tabla.agregarColumna(new Columna("Nombre", "java.lang.String"));
-        modeloTablaDistrito  = new ModeloTabla(tabla);
-        tablaDistritos.setModel(modeloTablaDistrito);
-        //CODIGO
-        TableColumn columna0,columna1;
-        columna0 = tablaDistritos.getColumnModel().getColumn(0);
-        columna0.setPreferredWidth(100);
-        columna0.setMaxWidth(100);
-        columna0.setMinWidth(100);
-        //NOMBRE
-        columna1 = tablaDistritos.getColumnModel().getColumn(1);
-        columna1.setPreferredWidth(250);
-        columna1.setMaxWidth(250);
-        columna1.setMinWidth(250);
-        
-        tablaDistritos.removeColumn(columna0);
-    }
-    private void crearTablaAsignados() {
-        // TODO add your handling code here:
-        tabla = new Tabla();
-        tabla.agregarColumna(new Columna("Codigo", "java.lang.Integer"));
-        tabla.agregarColumna(new Columna("Nombre", "java.lang.String"));
-        modeloTablaAsignado  = new ModeloTabla(tabla);
-        tablaAsignadosDistritos.setModel(modeloTablaAsignado);
-        //CODIGO
-        TableColumn columna0,columna1;
-        columna0 = tablaAsignadosDistritos.getColumnModel().getColumn(0);
-        columna0.setPreferredWidth(100);
-        columna0.setMaxWidth(100);
-        columna0.setMinWidth(100);
-        //NOMBRE
-        columna1 = tablaAsignadosDistritos.getColumnModel().getColumn(1);
-        columna1.setPreferredWidth(250);
-        columna1.setMaxWidth(250);
-        columna1.setMinWidth(250);
-        
-        tablaAsignadosDistritos.removeColumn(columna0);
-    }
-    private int obtenerCodigoDeLaTablaDistrito() {
-        int numFila = tablaDistritos.getSelectedRow();
-        if(numFila == -1){
-            Mensaje.Mostrar_MENSAJE_FILANOSELECCIONADO(this);
-            return 0;
-        }
-        modeloTablaDistrito = (ModeloTabla) tablaDistritos.getModel();
-        return (Integer)modeloTablaDistrito.getValueAt(numFila, 0); // se retorna el id de la fila seleccionada
-    }
-    private int obtenerCodigoTablaAsignado(){
-        int numFila = tablaAsignadosDistritos.getSelectedRow();
-        if(numFila == -1){
-            Mensaje.Mostrar_MENSAJE_FILANOSELECCIONADO(this);
-            return 0;
-        }
-        modeloTablaAsignado = (ModeloTabla) tablaAsignadosDistritos.getModel();
-        return (Integer)modeloTablaAsignado.getValueAt(numFila, 0);
-    }
-    private void ponerFocoConSeleccionEnBuscar() {
-        textoDistritoBuscar.selectAll();
-        textoDistritoBuscar.requestFocus();
-    }
-    /**
+/**
      * @param args the command line arguments
      */
 
@@ -565,7 +514,6 @@ public class FormRegistrarProvincia extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
@@ -575,6 +523,6 @@ public class FormRegistrarProvincia extends javax.swing.JDialog {
     private javax.swing.JTable tablaAsignadosDistritos;
     private javax.swing.JTable tablaDistritos;
     private javax.swing.JTextField textoDistritoBuscar;
-    private javax.swing.JTextField textonombreprovincia;
+    private javax.swing.JTextField textoNombreProvincia;
     // End of variables declaration//GEN-END:variables
 }

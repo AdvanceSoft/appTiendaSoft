@@ -9,13 +9,13 @@ import apptiendasoft.c3_dominio.entidad.Provincia;
 import java.util.ArrayList;
 
 /**
- *
- * @author sandra
+ * @author
+ * <AdvanceSoft - Medrano Parado Sandra Zoraida - advancesoft.trujillo@gmail.com>
  */
 public interface IProvinciaDAO {
     public void crear(Provincia provincia)throws Exception;
     public void modificar(Provincia provincia) throws Exception;
-    public void eliminar(int codigo) throws Exception;
+    public void eliminar(Provincia provincia) throws Exception;
     public Provincia buscar(int codigo) throws Exception;
     public ArrayList<Provincia> buscarPorNombre(String nombre)throws Exception;
 }
