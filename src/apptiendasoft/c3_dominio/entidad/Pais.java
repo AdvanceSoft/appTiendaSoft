@@ -7,7 +7,6 @@ package apptiendasoft.c3_dominio.entidad;
 
 import java.util.ArrayList;
 import java.util.List;
-import jdk.nashorn.internal.runtime.arrays.ArrayLikeIterator;
 /**
  *
  * @author
@@ -43,18 +42,7 @@ public class Pais {
         return listaDepartamento;
     }
     public void agregarDepartamentos(Departamento departamento) throws Exception{
-        if(departamento.getCodigo()!=0){
-            verificarExistencia(departamento);
-            listaDepartamento.add(departamento);
-        }else{
-            listaDepartamento.add(departamento);
-        }
-    }
-    private void verificarExistencia(Departamento departamento)throws Exception{
-        for(Departamento departamentobuscar : listaDepartamento){
-            if(departamentobuscar.getCodigo()==departamento.getCodigo())
-                throw new Exception("Ya existe este registro");
-        }
+        listaDepartamento.add(departamento);
     }
     public int cantidadDeDepartamentos(){
         return listaDepartamento.size();

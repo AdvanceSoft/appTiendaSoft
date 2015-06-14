@@ -43,19 +43,7 @@ public class Departamento {
     }
 
     public void agregarProvincias(Provincia provincia) throws Exception{
-        if(provincia.getCodigo()!=0){
-            verificarProvincia(provincia);
-            listaProvincia.add(provincia);
-        }else{
-            listaProvincia.add(provincia);
-        }
-    }
-    public void verificarProvincia(Provincia provincia) throws Exception{
-        for (Provincia provinciabuscar : listaProvincia) {
-            if(provinciabuscar.getCodigo()==provincia.getCodigo()){
-                throw new Exception("Ya existe el registro");
-            }
-        }
+        listaProvincia.add(provincia);
     }
     
     public int cantidadDeProvincias(){

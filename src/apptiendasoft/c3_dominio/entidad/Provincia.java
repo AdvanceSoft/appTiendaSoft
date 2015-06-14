@@ -42,21 +42,10 @@ public class Provincia {
         return listadistrito;
     }
     public void agregarDistrito(Distrito distrito)throws Exception{
-        if(distrito.getCodigo()!=0){
-            verificarExistencia(distrito);
-            listadistrito.add(distrito);
-        }else{
-            listadistrito.add(distrito);
-        }
+        listadistrito.add(distrito);
     }
     public int cantidadDistritos(){
         return listadistrito.size();
-    }
-    private void verificarExistencia(Distrito distrito)throws Exception{
-        for(Distrito distritoabuscar : listadistrito){
-            if(distritoabuscar.getCodigo()==distrito.getCodigo())
-                throw new Exception("Ya existe este registro");
-        }
     }
     public void eliminarDistrito(Distrito distrito){
         for(Distrito distritoaeliminar : listadistrito){
