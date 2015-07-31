@@ -942,6 +942,7 @@ public final class FormMenu extends javax.swing.JFrame {
         }catch(Exception ex){
             //Mensaje Excepcion           
         }
+        salir();
     }//GEN-LAST:event_botonADSalirActionPerformed
 
     private void menuProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuProveedorActionPerformed
