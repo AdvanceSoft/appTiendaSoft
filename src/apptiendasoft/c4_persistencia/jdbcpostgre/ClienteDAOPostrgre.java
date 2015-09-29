@@ -29,44 +29,34 @@ public class ClienteDAOPostrgre implements IClienteDAO{
     }
     @Override
     public int crear(Cliente cliente) throws Exception {
-        String consulta = "INSERT INTO cliente( codigodistrito, codigoprovincia, codigodepartamento, codigopais, nombrecliente, apellidocliente, dnicliente, generocliente, direccioncliente, correocliente, telefonocliente, celularcliente, estadocliente)\n" +
-                            "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        String consulta = "INSERT INTO cliente( nombrecliente, apellidocliente, dnicliente, generocliente, direccioncliente, correocliente, telefonocliente, celularcliente, estadocliente) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
         PreparedStatement sentencia = gestorJDBC.prepararSentencia(consulta);
-        sentencia.setInt(1, cliente.getDistrito().getCodigo());
-        sentencia.setInt(2, cliente.getProvincia().getCodigo());
-        sentencia.setInt(3, cliente.getDepartamento().getCodigo());
-        sentencia.setInt(4, cliente.getPais().getCodigo());
-        sentencia.setString(5,cliente.getNombre());
-        sentencia.setString(6, cliente.getApellido());
-        sentencia.setString(7, cliente.getDni());
-        sentencia.setString(8,cliente.getGenero());
-        sentencia.setString(9, cliente.getDireccion());
-        sentencia.setString(10, cliente.getCorreo());
-        sentencia.setString(11, cliente.getTelefono());
-        sentencia.setString(12, cliente.getCelular());
-        sentencia.setBoolean(13, cliente.isActivo());
+        sentencia.setString(1,cliente.getNombre());
+        sentencia.setString(2, cliente.getApellido());
+        sentencia.setString(3, cliente.getDni());
+        sentencia.setString(4,cliente.getGenero());
+        sentencia.setString(5, cliente.getDireccion());
+        sentencia.setString(6, cliente.getCorreo());
+        sentencia.setString(7, cliente.getTelefono());
+        sentencia.setString(8, cliente.getCelular());
+        sentencia.setBoolean(9, cliente.isActivo());
         return sentencia.executeUpdate();
     }
 
     @Override
     public int modificar(Cliente cliente) throws Exception {
-        String consulta = "UPDATE cliente SET  codigodistrito=?, codigoprovincia=?, codigodepartamento=?, codigopais=?, nombrecliente=?, apellidocliente=?, dnicliente=?, generocliente=?, direccioncliente=?, correocliente=?, telefonocliente=?, \n" +
-                        "celularcliente=?, estadocliente=? WHERE codigocliente=?;";
+        String consulta = "UPDATE cliente SET nombrecliente=?, apellidocliente=?, dnicliente=?, generocliente=?, direccioncliente=?, correocliente=?, telefonocliente=? celularcliente=?, estadocliente=? WHERE codigocliente=?;";
         PreparedStatement sentencia = gestorJDBC.prepararSentencia(consulta);
-        sentencia.setInt(1, cliente.getDistrito().getCodigo());
-        sentencia.setInt(2, cliente.getProvincia().getCodigo());
-        sentencia.setInt(3, cliente.getDepartamento().getCodigo());
-        sentencia.setInt(4, cliente.getPais().getCodigo());
-        sentencia.setString(5, cliente.getNombre());
-        sentencia.setString(6, cliente.getApellido());
-        sentencia.setString(7, cliente.getDni());
-        sentencia.setString(8, cliente.getGenero());
-        sentencia.setString(9, cliente.getDireccion());
-        sentencia.setString(10, cliente.getCorreo());
-        sentencia.setString(11, cliente.getTelefono());
-        sentencia.setString(12, cliente.getCelular());
-        sentencia.setBoolean(13, cliente.isActivo());
-        sentencia.setInt(14, cliente.getCodigo());
+        sentencia.setString(1, cliente.getNombre());
+        sentencia.setString(2, cliente.getApellido());
+        sentencia.setString(3, cliente.getDni());
+        sentencia.setString(4, cliente.getGenero());
+        sentencia.setString(5, cliente.getDireccion());
+        sentencia.setString(6, cliente.getCorreo());
+        sentencia.setString(7, cliente.getTelefono());
+        sentencia.setString(8, cliente.getCelular());
+        sentencia.setBoolean(9, cliente.isActivo());
+        sentencia.setInt(10, cliente.getCodigo());
         return sentencia.executeUpdate();
     }
 
@@ -84,38 +74,20 @@ public class ClienteDAOPostrgre implements IClienteDAO{
         Pais pais;
         Departamento departamento;
         Provincia provincia;
-        String consulta = "SELECT c.codigocliente, di.codigodistrito,di.nombredistrito, p.codigoprovincia, p.nombreprovincia, d.codigodepartamento, d.nombredepartamento,  pa.codigopais, pa.nombrepais, c.nombrecliente, c.apellidocliente, c.dnicliente, c.generocliente,  c.direccioncliente, c.correocliente, c.telefonocliente, c.celularcliente, c.estadocliente\n" +
-                        "FROM cliente c inner join distrito di on c.codigodistrito=di.codigodistrito inner join provincia p on c.codigoprovincia=p.codigoprovincia inner join departamento d on c.codigodepartamento=d.codigodepartamento inner join pais pa on c.codigopais=pa.codigopais where codigocliente="+codigo;
+        String consulta = "SELECT codigocliente,nombrecliente,apellidocliente,dnicliente,generocliente,direccioncliente,correocliente,telefonocliente,celularcliente,estadocliente FROM cliente where codigocliente="+codigo;
         ResultSet resultado = gestorJDBC.ejecutarConsulta(consulta);
         if(resultado.next()){
             cliente = new Cliente();
-            cliente.setCodigo(resultado.getInt(1));
-            distrito = new Distrito();
-            distrito.setCodigo(resultado.getInt(2));
-            distrito.setNombre(resultado.getString(3));
-            provincia = new Provincia();
-            provincia.setCodigo(resultado.getInt(4));
-            provincia.setNombre(resultado.getString(5));
-            departamento = new Departamento();
-            departamento.setCodigo(resultado.getInt(6));
-            departamento.setNombre(resultado.getString(7));
-            pais = new Pais();
-            pais.setCodigo(resultado.getInt(8));
-            pais.setNombre(resultado.getString(9));
-            cliente.setDistrito(distrito);
-            cliente.setProvincia(provincia);
-            cliente.setDepartamento(departamento);
-            cliente.setPais(pais);  
-            cliente.setNombre(resultado.getString(10));
-            cliente.setApellido(resultado.getString(11));
-            cliente.setDni(resultado.getString(12));
-            cliente.setGenero(resultado.getString(13));
-            cliente.setDireccion(resultado.getString(14));
-            cliente.setCorreo(resultado.getString(15));
-            cliente.setTelefono(resultado.getString(16));
-            cliente.setCelular(resultado.getString(17));
-            cliente.setActivo(resultado.getBoolean(18));
-                      
+            cliente.setCodigo(resultado.getInt(1)); 
+            cliente.setNombre(resultado.getString(2));
+            cliente.setApellido(resultado.getString(3));
+            cliente.setDni(resultado.getString(4));
+            cliente.setGenero(resultado.getString(5));
+            cliente.setDireccion(resultado.getString(6));
+            cliente.setCorreo(resultado.getString(7));
+            cliente.setTelefono(resultado.getString(8));
+            cliente.setCelular(resultado.getString(9));
+            cliente.setActivo(resultado.getBoolean(10));
         }
         return cliente;
     }
@@ -131,37 +103,20 @@ public class ClienteDAOPostrgre implements IClienteDAO{
         Departamento departamento;
         Provincia provincia;
         ArrayList<Cliente> listaCliente = new ArrayList<>();
-        String consulta = "SELECT c.codigocliente, di.codigodistrito,di.nombredistrito, p.codigoprovincia, p.nombreprovincia, d.codigodepartamento, d.nombredepartamento,  pa.codigopais, pa.nombrepais, c.nombrecliente, c.apellidocliente, c.dnicliente, c.generocliente,  c.direccioncliente, c.correocliente, c.telefonocliente, c.celularcliente, c.estadocliente\n" +
-                        "FROM cliente c inner join distrito di on c.codigodistrito=di.codigodistrito inner join provincia p on c.codigoprovincia=p.codigoprovincia inner join departamento d on c.codigodepartamento=d.codigodepartamento inner join pais pa on c.codigopais=pa.codigopais where c.nombrecliente like '%"+nombre+"%' order by codigocliente desc";
+        String consulta = "SELECT codigocliente,nombrecliente,apellidocliente,dnicliente,generocliente,direccioncliente,correocliente,telefonocliente,celularcliente,estadocliente FROM cliente where nombrecliente like '%"+nombre+"%' order by codigocliente desc";
         ResultSet resultado = gestorJDBC.ejecutarConsulta(consulta);
         if(resultado.next()){
             cliente = new Cliente();
             cliente.setCodigo(resultado.getInt(1));
-            distrito = new Distrito();
-            distrito.setCodigo(resultado.getInt(2));
-            distrito.setNombre(resultado.getString(3));
-            provincia = new Provincia();
-            provincia.setCodigo(resultado.getInt(4));
-            provincia.setNombre(resultado.getString(5));
-            departamento = new Departamento();
-            departamento.setCodigo(resultado.getInt(6));
-            departamento.setNombre(resultado.getString(7));
-            pais = new Pais();
-            pais.setCodigo(resultado.getInt(8));
-            pais.setNombre(resultado.getString(9));
-            cliente.setDistrito(distrito);
-            cliente.setProvincia(provincia);
-            cliente.setDepartamento(departamento);
-            cliente.setPais(pais);  
-            cliente.setNombre(resultado.getString(10));
-            cliente.setApellido(resultado.getString(11));
-            cliente.setDni(resultado.getString(12));
-            cliente.setGenero(resultado.getString(13));
-            cliente.setDireccion(resultado.getString(14));
-            cliente.setCorreo(resultado.getString(15));
-            cliente.setTelefono(resultado.getString(16));
-            cliente.setCelular(resultado.getString(17));
-            cliente.setActivo(resultado.getBoolean(18));
+            cliente.setNombre(resultado.getString(2));
+            cliente.setApellido(resultado.getString(3));
+            cliente.setDni(resultado.getString(4));
+            cliente.setGenero(resultado.getString(5));
+            cliente.setDireccion(resultado.getString(6));
+            cliente.setCorreo(resultado.getString(7));
+            cliente.setTelefono(resultado.getString(8));
+            cliente.setCelular(resultado.getString(9));
+            cliente.setActivo(resultado.getBoolean(10));
             listaCliente.add(cliente);
         }
         return listaCliente;

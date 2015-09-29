@@ -9,11 +9,12 @@ import apptiendasoft.c3_dominio.entidad.Lote;
 
 /**
  *
- * @author HacybeykerS
+ * @author
+ * <AdvanceSoft - Osorio Perez Carlos Alfredo - advancesoft.trujillo@gmail.com>
  */
 public interface ILoteDAO {
-    public void crear(Lote lote) throws Exception;
-    public void modificar(Lote lote) throws Exception;
-    public void eliminar(Lote lote) throws Exception;
-    public Lote buscar(int codigo) throws Exception;
+    public void crear (Lote lote) throws Exception;
+    public void modificar (Lote lote) throws Exception;
+    public void eliminar (Lote lote) throws Exception;
+    public Lote buscar (int codigo) throws Exception;
 }

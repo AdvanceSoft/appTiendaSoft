@@ -157,8 +157,9 @@ public final class FormGestionarCliente extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(35, 35, 35)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(textoBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -292,10 +293,6 @@ public final class FormGestionarCliente extends javax.swing.JDialog {
                     fila.agregarValorCelda(cliente.getCorreo());
                     fila.agregarValorCelda(cliente.getGenero());
                     fila.agregarValorCelda(cliente.isActivo());
-                    fila.agregarValorCelda(cliente.getPais());
-                    fila.agregarValorCelda(cliente.getDepartamento());
-                    fila.agregarValorCelda(cliente.getProvincia());
-                    fila.agregarValorCelda(cliente.getDistrito());
                     tabla.agregarFila(fila);
                }
                 tablaClientes.setModel(modeloTablaCliente);
@@ -326,10 +323,6 @@ public final class FormGestionarCliente extends javax.swing.JDialog {
         tabla.agregarColumna(new Columna("Correo", "java.lang.String"));
         tabla.agregarColumna( new Columna("Genero","java.lang.String"));
         tabla.agregarColumna( new Columna("Ativo","java.lang.String"));
-        tabla.agregarColumna(new Columna("Pais", "java.lang.String"));
-        tabla.agregarColumna(new Columna("Departamento", "java.lang.String"));
-        tabla.agregarColumna(new Columna("Provincia", "java.lang.String"));
-        tabla.agregarColumna(new Columna("Distrito", "java.lang.String"));
         modeloTablaCliente = new ModeloTabla(tabla);
         tablaClientes.setModel(modeloTablaCliente);
         //CODIGO
@@ -383,27 +376,6 @@ public final class FormGestionarCliente extends javax.swing.JDialog {
         columna9.setPreferredWidth(50);
         columna9.setMaxWidth(50);
         columna9.setMinWidth(50);
-        //PAIS
-        columna10 = tablaClientes.getColumnModel().getColumn(10);
-        columna10.setPreferredWidth(150);
-        columna10.setMaxWidth(150);
-        columna10.setMinWidth(150);
-        //DEPARTAMENTO
-        columna11 = tablaClientes.getColumnModel().getColumn(11);
-        columna11.setPreferredWidth(150);
-        columna11.setMaxWidth(150);
-        columna11.setMinWidth(150);
-        
-        //PROVINCIA
-        columna12 = tablaClientes.getColumnModel().getColumn(12);
-        columna12.setPreferredWidth(150);
-        columna12.setMaxWidth(150);
-        columna12.setMinWidth(150);
-        //DISTRITO
-        columna13 = tablaClientes.getColumnModel().getColumn(13);
-        columna13.setPreferredWidth(150);
-        columna13.setMaxWidth(150);
-        columna13.setMinWidth(150);
         
         tablaClientes.removeColumn(columna0);
     }

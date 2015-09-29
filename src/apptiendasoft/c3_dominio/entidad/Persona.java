@@ -21,10 +21,6 @@ public abstract class Persona {
     private String correo;
     private String genero;
     private boolean activo;
-    private Pais pais;
-    private Departamento departamento;  
-    private Provincia provincia;
-    private Distrito distrito;
 
     
     
@@ -32,7 +28,7 @@ public abstract class Persona {
         
     }
 
-    public Persona(int codigo, String nombre, String apellido, String dni, String direccion, String telefono, String celular, String correo, String genero, boolean activo, Pais pais, Departamento departamento,Provincia provincia, Distrito distrito) {
+    public Persona(int codigo, String nombre, String apellido, String dni, String direccion, String telefono, String celular, String correo, String genero, boolean activo) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -43,10 +39,6 @@ public abstract class Persona {
         this.correo = correo;
         this.genero = genero;
         this.activo = activo;
-        this.pais = pais;
-        this.departamento = departamento;
-        this.provincia = provincia;
-        this.distrito = distrito;
     }
 
     public int getCodigo() {
@@ -127,38 +119,5 @@ public abstract class Persona {
 
     public void setActivo(boolean activo) {
         this.activo = activo;
-    }
-
-    public Pais getPais() {
-        return pais;
-    }
-
-    public void setPais(Pais pais) {
-        this.pais = pais;
-    }
-
-    public Distrito getDistrito() {
-        return distrito;
-    }
-
-    public void setDistrito(Distrito distrito) {
-        this.distrito = distrito;
-    }
-
-    public Provincia getProvincia() {
-        return provincia;
-    }
-
-    public void setProvincia(Provincia provincia) {
-        this.provincia = provincia;
-    }
-
-    public Departamento getDepartamento() {
-        return departamento;
-    }
-
-    public void setDepartamento(Departamento departamento) {
-        this.departamento = departamento;
     }   
-    
 }
