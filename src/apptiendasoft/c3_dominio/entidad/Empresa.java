@@ -5,9 +5,7 @@
  */
 package apptiendasoft.c3_dominio.entidad;
 
-import apptiendasoft.c1_presentacion.form.FormMenu;
-import apptiendasoft.c2_aplicacion.servicio.GestionarEmpresaServicio;
-import javax.swing.ImageIcon;
+
 
 /**
  *

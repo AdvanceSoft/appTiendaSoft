@@ -16,14 +16,18 @@ public class ExcepcionRegla extends Exception{
     private static final String MENSAJE_PEDIDOINCORRECTO = "El pedido es incorrecto, el monto debe ser mayor a cero.";
     private static final String MENSAJE_PRODUCTOYAEXISTE = "El producto ya fue agregado.";
     private static final String MENSAJE_PRODUCTONOCREADO = "El producto no fue creado.";
+    private static final String MENSAJE_VERIFICACIONSTOCK = "Stock Insuficiente.";
 
   
     private ExcepcionRegla(String message) {
         super(message);
     }
-    
     public static ExcepcionRegla crearErrorMENSAJE_STOCKINGRESADOINCORRECTO(){
         return new ExcepcionRegla(MENSAJE_STOCKINGRESADOINCORRECTO);
+    }
+    
+    public static ExcepcionRegla crearErrorMENSAJE_VERIFICACIONSTOCK(){
+        return new ExcepcionRegla(MENSAJE_VERIFICACIONSTOCK);
     }
     
     public static ExcepcionRegla crearErrorMENSAJE_CANTIDADSUPERIORALSTOCK(){
