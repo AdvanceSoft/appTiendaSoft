@@ -746,6 +746,8 @@ public final class FormMenu extends javax.swing.JFrame {
 
     private void menuProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuProductoActionPerformed
         // TODO add your handling code here:
+        FormGestionarProducto formGestionarProducto = new FormGestionarProducto(this);
+        formGestionarProducto.setVisible(true);
     }//GEN-LAST:event_menuProductoActionPerformed
 
     private void menuClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuClienteActionPerformed

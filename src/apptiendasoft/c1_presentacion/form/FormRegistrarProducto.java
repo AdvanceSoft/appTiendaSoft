@@ -6,8 +6,12 @@
 package apptiendasoft.c1_presentacion.form;
 
 import apptiendasoft.c2_aplicacion.servicio.GestionarMarcaServicio;
+import apptiendasoft.c2_aplicacion.servicio.GestionarTipoProductoServicio;
+import apptiendasoft.c2_aplicacion.servicio.GestionarUnidadDeMedidaServicio;
 import apptiendasoft.c3_dominio.entidad.Marca;
 import apptiendasoft.c3_dominio.entidad.Producto;
+import apptiendasoft.c3_dominio.entidad.TipoProducto;
+import apptiendasoft.c3_dominio.entidad.UnidadDeMedida;
 import java.awt.Dialog;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +28,15 @@ public class FormRegistrarProducto extends javax.swing.JDialog {
     private final int ACCION_MODIFICAR = 2;
     int tipo_accion = 0;
     Producto producto;
-    //ArrayList<TipoProducto> listaTipoDeProducto;
-    //ArrayList<UnidadDeMedida> listaUnidadDeMedida;
+    ArrayList<TipoProducto> listaTipoDeProducto;
+    ArrayList<UnidadDeMedida> listaUnidadDeMedida;
     List<Marca> listaMarca;
+    Marca marca;
+    TipoProducto tipoProducto;
+    UnidadDeMedida unidadDeMedida;
+    GestionarMarcaServicio gestionarMarcaServicio = new GestionarMarcaServicio();
+    GestionarTipoProductoServicio gestionarTipoProductoServicio = new GestionarTipoProductoServicio();
+    GestionarUnidadDeMedidaServicio gestionarUnidadDeMedidaServicio = new GestionarUnidadDeMedidaServicio();
     /**
      * Creates new form FormRegistrarProducto
      * @param owner
@@ -37,8 +47,8 @@ public class FormRegistrarProducto extends javax.swing.JDialog {
         initComponents();
         tipo_accion = ACCION_CREAR;
         this.producto = new Producto();
-//        LlenarComboTipoProducto();
-//        LlenarComboUnidadDeMedida();
+        LlenarComboTipoProducto();
+        LlenarComboUnidadDeMedida();
         LlenarComboMarca();
         inicializarCombos();
     }
@@ -47,8 +57,8 @@ public class FormRegistrarProducto extends javax.swing.JDialog {
         super(owner, true);
         initComponents();
         tipo_accion = ACCION_MODIFICAR;
-//        LlenarComboTipoProducto();
-//        LlenarComboUnidadDeMedida();
+        LlenarComboTipoProducto();
+        LlenarComboUnidadDeMedida();
         LlenarComboMarca();
         obtenerObjetoDeGestionar(producto);
     }
@@ -68,31 +78,31 @@ public class FormRegistrarProducto extends javax.swing.JDialog {
         textoareaDescripcion.setText(producto1.getDescripcion());
     }
     
-//    private void LlenarComboTipoProducto(){
-//        try{
-//            GestionarTipoProductoServicio gestionarTipoProductoServicio = new GestionarTipoProductoServicio();
-//            listaTipoDeProducto = gestionarTipoProductoServicio.buscarPorNombre(null);
-//            comboTipoProducto.removeAllItems();
-//            for (TipoProducto tipoProducto : listaTipoDeProducto) {
-//                comboTipoProducto.addItem(tipoProducto.getNombre());
-//            }
-//        }catch(Exception ex){
-//            /*MENSAJE DE EXCEPTION*/
-//        }
-//    }    
+    private void LlenarComboTipoProducto(){
+        try{
+            GestionarTipoProductoServicio gestionarTipoProductoServicio = new GestionarTipoProductoServicio();
+            listaTipoDeProducto = gestionarTipoProductoServicio.buscar(null);
+            comboTipoProducto.removeAllItems();
+            for (TipoProducto tipoProducto : listaTipoDeProducto) {
+                comboTipoProducto.addItem(tipoProducto.getNombre());
+            }
+        }catch(Exception ex){
+            /*MENSAJE DE EXCEPTION*/
+        }
+    }    
     
-//    private void LlenarComboUnidadDeMedida(){
-//        try{
-//            GestionarUnidadDeMedidaServicio gestionarUnidadDeMedidaServicio = new GestionarUnidadDeMedidaServicio();
-//            listaUnidadDeMedida = gestionarUnidadDeMedidaServicio.buscarPorNombre(null);
-//            comboUnidadDeMedida.removeAllItems();
-//            for (UnidadDeMedida unidadDeMedida : listaUnidadDeMedida) {
-//                comboUnidadDeMedida.addItem(unidadDeMedida.getNombre());
-//            }
-//        }catch(Exception ex){
-//            /*MENSAJE DE EXCEPTION*/
-//        }
-//    }
+    private void LlenarComboUnidadDeMedida(){
+        try{
+            GestionarUnidadDeMedidaServicio gestionarUnidadDeMedidaServicio = new GestionarUnidadDeMedidaServicio();
+            listaUnidadDeMedida = gestionarUnidadDeMedidaServicio.buscar(null);
+            comboUnidadMedida.removeAllItems();
+            for (UnidadDeMedida unidadDeMedida : listaUnidadDeMedida) {
+                comboUnidadMedida.addItem(unidadDeMedida.getNombreUnidadDeMedida());
+            }
+        }catch(Exception ex){
+            /*MENSAJE DE EXCEPTION*/
+        }
+    }
     
     private void LlenarComboMarca(){
         try{
@@ -106,6 +116,16 @@ public class FormRegistrarProducto extends javax.swing.JDialog {
         }catch(Exception ex){
             /*MENSAJE DE EXCEPTION*/
         }
+    }
+    
+    private boolean verificarDatosLlenos(){
+        boolean estanLlenos;
+       if(!(textoNombre.getText().trim().isEmpty()) && !(textoCodigoBarras.getText().trim().isEmpty()) && !(textoareaDescripcion.getText().trim().isEmpty()) && !(textoPrecio.getText().trim().isEmpty())
+           &&  comboMarca.getSelectedIndex()!=-1 && comboTipoProducto.getSelectedIndex()!=-1 && comboUnidadMedida.getSelectedIndex()!=-1)
+            estanLlenos = true;
+        else
+            estanLlenos = false; 
+        return estanLlenos;
     }
 
     /**
@@ -316,6 +336,10 @@ public class FormRegistrarProducto extends javax.swing.JDialog {
 
     private void botonCrearTipoProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearTipoProductoActionPerformed
         // TODO add your handling code here:
+        FormRegistrarTipoProducto formRegistrarTipoProducto = new FormRegistrarTipoProducto(this);
+        formRegistrarTipoProducto.setVisible(true);
+        LlenarComboTipoProducto();
+        
     }//GEN-LAST:event_botonCrearTipoProductoActionPerformed
 
     private void botonCrearMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearMarcaActionPerformed
@@ -327,10 +351,25 @@ public class FormRegistrarProducto extends javax.swing.JDialog {
 
     private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
         // TODO add your handling code here:
+        if (verificarDatosLlenos()) {
+            String nombreMarca = comboMarca.getSelectedItem().toString();
+            String nombreTipoProduto = comboTipoProducto.getSelectedItem().toString();
+            String nombreUnidadMedida = comboUnidadMedida.getSelectedItem().toString();
+            try{
+                listaMarca = gestionarMarcaServicio.buscarPorNombre(nombreMarca);
+                listaTipoDeProducto = gestionarTipoProductoServicio.buscar(nombreMarca);
+                listaUnidadDeMedida = gestionarUnidadDeMedidaServicio.buscar(nombreMarca);
+            }catch{
+                
+            }
+        }
     }//GEN-LAST:event_botonGuardarActionPerformed
 
     private void botonCrearUnidadMedidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearUnidadMedidaActionPerformed
         // TODO add your handling code here:
+        FormRegistrarUnidadDeMedida formRegistrarUnidadDeMedida = new FormRegistrarUnidadDeMedida(this);
+        formRegistrarUnidadDeMedida.setVisible(true);
+        LlenarComboUnidadDeMedida();
     }//GEN-LAST:event_botonCrearUnidadMedidaActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

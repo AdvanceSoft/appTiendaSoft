@@ -6,7 +6,7 @@
 package apptiendasoft.c1_presentacion.form;
 
 import apptiendasoft.c1_presentacion.util.Mensaje;
-import apptiendasoft.c2_aplicacion.servicio.GestionarUnidadDeMedida;
+import apptiendasoft.c2_aplicacion.servicio.GestionarUnidadDeMedidaServicio;
 import apptiendasoft.c3_dominio.algoritmo.Validador;
 import apptiendasoft.c3_dominio.entidad.UnidadDeMedida;
 import javax.swing.JDialog;
@@ -170,17 +170,17 @@ public class FormRegistrarUnidadDeMedida extends javax.swing.JDialog {
     }//GEN-LAST:event_botonSalirActionPerformed
 
     private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
-        GestionarUnidadDeMedida gestionarUnidadDeMedida = new GestionarUnidadDeMedida();
+        GestionarUnidadDeMedidaServicio gestionarUnidadDeMedida = new GestionarUnidadDeMedidaServicio();
         unidadDeMedida.setNombreUnidadDeMedida(textoNombre.getText());
         unidadDeMedida.setDescripcionUnidadDeMedida(textoDescripcion.getText());
         try{         
             if(validarCamposLlenos()){                      
                 if(unidadDeMedida.getCodigoUnidadDeMedida()==0){
-                    gestionarUnidadDeMedida.guardarUnidadDeMedida(unidadDeMedida);
+                    gestionarUnidadDeMedida.guardar(unidadDeMedida);
                     Mensaje.Mostrar_MENSAJE_GUARDADOEXITOSO(this);
                     this.dispose();
                 }else{
-                    gestionarUnidadDeMedida.modificarUnidadDeMedida(unidadDeMedida);
+                    gestionarUnidadDeMedida.modificar(unidadDeMedida);
                     Mensaje.Mostrar_MENSAJE_MODIFICADOEXITOSO(this);
                     this.dispose();
                 }

@@ -6,7 +6,7 @@
 package apptiendasoft.c1_presentacion.form;
 
 import apptiendasoft.c1_presentacion.util.Mensaje;
-import apptiendasoft.c2_aplicacion.servicio.GestionarUnidadDeMedida;
+import apptiendasoft.c2_aplicacion.servicio.GestionarUnidadDeMedidaServicio;
 import apptiendasoft.c3_dominio.entidad.UnidadDeMedida;
 import java.util.List;
 import javax.swing.table.TableColumn;
@@ -63,7 +63,7 @@ public class FormGestionarUnidadDeMedida extends javax.swing.JDialog {
       String descripcion = textoBusquedaMedida.getText();
       ModeloTabla modeloTablaUnidadDeMedida = (ModeloTabla)tablaUnidadDeMedidas.getModel();
         try {
-            GestionarUnidadDeMedida gestionarUnidadDeMedida = new GestionarUnidadDeMedida();
+            GestionarUnidadDeMedidaServicio gestionarUnidadDeMedida = new GestionarUnidadDeMedidaServicio();
             List<UnidadDeMedida> listaUnidadDeMedida = gestionarUnidadDeMedida.buscarUnidadDeMedida(descripcion); 
             modeloTablaUnidadDeMedida.eliminarTotalFilas();
             if(listaUnidadDeMedida.size()>0){
@@ -92,7 +92,7 @@ public class FormGestionarUnidadDeMedida extends javax.swing.JDialog {
     private UnidadDeMedida obtenerUnidadDeMedidaTabla(){      
         UnidadDeMedida unidadDeMedida = null;
         int fila = tablaUnidadDeMedidas.getSelectedRow();
-        GestionarUnidadDeMedida gestionarUnidadDeMedida = new GestionarUnidadDeMedida();
+        GestionarUnidadDeMedidaServicio gestionarUnidadDeMedida = new GestionarUnidadDeMedidaServicio();
         if(fila >= 0 ){
             ModeloTabla modeloTablaUnidadDeMedida = (ModeloTabla)tablaUnidadDeMedidas.getModel();
             int unidadDeMedidaID = (Integer)modeloTablaUnidadDeMedida.getValueAt(fila, 0);           
@@ -109,7 +109,7 @@ public class FormGestionarUnidadDeMedida extends javax.swing.JDialog {
     }
     
     private void eliminarUnidadDeMedida(){
-        GestionarUnidadDeMedida gestionarUnidadDeMedida = new GestionarUnidadDeMedida();
+        GestionarUnidadDeMedidaServicio gestionarUnidadDeMedida = new GestionarUnidadDeMedidaServicio();
         UnidadDeMedida unidadDeMedida = obtenerUnidadDeMedidaTabla(); 
         if(unidadDeMedida!=null){
             if(!Mensaje.Mostrar_MENSAJE_PREGUNTADEELIMINACION(this))

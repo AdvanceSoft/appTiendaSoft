@@ -55,8 +55,14 @@ public class GestionarMarcaServicio {
     }
     
     public ArrayList<Marca> buscarPorNombre(String nombre) throws Exception {
+        ArrayList<Marca>listaMarca;
         gestorJDBC.abrirConexion();
-        ArrayList<Marca> listaMarca = marcaDAO.buscarPorNombre(nombre);
+        try{
+            listaMarca = marcaDAO.buscarPorNombre(nombre);
+        }catch(Exception e){
+            gestorJDBC.cerrarConexion();
+            throw e;            
+        }
         gestorJDBC.cerrarConexion();
         return listaMarca;
     }

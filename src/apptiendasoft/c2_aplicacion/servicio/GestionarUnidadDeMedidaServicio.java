@@ -10,6 +10,7 @@ import apptiendasoft.c3_dominio.entidad.UnidadDeMedida;
 import apptiendasoft.c4_persistencia.GestorJDBC;
 import apptiendasoft.c4_persistencia.jdbcpostgre.GestorJDBCPostgre;
 import apptiendasoft.c4_persistencia.jdbcpostgre.UnidadDeMedidaDAOPostgre;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,17 +18,17 @@ import java.util.List;
  * @author
  * <AdvanceSoft - Mendoza Torres, Valentin - advancesoft.trujillo@gmail.com>
  */
-public class GestionarUnidadDeMedida {
+public class GestionarUnidadDeMedidaServicio {
     GestorJDBC gestorJDBC; 
     IUnidadDeMedidaDAO unidadDeMedidaDAO;
 
-    public GestionarUnidadDeMedida() {
+    public GestionarUnidadDeMedidaServicio() {
         this.gestorJDBC = new GestorJDBCPostgre();
         this.unidadDeMedidaDAO = new UnidadDeMedidaDAOPostgre(gestorJDBC);
     }
     
-    public List<UnidadDeMedida> buscarUnidadDeMedida(String descripcion)throws Exception{
-        List<UnidadDeMedida> listaUndiadDeMedida;
+    public ArrayList<UnidadDeMedida> buscar(String descripcion)throws Exception{
+        ArrayList<UnidadDeMedida> listaUndiadDeMedida;
         gestorJDBC.abrirConexion(); 
             try {            
                 listaUndiadDeMedida = unidadDeMedidaDAO.buscar(descripcion);
@@ -38,7 +39,7 @@ public class GestionarUnidadDeMedida {
         gestorJDBC.cerrarConexion();  
         return listaUndiadDeMedida;   
     }
-    public UnidadDeMedida buscarUnidadDeMedidaID(int unidadDeMedidaID) throws Exception{     
+    public UnidadDeMedida buscar(int unidadDeMedidaID) throws Exception{     
         UnidadDeMedida unidadDeMedida;
         gestorJDBC.abrirConexion();        
             try {
@@ -50,7 +51,7 @@ public class GestionarUnidadDeMedida {
         gestorJDBC.cerrarConexion();
         return unidadDeMedida;
     }
-    public void eliminarUnidadDeMedida(UnidadDeMedida unidadDeMedida)throws Exception{
+    public void eliminar(UnidadDeMedida unidadDeMedida)throws Exception{
         gestorJDBC.abrirConexion();
             try {
                 unidadDeMedidaDAO.eliminar(unidadDeMedida);
@@ -60,7 +61,7 @@ public class GestionarUnidadDeMedida {
             }
         gestorJDBC.cerrarConexion();
     }
-    public void guardarUnidadDeMedida(UnidadDeMedida unidadDeMedida) throws Exception{     
+    public void guardar(UnidadDeMedida unidadDeMedida) throws Exception{     
         gestorJDBC.abrirConexion();
           try {
             unidadDeMedidaDAO.ingresar(unidadDeMedida);
@@ -71,7 +72,7 @@ public class GestionarUnidadDeMedida {
         gestorJDBC.cerrarConexion();
     }
     
-    public void modificarUnidadDeMedida(UnidadDeMedida unidadDeMedida)throws Exception{
+    public void modificar(UnidadDeMedida unidadDeMedida)throws Exception{
         gestorJDBC.abrirConexion();
           try {
             unidadDeMedidaDAO.modificar(unidadDeMedida);
