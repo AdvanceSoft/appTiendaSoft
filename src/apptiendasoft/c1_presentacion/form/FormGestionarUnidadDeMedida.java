@@ -64,7 +64,7 @@ public class FormGestionarUnidadDeMedida extends javax.swing.JDialog {
       ModeloTabla modeloTablaUnidadDeMedida = (ModeloTabla)tablaUnidadDeMedidas.getModel();
         try {
             GestionarUnidadDeMedidaServicio gestionarUnidadDeMedida = new GestionarUnidadDeMedidaServicio();
-            List<UnidadDeMedida> listaUnidadDeMedida = gestionarUnidadDeMedida.buscarUnidadDeMedida(descripcion); 
+            List<UnidadDeMedida> listaUnidadDeMedida = gestionarUnidadDeMedida.buscar(descripcion); 
             modeloTablaUnidadDeMedida.eliminarTotalFilas();
             if(listaUnidadDeMedida.size()>0){
                 for(UnidadDeMedida unidadDeMedida : listaUnidadDeMedida){
@@ -97,7 +97,7 @@ public class FormGestionarUnidadDeMedida extends javax.swing.JDialog {
             ModeloTabla modeloTablaUnidadDeMedida = (ModeloTabla)tablaUnidadDeMedidas.getModel();
             int unidadDeMedidaID = (Integer)modeloTablaUnidadDeMedida.getValueAt(fila, 0);           
             try{
-                unidadDeMedida= gestionarUnidadDeMedida.buscarUnidadDeMedidaID(unidadDeMedidaID);               
+                unidadDeMedida= gestionarUnidadDeMedida.buscar(unidadDeMedidaID);               
             }
             catch(Exception e){
                  Mensaje.mostrarErrorExcepcion(this,e.getMessage());
@@ -115,7 +115,7 @@ public class FormGestionarUnidadDeMedida extends javax.swing.JDialog {
             if(!Mensaje.Mostrar_MENSAJE_PREGUNTADEELIMINACION(this))
                 return;         
             try {
-                gestionarUnidadDeMedida.eliminarUnidadDeMedida(unidadDeMedida);
+                gestionarUnidadDeMedida.eliminar(unidadDeMedida);
                 consultarUnidadesDeMedida();
             } catch (Exception e) {
                 Mensaje.mostrarErrorExcepcion(this,e.getMessage());

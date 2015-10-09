@@ -28,24 +28,39 @@ public class GestionarProductoServicio{
     }
 
     
-//    public void crear(Producto producto) throws Exception {
-//        
-//    }
-//
-//    
-//    public void modificar(Producto producto) throws Exception {
-//        
-//    }
-//
-//    
-//    public void eliminar(Producto producto) throws Exception {
-//        
-//    }
-//
-//    
-//    public Producto buscar(int codigo) throws Exception {
-//        
-//    }
+   public void crear(Producto producto) throws Exception {
+       gestorJDBC.abrirConexion();
+       try {
+           productoDAO.crear(producto);
+       } catch (Exception e) {
+           gestorJDBC.cerrarConexion();
+           throw e;
+       }
+       gestorJDBC.cerrarConexion();
+   }
+
+   
+    public void modificar(Producto producto) throws Exception {
+        gestorJDBC.abrirConexion();
+        try {
+            productoDAO.modificar(producto);
+        } catch (Exception e) {
+            gestorJDBC.cerrarConexion();
+            throw e;
+        }
+        gestorJDBC.cerrarConexion();
+    }
+
+    
+    public void eliminar(Producto producto) throws Exception {
+        
+    }
+
+    
+    public Producto buscar(int codigo) throws Exception {
+        return null;
+        
+    }
 
     
     public ArrayList<Producto> buscar(String nombre) throws Exception {

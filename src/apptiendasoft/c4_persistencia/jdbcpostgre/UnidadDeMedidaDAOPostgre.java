@@ -26,29 +26,6 @@ public class UnidadDeMedidaDAOPostgre implements IUnidadDeMedidaDAO{
     public UnidadDeMedidaDAOPostgre(GestorJDBC gestorJDBC) {
         this.gestorJDBC = gestorJDBC;
     }
-
-    @Override
-    public List<UnidadDeMedida> buscar(String descripcion) throws Exception {
-        ArrayList<UnidadDeMedida> unidadesdemedida = new ArrayList();
-        UnidadDeMedida unidadmedida;
-        ResultSet resultado;
-        if(descripcion==null)
-            descripcion="";
-        
-        String sentenciaSQL="select codigounidaddemedida, nombreunidaddemedida, descripcionunidaddemedida\n" +
-                            "from unidaddemedida where descripcionunidaddemedida like '%"+descripcion.trim().toUpperCase()+"%'";
-        try {
-            resultado=gestorJDBC.ejecutarConsulta(sentenciaSQL);
-            while(resultado.next()){
-              unidadmedida= crearObjetoUnidadDeMedida(resultado);
-              unidadesdemedida.add(unidadmedida);                            
-            }
-            resultado.close();
-            return unidadesdemedida;
-        } catch (Exception e) {
-              throw ExcepcionSQL.crearErrorConsultar();
-        }
-    }
     
     private UnidadDeMedida crearObjetoUnidadDeMedida(ResultSet resultado) throws SQLException {
         UnidadDeMedida unidadDeMedida = new UnidadDeMedida();
@@ -80,7 +57,7 @@ public class UnidadDeMedidaDAOPostgre implements IUnidadDeMedidaDAO{
     public void ingresar(UnidadDeMedida unidadDeMedida) throws Exception {
        //int registrosafectados;
        PreparedStatement sentencia; 
-       String sentenciaSQL="insert into 5unidaddemedida(nombreunidaddemedida, descripcionunidaddemedida) values(?,?)";
+       String sentenciaSQL="insert into unidaddemedida(nombreunidaddemedida, descripcionunidaddemedida) values(?,?)";
         try {
             sentencia=gestorJDBC.prepararSentencia(sentenciaSQL);
             asignarParametros(sentencia, unidadDeMedida);
@@ -131,6 +108,30 @@ public class UnidadDeMedidaDAOPostgre implements IUnidadDeMedidaDAO{
             throw ExcepcionSQL.crearErrorEliminar();
         }
     }
+
+    @Override
+    public ArrayList<UnidadDeMedida> buscar(String descripcion) throws Exception {
+        ArrayList<UnidadDeMedida> unidadesdemedida = new ArrayList();
+        UnidadDeMedida unidadmedida;
+        ResultSet resultado;
+        if(descripcion==null)
+            descripcion="";
+        
+        String sentenciaSQL="select codigounidaddemedida, nombreunidaddemedida, descripcionunidaddemedida\n" +
+                            "from unidaddemedida where descripcionunidaddemedida like '%"+descripcion.trim().toUpperCase()+"%'";
+        try {
+            resultado=gestorJDBC.ejecutarConsulta(sentenciaSQL);
+            while(resultado.next()){
+              unidadmedida= crearObjetoUnidadDeMedida(resultado);
+              unidadesdemedida.add(unidadmedida);                            
+            }
+            resultado.close();
+            return unidadesdemedida;
+        } catch (Exception e) {
+              throw ExcepcionSQL.crearErrorConsultar();
+        }
+    }
+
     
     
     

@@ -28,7 +28,7 @@ public class ProductoDAOPostgre implements IProductoDAO{
     
     @Override
     public void crear(Producto producto) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String consulta = "Insert into producto(codigotipoproducto,codigounidaddemedida,codigomarca,nombreproducto,descripcionproducto,stockproducto,precioproducto)values(?,?,?,?,?,?,?)";
     }
 
     @Override
