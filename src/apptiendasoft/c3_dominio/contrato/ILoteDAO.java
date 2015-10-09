@@ -6,6 +6,8 @@
 package apptiendasoft.c3_dominio.contrato;
 
 import apptiendasoft.c3_dominio.entidad.Lote;
+import java.sql.Date;
+import java.util.ArrayList;
 
 /**
  *
@@ -17,4 +19,5 @@ public interface ILoteDAO {
     public void modificar (Lote lote) throws Exception;
     public void eliminar (Lote lote) throws Exception;
     public Lote buscar (int codigo) throws Exception;
+    public ArrayList<Lote> buscarProducto(String producto) throws Exception;
 }
