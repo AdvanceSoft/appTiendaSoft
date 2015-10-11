@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * <AdvanceSoft - Osorio Perez Carlos Alfredo - advancesoft.trujillo@gmail.com>
  */
 public interface IProductoDAO {
-    public void crear(Producto producto)throws Exception;
+    public int crear(Producto producto)throws Exception;
     public void modificar(Producto producto)throws Exception;
     public void eliminar(Producto producto)throws Exception;
     public Producto buscar(int codigo)throws Exception;

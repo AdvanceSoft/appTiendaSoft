@@ -11,6 +11,7 @@ import apptiendasoft.c3_dominio.entidad.Producto;
 import apptiendasoft.c3_dominio.entidad.TipoProducto;
 import apptiendasoft.c3_dominio.entidad.UnidadDeMedida;
 import apptiendasoft.c4_persistencia.GestorJDBC;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
@@ -27,8 +28,17 @@ public class ProductoDAOPostgre implements IProductoDAO{
     }
     
     @Override
-    public void crear(Producto producto) throws Exception {
-        String consulta = "Insert into producto(codigotipoproducto,codigounidaddemedida,codigomarca,nombreproducto,descripcionproducto,stockproducto,precioproducto)values(?,?,?,?,?,?,?)";
+    public int crear(Producto producto) throws Exception {
+        String consulta = "Insert into producto(codigotipoproducto,codigounidaddemedida,codigomarca,codigobarrasproducto,nombreproducto,descripcionproducto,precioproducto)values(?,?,?,?,?,?,?)";
+        PreparedStatement sentencia = gestorJDBC.prepararSentencia(consulta);
+        sentencia.setInt(1,producto.getMarca().getCodigo());
+        sentencia.setInt(2,producto.getTipoProducto().getCodigo());
+        sentencia.setInt(3,producto.getUnidadDeMedida().getCodigoUnidadDeMedida());
+        sentencia.setString(4,producto.getCodigobarras());
+        sentencia.setString(5,producto.getNombre());
+        sentencia.setString(6,producto.getDescripcion());
+        sentencia.setDouble(7,producto.getPrecio());
+        return sentencia.executeUpdate();
     }
 
     @Override

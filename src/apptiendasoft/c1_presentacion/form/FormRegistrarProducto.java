@@ -201,7 +201,7 @@ public class FormRegistrarProducto extends javax.swing.JDialog {
         jLabel4.setText("Descripcion:");
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel7.setText("Tipo de Prodcuto:");
+        jLabel7.setText("Tipo de Producto:");
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel8.setText("Marca:");
