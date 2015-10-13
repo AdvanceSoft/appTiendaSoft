@@ -83,6 +83,20 @@ public final class FormRegistrarEmpleado extends javax.swing.JDialog {
         textoSueldo.setText(String.valueOf(empleado1.getSueldo()));
         textoUsuario.setText(String.valueOf(empleado1.getUsuario()));
     }
+    
+    private void LlenarComboCargo(){
+        try{
+            gestionarCargoServicio = new GestionarCargoServicio();
+            listaCargo = new ArrayList();
+            listaCargo = gestionarCargoServicio.buscarporNombre("");
+            comboCargo.removeAllItems();
+            for (Cargo cargo : listaCargo) {
+                comboCargo.addItem(cargo.getNombre());
+            }
+        }catch(Exception ex){
+            /*MENSAJE DE EXCEPTION*/
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -226,7 +240,6 @@ public final class FormRegistrarEmpleado extends javax.swing.JDialog {
 
         checkEstado.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         checkEstado.setSelected(true);
-        checkEstado.setText("Activo");
         checkEstado.setEnabled(false);
 
         buttonGroup1.add(jRadioButton1);
@@ -240,6 +253,11 @@ public final class FormRegistrarEmpleado extends javax.swing.JDialog {
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/apptiendasoft/c5_recursos/iconos/cargox20.png"))); // NOI18N
         jButton1.setText("Crear");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -262,15 +280,16 @@ public final class FormRegistrarEmpleado extends javax.swing.JDialog {
                                     .addGap(19, 19, 19)
                                     .addComponent(jRadioButton1)
                                     .addGap(10, 10, 10)
-                                    .addComponent(jRadioButton2))
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addGap(18, 18, 18)
-                                    .addComponent(checkEstado))
+                                    .addComponent(jRadioButton2)
+                                    .addGap(0, 0, Short.MAX_VALUE))
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                     .addGap(18, 18, 18)
                                     .addComponent(comboCargo, 0, 213, Short.MAX_VALUE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jButton1))))
+                                    .addComponent(jButton1))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGap(18, 18, 18)
+                                    .addComponent(checkEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addGap(10, 10, 10)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -393,7 +412,7 @@ public final class FormRegistrarEmpleado extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel20, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(textoSueldo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(252, Short.MAX_VALUE))
+                .addContainerGap(266, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Sueldo", jPanel2);
@@ -449,7 +468,7 @@ public final class FormRegistrarEmpleado extends javax.swing.JDialog {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel5)
                     .addComponent(textoConfirmaContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(246, Short.MAX_VALUE))
+                .addContainerGap(260, Short.MAX_VALUE))
         );
 
         jLabel3.getAccessibleContext().setAccessibleName("");
@@ -477,8 +496,8 @@ public final class FormRegistrarEmpleado extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -563,6 +582,14 @@ public final class FormRegistrarEmpleado extends javax.swing.JDialog {
         else
             this.dispose();
     }//GEN-LAST:event_botonSalirActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+       FormRegistrarCargo formRegistrarCargo = new FormRegistrarCargo(this);
+       formRegistrarCargo.setVisible(true);
+       llenarComboCargo();
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
     
     private boolean verificarDatosLlenos(){
         boolean estanLlenos;

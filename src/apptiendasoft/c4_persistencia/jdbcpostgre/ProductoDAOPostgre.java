@@ -29,21 +29,23 @@ public class ProductoDAOPostgre implements IProductoDAO{
     
     @Override
     public int crear(Producto producto) throws Exception {
-        String consulta = "Insert into producto(codigotipoproducto,codigounidaddemedida,codigomarca,codigobarrasproducto,nombreproducto,descripcionproducto,precioproducto)values(?,?,?,?,?,?,?)";
+        String consulta = "insert into producto(codigotipoproducto,codigounidaddemedida,codigomarca,codigobarrasproducto,nombreproducto,descripcionproducto,precioproducto,estadoproducto)values(?,?,?,?,?,?,?,?)";
         PreparedStatement sentencia = gestorJDBC.prepararSentencia(consulta);
-        sentencia.setInt(1,producto.getMarca().getCodigo());
-        sentencia.setInt(2,producto.getTipoProducto().getCodigo());
-        sentencia.setInt(3,producto.getUnidadDeMedida().getCodigoUnidadDeMedida());
+        sentencia.setInt(1,producto.getTipoProducto().getCodigo());
+        sentencia.setInt(2,producto.getUnidadDeMedida().getCodigoUnidadDeMedida());
+        sentencia.setInt(3,producto.getMarca().getCodigo());
         sentencia.setString(4,producto.getCodigobarras());
         sentencia.setString(5,producto.getNombre());
         sentencia.setString(6,producto.getDescripcion());
         sentencia.setDouble(7,producto.getPrecio());
+        sentencia.setBoolean(8, producto.isEstado());
         return sentencia.executeUpdate();
     }
 
     @Override
     public void modificar(Producto producto) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String consulta="";
+        PreparedStatement sentencia = gestorJDBC.prepararSentencia(consulta);
     }
 
     @Override

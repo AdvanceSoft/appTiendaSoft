@@ -59,6 +59,7 @@ public class FormRegistrarProducto extends javax.swing.JDialog {
         super(owner, true);
         initComponents();
         tipo_accion = ACCION_MODIFICAR;
+        checkEstado.setEnabled(true);
         LlenarComboTipoProducto();
         LlenarComboUnidadDeMedida();
         LlenarComboMarca();
@@ -82,7 +83,7 @@ public class FormRegistrarProducto extends javax.swing.JDialog {
     
     private void LlenarComboTipoProducto(){
         try{
-            GestionarTipoProductoServicio gestionarTipoProductoServicio = new GestionarTipoProductoServicio();
+            gestionarTipoProductoServicio = new GestionarTipoProductoServicio();
             listaTipoDeProducto = gestionarTipoProductoServicio.buscar("");
             comboTipoProducto.removeAllItems();
             for (TipoProducto tipoProducto : listaTipoDeProducto) {
@@ -95,7 +96,7 @@ public class FormRegistrarProducto extends javax.swing.JDialog {
     
     private void LlenarComboUnidadDeMedida(){
         try{
-            GestionarUnidadDeMedidaServicio gestionarUnidadDeMedidaServicio = new GestionarUnidadDeMedidaServicio();
+            gestionarUnidadDeMedidaServicio = new GestionarUnidadDeMedidaServicio();
             listaUnidadDeMedida = gestionarUnidadDeMedidaServicio.buscar("");
             comboUnidadMedida.removeAllItems();
             for (UnidadDeMedida unidadDeMedida : listaUnidadDeMedida) {
@@ -108,7 +109,7 @@ public class FormRegistrarProducto extends javax.swing.JDialog {
     
     private void LlenarComboMarca(){
         try{
-            GestionarMarcaServicio gestionarMarcaServicio = new GestionarMarcaServicio();
+            gestionarMarcaServicio = new GestionarMarcaServicio();
             listaMarca = new ArrayList();
             listaMarca = gestionarMarcaServicio.buscarPorNombre("");
             comboMarca.removeAllItems();
@@ -131,7 +132,6 @@ public class FormRegistrarProducto extends javax.swing.JDialog {
     }
     
     private Marca obtenerObjetoMarca(){
-        Marca marca = null;
         int index = comboMarca.getSelectedIndex();
         if(index>=0)
             marca = listaMarca.get(index);
@@ -139,7 +139,6 @@ public class FormRegistrarProducto extends javax.swing.JDialog {
     }
     
     private TipoProducto obtenerObjetoTipoProducto(){
-        TipoProducto tipoProducto = null;
         int index = comboTipoProducto.getSelectedIndex();
         if(index>=0)
             tipoProducto = listaTipoDeProducto.get(index);
@@ -147,7 +146,6 @@ public class FormRegistrarProducto extends javax.swing.JDialog {
     }
     
     private UnidadDeMedida obtenerObjetoUnidadMedida(){
-        UnidadDeMedida unidadDeMedida = null;
         int index = comboUnidadMedida.getSelectedIndex();
         if(index>=0)
             unidadDeMedida = listaUnidadDeMedida.get(index);
@@ -183,6 +181,8 @@ public class FormRegistrarProducto extends javax.swing.JDialog {
         botonCrearUnidadMedida = new javax.swing.JButton();
         botonGuardar = new javax.swing.JButton();
         botonSalir = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        checkEstado = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Registrar Producto");
@@ -274,20 +274,37 @@ public class FormRegistrarProducto extends javax.swing.JDialog {
             }
         });
 
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel5.setText("Estado:");
+
+        checkEstado.setSelected(true);
+        checkEstado.setEnabled(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(104, Short.MAX_VALUE)
+                .addComponent(botonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(43, 43, 43)
+                .addComponent(botonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(120, 120, 120))
             .addGroup(layout.createSequentialGroup()
-                .addGap(11, 11, 11)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel4))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel4)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel5)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(textoCodigoBarras)
@@ -296,19 +313,14 @@ public class FormRegistrarProducto extends javax.swing.JDialog {
                     .addComponent(comboTipoProducto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(comboMarca, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(comboUnidadMedida, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)
+                    .addComponent(checkEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(botonCrearTipoProducto)
                     .addComponent(botonCrearMarca)
                     .addComponent(botonCrearUnidadMedida))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(botonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43)
-                .addComponent(botonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(120, 120, 120))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -343,7 +355,11 @@ public class FormRegistrarProducto extends javax.swing.JDialog {
                 .addGap(8, 8, 8)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(8, 8, 8)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
+                    .addComponent(checkEstado))
                 .addGap(8, 8, 8)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(botonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -385,6 +401,7 @@ public class FormRegistrarProducto extends javax.swing.JDialog {
             producto.setNombre(textoNombre.getText().trim().toUpperCase());
             producto.setDescripcion(textoareaDescripcion.getText().trim().toUpperCase());
             producto.setPrecio(Double.parseDouble(textoPrecio.getText().trim()));
+            producto.setEstado(checkEstado.isSelected());
             GestionarProductoServicio gestionarProductoServicio = new GestionarProductoServicio();
             try {
                 if(producto.getCodigo()==0){
@@ -420,6 +437,7 @@ public class FormRegistrarProducto extends javax.swing.JDialog {
     private javax.swing.JButton botonCrearUnidadMedida;
     private javax.swing.JButton botonGuardar;
     private javax.swing.JButton botonSalir;
+    private javax.swing.JCheckBox checkEstado;
     private javax.swing.JComboBox comboMarca;
     private javax.swing.JComboBox comboTipoProducto;
     private javax.swing.JComboBox comboUnidadMedida;
@@ -427,6 +445,7 @@ public class FormRegistrarProducto extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
